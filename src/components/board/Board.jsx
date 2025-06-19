@@ -8,23 +8,15 @@ function Board() {
   const isVertical = useSelector((state) => state.board.vertical); // true = portrait
 
   const ref=useRef();
-  useEffect(() => {
-  const height = window.innerWidth;
-  const elementHeight = ref.current?.getBoundingClientRect().height;
-
-  console.log("Viewport height:", height);
-  console.log("Element height:", elementHeight);
-
-  }, [])
   
 
   const boardStyle = {
-    width: isVertical ? "80vw" : "56%",
+    width: "52vw",
     height: "auto",
     
     position: "relative",
     backgroundColor: "green",
-    aspectRatio: isVertical ? "0.625" : "1.60", // portrait vs landscape
+    aspectRatio: "1.60",
   };
   return (
     <div>
@@ -33,7 +25,7 @@ function Board() {
         <div className=" relative w-85per h-auto bg-green z-10">
           <FootballField />
         </div>
-        <div className=" w-full h-full absolute">
+        <div className="z-20 w-full h-full absolute">
           <BoardStruct />
         </div>
       </div>

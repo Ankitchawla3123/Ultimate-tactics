@@ -1,25 +1,53 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import { getPointerPosition } from "../../utils/getPointerPosition";
 
 function BoardStruct() {
-  const viewportwidth = 56;
+  const boardref = useRef(null);
+  const [line, setline] = useState("");
+  const [tempPoint, settempPoint] = useState("");
+
+  const drawline = (e) => {
+    const { x, y } = getPointerPosition(e, boardref);
+    if (line == "") {
+      setline({ x1: x, y1: y });
+    } else {
+      setline((prev) => ({ ...prev, x2: x, y2: y }));
+    }
+    console.log(line);
+  };
+
+  const Temppointset = (e) => {
+    if (line  && e.buttons ==1 ) {
+      const {x,y} = getPointerPosition(e,boardref);
+      settempPoint({x:x,y:y})
+    }
+
+  };
+
   return (
-    <div>
-      <div className="flex justify-center relative   items-center ">
-        <svg
-          width="100%"
-          height="100%"
-          style={{
-            margin: "0",
-            padding: "0",
-            display: "block",
-            position: "relative",
-          }}
-        >
-          <g height="100" width="100" xmlns="http://www.w3.org/2000/svg">
-            <circle r="45" cx="50" cy="50" fill="red" />
-          </g>
-        </svg>
-      </div>
+    <div className="w-full h-full">
+      <svg
+        ref={boardref}
+        width="100%"
+        height="100%"
+        onClick={(e) => {
+          drawline(e);
+        }}
+        onMouseMove={(e)=>Temppointset(e)}
+      >
+        {line && (
+          <line
+            x1={`${line.x1}%`}
+            y1={`${line.y1}%`}
+            x2={`${tempPoint.x}%`}
+            y2={`${tempPoint.y}%`}
+            style={{ cursor: "pointer" }}
+            stroke="black"
+            strokeWidth="5"
+            strokeLinecap="round"
+          />
+        )}
+      </svg>
     </div>
   );
 }
