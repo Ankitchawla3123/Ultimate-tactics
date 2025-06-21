@@ -19,22 +19,19 @@ function BoardStruct() {
   }, []);
 
   const drawline = (e) => {
-    const { x, y } = getPointerPosition(e, boardref);
-    if (line == "") {
-      setline({ x1: x, y1: y });
-    } else {
-      setline((prev) => ({ ...prev, x2: x, y2: y }));
-    }
-  };
-
-  const Temppointset = (e) => {
     if (e.buttons == 1) {
       setisDrawn(true);
-      drawline(e);
+
       const { x, y } = getPointerPosition(e, boardref);
+      if (line == "") {
+        setline({ x1: x, y1: y });
+      } else {
+        setline((prev) => ({ ...prev, x2: x, y2: y }));
+      }
       settempPoint({ x: x, y: y });
     }
   };
+
 
   const handleMouseUp = (e) => {
     const currentLine = lineRef.current;
@@ -50,7 +47,7 @@ function BoardStruct() {
         ref={boardref}
         width="100%"
         height="100%"
-        onMouseMove={(e) => Temppointset(e)}
+        onMouseMove={(e) => drawline(e)}
       >
         {line && (
           <line
