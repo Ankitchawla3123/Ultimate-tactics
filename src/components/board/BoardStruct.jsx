@@ -1,44 +1,70 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getPointerPosition } from "../../utils/getPointerPosition";
+import { useDrawline } from "../../hooks/useDrawline";
 
 function BoardStruct() {
   const boardref = useRef(null);
-  const [line, setline] = useState("");
-  const lineRef = useRef(line);
-  const [lines, setlines] = useState([]);
   const [isDrawn, setisDrawn] = useState(false);
-  const [tempPoint, settempPoint] = useState("");
+  const [SelectedElement, setSelectedElement] = useState(null);
+  const { line, drawline, lines, setlines } = useDrawline(boardref);
+  const [start, setstart] = useState(null);
 
-  useEffect(() => {
-    lineRef.current = line;
-  }, [line]);
+  const [Draging, setDraging] = useState(false);
 
-  useEffect(() => {
-    window.addEventListener("mouseup", handleMouseUp);
-    return () => window.removeEventListener("mouseup", handleMouseUp);
-  }, []);
+  const mouseMoveHandler = (e) => {
+    if (!Draging) {
+      drawline(e);
+    }
+    if (SelectedElement != null) {
+      if (e.buttons == 1) {
+        const { x, y } = getPointerPosition(e, boardref);
+        const deltaX = x - start.x;
+        const deltaY = y - start.y;
+        console.log(SelectedElement)
+        setlines(
+          lines.map((line, index) => {
+            if (index === SelectedElement.index) {
+              const isWithinBounds =
+                line.x1 + deltaX >= 0 &&
+                line.x2 + deltaX >= 0 &&
+                line.x1 + deltaX <= 100 &&
+                line.x2 + deltaX <= 100 &&
+                line.y1 + deltaY >= 0 &&
+                line.y2 + deltaY >= 0 &&
+                line.y1 + deltaY <= 100 &&
+                line.y2 + deltaY <= 100;
 
-  const drawline = (e) => {
-    if (e.buttons == 1) {
-      setisDrawn(true);
-
-      const { x, y } = getPointerPosition(e, boardref);
-      if (line == "") {
-        setline({ x1: x, y1: y });
-      } else {
-        setline((prev) => ({ ...prev, x2: x, y2: y }));
+              return isWithinBounds
+                ? {
+                    ...line,
+                    x1: line.x1 + deltaX,
+                    y1: line.y1 + deltaY,
+                    x2: line.x2 + deltaX,
+                    y2: line.y2 + deltaY,
+                  }
+                : line;
+            }
+            return line;
+          })
+        );
+        setstart({ x, y });
       }
-      settempPoint({ x: x, y: y });
     }
   };
 
-
-  const handleMouseUp = (e) => {
-    const currentLine = lineRef.current;
-    if (currentLine !== "") {
-      setlines((prev) => [...prev, currentLine]);
-      setline("");
-    }
+  const dragtypeset = (e, i) => {
+    const { x, y } = getPointerPosition(e, boardref);
+    e.stopPropagation();
+    setDraging(true);
+    console.log(i)
+    setSelectedElement({
+      element: "line",
+      index: i,
+    });
+    setstart({
+      x: x,
+      y: y,
+    });
   };
 
   return (
@@ -47,17 +73,17 @@ function BoardStruct() {
         ref={boardref}
         width="100%"
         height="100%"
-        onMouseMove={(e) => drawline(e)}
+        onMouseMove={(e) => mouseMoveHandler(e)}
       >
         {line && (
           <line
             x1={`${line.x1}%`}
             y1={`${line.y1}%`}
-            x2={`${tempPoint.x}%`}
-            y2={`${tempPoint.y}%`}
+            x2={`${line.x2}%`}
+            y2={`${line.y2}%`}
             style={{ cursor: "pointer" }}
             stroke="black"
-            strokeWidth="5"
+            strokeWidth="0.5%"
             strokeLinecap="round"
           />
         )}
@@ -70,8 +96,9 @@ function BoardStruct() {
             y2={`${line.y2}%`}
             style={{ cursor: "pointer" }}
             stroke="black"
-            strokeWidth="5"
+            strokeWidth="0.5%"
             strokeLinecap="round"
+            onMouseDown={(e) => dragtypeset(e, i)}
           />
         ))}
       </svg>
