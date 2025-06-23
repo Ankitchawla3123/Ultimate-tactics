@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { getPointerPosition } from "../utils/getPointerPosition";
+import { useSelector } from "react-redux";
 
 export const useDrawline = (boardref) => {
   const [line, setline] = useState(null);
   const [lines, setlines] = useState([]);
   const lineRef = useRef(line);
-
-
+  const dragging = useSelector(state => state.moveable.dragging)
   useEffect(() => {
     window.addEventListener("mouseup", handleMouseUp);
     return () => window.removeEventListener("mouseup", handleMouseUp);
@@ -17,13 +17,14 @@ export const useDrawline = (boardref) => {
   }, [line]);
 
   const drawline = (e) => {
-    if (e.buttons == 1) {
-      const { x, y } = getPointerPosition(e, boardref);
-      if (line == null) {
-        setline({ x1: x, y1: y, x2: x, y2: y });
-      } else {
-        setline((prev) => ({ ...prev, x2: x, y2: y }));
-      }
+    if (e.buttons !== 1 || dragging) {
+      return;
+    }
+    const { x, y } = getPointerPosition(e, boardref);
+    if (line == null) {
+      setline({ x1: x, y1: y, x2: x, y2: y });
+    } else {
+      setline((prev) => ({ ...prev, x2: x, y2: y }));
     }
   };
 
@@ -39,5 +40,5 @@ export const useDrawline = (boardref) => {
     cleanline();
   };
 
-  return { line, drawline, lines , setlines};
+  return { line, drawline, lines, setlines };
 };
