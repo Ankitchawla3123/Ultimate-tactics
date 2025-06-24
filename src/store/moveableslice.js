@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     drawing: false,
     dragging: false,
+    drawtype: "line",
 
 
 

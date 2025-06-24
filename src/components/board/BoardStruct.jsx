@@ -5,9 +5,7 @@ import { useDrag } from "../../hooks/useDrag";
 
 function BoardStruct() {
   const boardref = useRef(null);
-  const [isDrawn, setisDrawn] = useState(false);
-  const { line, drawline, lines, setlines } = useDrawline(boardref);
-
+  const { previewline, drawline, lines, setlines } = useDrawline(boardref);
   const { DragType, Dragline } = useDrag(setlines, boardref);
 
   const mouseMoveHandler = (e) => {
@@ -23,12 +21,12 @@ function BoardStruct() {
         height="100%"
         onMouseMove={(e) => mouseMoveHandler(e)}
       >
-        {line && (
+        {previewline && (
           <line
-            x1={`${line.x1}%`}
-            y1={`${line.y1}%`}
-            x2={`${line.x2}%`}
-            y2={`${line.y2}%`}
+            x1={`${previewline.x1}%`}
+            y1={`${previewline.y1}%`}
+            x2={`${previewline.x2}%`}
+            y2={`${previewline.y2}%`}
             style={{ cursor: "pointer" }}
             stroke="black"
             strokeWidth="0.5%"

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { draggingoff, draggingon } from "../store/moveableslice";
 import { useDrawline } from "./useDrawline";
 
-export const useDrag = ( boardref) => {
+export const useDrag = ( setlines, boardref) => {
   const [start, setstart] = useState(null);
   const [SelectedElement, setSelectedElement] = useState(null);
   const dispatch = useDispatch()
