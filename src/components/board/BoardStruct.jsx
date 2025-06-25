@@ -5,7 +5,8 @@ import { useDrag } from "../../hooks/useDrag";
 
 function BoardStruct() {
   const boardref = useRef(null);
-  const { previewline, drawline, lines, setlines } = useDrawline(boardref);
+  const { previewpolygon, previewline, drawline, lines, setlines } =
+    useDrawline(boardref);
   const { DragType, Dragline } = useDrag(setlines, boardref);
 
   const mouseMoveHandler = (e) => {
@@ -27,6 +28,15 @@ function BoardStruct() {
             y1={`${previewline.y1}%`}
             x2={`${previewline.x2}%`}
             y2={`${previewline.y2}%`}
+            style={{ cursor: "pointer" }}
+            stroke="black"
+            strokeWidth="0.5%"
+            strokeLinecap="round"
+          />
+        )}
+        {previewpolygon() && (
+          <polygon
+            points={previewpolygon()}
             style={{ cursor: "pointer" }}
             stroke="black"
             strokeWidth="0.5%"

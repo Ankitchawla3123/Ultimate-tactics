@@ -3,14 +3,22 @@ import { getPointerPosition } from "../utils/getPointerPosition";
 import { useSelector } from "react-redux";
 
 export const useDrawline = (boardref) => {
+  const svg = boardref.current;
+
   const drawtype = useSelector((state) => state.moveable.drawtype);
   const [previewline, setline] = useState(null);
   const [lines, setlines] = useState([]);
   const lineRef = useRef(previewline);
   const dragging = useSelector((state) => state.moveable.dragging);
-  const [previewpolygon, setpolypoints] = useState([]);
+  const [polygon, setpolypoints] = useState([]);
   const [polygons, setplygons] = useState([]);
+  const [nextpointforpoly, setnextpointforpoly] = useState([]);
   const typeRef = useRef(drawtype);
+  const polyRef = useRef(polygon);
+
+  useEffect(() => {
+    polyRef.current = polygon;
+  }, [polygon]);
 
   useEffect(() => {
     lineRef.current = previewline;
@@ -24,7 +32,9 @@ export const useDrawline = (boardref) => {
     boardref.current.addEventListener("click", handleclick);
     return () => {
       window.removeEventListener("mouseup", handleMouseUp);
-      boardref.current.removeEventListener("click", handleclick);
+      if (boardref.current) {
+        boardref.current.removeEventListener("click", handleclick);
+      }
     };
   }, []);
 
@@ -43,11 +53,8 @@ export const useDrawline = (boardref) => {
       } else {
         setline((prev) => ({ ...prev, x2: x, y2: y }));
       }
-    } else if (drawtype === "polygon") {
-      if (previewpolygon == []) {
-        return;
-      } else {
-      }
+    } else if (drawtype === "polygon" && polygon.length > 0) {
+      setnextpointforpoly([x, y]);
     }
   };
 
@@ -56,12 +63,10 @@ export const useDrawline = (boardref) => {
   };
 
   const handleclick = (e) => {
-    if (typeRef.current !== "polygon" || dragging) {
-      return;
-    }
+    if (typeRef.current !== "polygon" || dragging) return;
     const { x, y } = getPointerPosition(e, boardref);
-    setpolypoints(prev=> [...prev, [x,y]])
-    
+    const newPoints = [...polyRef.current, [x, y]];
+    setpolypoints(newPoints);
   };
 
   const handleMouseUp = (e) => {
@@ -72,5 +77,47 @@ export const useDrawline = (boardref) => {
     cleanline();
   };
 
-  return { previewline, drawline, lines, setlines };
+  const polygonparser = (polygon) => {
+    if (!svg) return "";
+
+    const { width, height } = svg.getBoundingClientRect();
+
+    const result = polygon
+      .map(([xPercent, yPercent]) => {
+        const x = (xPercent / 100) * width;
+        const y = (yPercent / 100) * height;
+        return `${x},${y}`;
+      })
+      .join(" ");
+
+    return result;
+  };
+
+  const previewpolygon = () => {
+    if (polygon.length === 0) {
+      return "";
+    }
+
+    const isPreviewPointValid =
+      nextpointforpoly.length === 2 &&
+      !isNaN(nextpointforpoly[0]) &&
+      !isNaN(nextpointforpoly[1]);
+
+    const previewPoints = isPreviewPointValid
+      ? [...polygon, nextpointforpoly]
+      : polygon;
+
+    return polygonparser(previewPoints);
+  };
+
+  return {
+    polygonparser,
+    setplygons,
+    polygons,
+    previewpolygon,
+    previewline,
+    drawline,
+    lines,
+    setlines,
+  };
 };
