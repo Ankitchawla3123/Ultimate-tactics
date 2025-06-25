@@ -110,7 +110,21 @@ export const useDrawline = (boardref) => {
     return polygonparser(previewPoints);
   };
 
+  const Stopdrawingpolygon = (e) => {
+    e.preventDefault();
+    if (polygon.length <= 2) {
+      setpolypoints([]);
+      setnextpointforpoly([]);
+      return;
+    }
+    setplygons((prev) => [...prev, polygon]);
+    console.log("context menu check")
+    setpolypoints([]);
+    setnextpointforpoly([])
+  };
+
   return {
+    Stopdrawingpolygon,
     polygonparser,
     setplygons,
     polygons,
