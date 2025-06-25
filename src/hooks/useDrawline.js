@@ -69,7 +69,6 @@ export const useDrawline = (boardref) => {
   };
 
   const handleclick = (e) => {
-
     if (typeRef.current !== "polygon" || dragRef.current) return;
 
     const { x, y } = getPointerPosition(e, boardref);
@@ -127,7 +126,7 @@ export const useDrawline = (boardref) => {
       setnextpointforpoly([]);
       return;
     }
-    setplygons((prev) => [...prev, polygon]);
+    setplygons((prev) => [...prev, { polygon: polygon }]);
     setpolypoints([]);
     setnextpointforpoly([]);
   };

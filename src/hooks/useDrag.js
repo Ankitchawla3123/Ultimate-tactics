@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { draggingoff, draggingon } from "../store/moveableslice";
 import { useDrawline } from "./useDrawline";
 
-export const useDrag = (setlines, boardref) => {
+export const useDrag = (setpolygons, setlines, boardref) => {
   const [start, setstart] = useState(null);
   const [SelectedElement, setSelectedElement] = useState(null);
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ export const useDrag = (setlines, boardref) => {
     return () => window.removeEventListener("mouseup", handleMouseUp);
   }, []);
   const DragType = (e, i, element) => {
-    e.stopPropagation()
+    e.stopPropagation();
     if (!dragging) {
       dispatch(draggingon());
     }
@@ -36,7 +36,7 @@ export const useDrag = (setlines, boardref) => {
   };
 
   const Dragline = (e) => {
-    if (e.buttons !== 1) {
+    if (e.buttons !== 1 && SelectedElement==null) {
       return;
     }
     if (SelectedElement != null && e.buttons == 1) {
@@ -70,6 +70,31 @@ export const useDrag = (setlines, boardref) => {
             return line;
           })
         );
+      } else if (SelectedElement.element === "Polygon") {
+        setpolygons( (prev) =>
+          prev.map((polygonObj, index) => {
+            if (index === SelectedElement.index) {
+              const allWithinBounds = polygonObj.polygon.every(([px, py]) => {
+                const newX = px + deltaX;
+                const newY = py + deltaY;
+                return newX >= 0 && newX <= 100 && newY >= 0 && newY <= 100;
+              });
+
+              if (allWithinBounds) {
+                return {
+                  ...polygonObj,
+                  polygon: polygonObj.polygon.map(([px, py]) => [
+                    px + deltaX,
+                    py + deltaY,
+                  ]),
+                };
+              } else {
+                return polygonObj;
+              }
+            }
+            return polygonObj;
+          })
+        );
       }
 
       setstart({ x, y });
@@ -87,7 +112,7 @@ export const useDrag = (setlines, boardref) => {
       }
       debounceTimer.current = setTimeout(() => {
         dispatch(draggingoff());
-      }, 700);
+      }, 500);
     }
   };
 

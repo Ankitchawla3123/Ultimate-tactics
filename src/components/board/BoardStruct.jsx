@@ -6,10 +6,22 @@ import { useDrag } from "../../hooks/useDrag";
 function BoardStruct() {
   const boardref = useRef(null);
 
+  const [resizeTrigger, setResizeTrigger] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setResizeTrigger((prev) => prev + 1);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const {
     polygonparser,
     polygons,
     Stopdrawingpolygon,
+    setplygons,
     previewpolygon,
     previewline,
     drawline,
@@ -17,7 +29,7 @@ function BoardStruct() {
     setlines,
   } = useDrawline(boardref);
 
-  const { DragType, Dragline } = useDrag(setlines, boardref);
+  const { DragType, Dragline } = useDrag(setplygons, setlines, boardref);
   const mouseMoveHandler = (e) => {
     drawline(e);
     Dragline(e);
@@ -71,7 +83,7 @@ function BoardStruct() {
         {polygons.map((polygon, i) => (
           <polygon
             key={i}
-            points={polygonparser(polygon)}
+            points={polygonparser(polygon.polygon)}
             style={{ cursor: "pointer" }}
             stroke="black"
             strokeWidth="0.5%"
