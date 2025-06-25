@@ -15,6 +15,7 @@ export const useDrawline = (boardref) => {
   const [nextpointforpoly, setnextpointforpoly] = useState([]);
   const typeRef = useRef(drawtype);
   const polyRef = useRef(polygon);
+  const dragRef = useRef(dragging);
 
   useEffect(() => {
     polyRef.current = polygon;
@@ -23,6 +24,11 @@ export const useDrawline = (boardref) => {
   useEffect(() => {
     lineRef.current = previewline;
   }, [previewline]);
+
+  useEffect(() => {
+    dragRef.current = dragging;
+  }, [dragging]);
+
   useEffect(() => {
     typeRef.current = drawtype;
   }, [drawtype]);
@@ -63,8 +69,13 @@ export const useDrawline = (boardref) => {
   };
 
   const handleclick = (e) => {
-    if (typeRef.current !== "polygon" || dragging) return;
+
+    if (typeRef.current !== "polygon" || dragRef.current) return;
+
     const { x, y } = getPointerPosition(e, boardref);
+    if (dragging) {
+      return;
+    }
     const newPoints = [...polyRef.current, [x, y]];
     setpolypoints(newPoints);
   };
@@ -72,7 +83,6 @@ export const useDrawline = (boardref) => {
   const handleMouseUp = (e) => {
     const currentLine = lineRef.current;
     if (!currentLine) return;
-
     setlines((prev) => [...prev, currentLine]);
     cleanline();
   };
@@ -118,9 +128,8 @@ export const useDrawline = (boardref) => {
       return;
     }
     setplygons((prev) => [...prev, polygon]);
-    console.log("context menu check")
     setpolypoints([]);
-    setnextpointforpoly([])
+    setnextpointforpoly([]);
   };
 
   return {

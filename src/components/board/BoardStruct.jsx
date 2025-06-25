@@ -5,6 +5,7 @@ import { useDrag } from "../../hooks/useDrag";
 
 function BoardStruct() {
   const boardref = useRef(null);
+
   const {
     polygonparser,
     polygons,
@@ -15,8 +16,8 @@ function BoardStruct() {
     lines,
     setlines,
   } = useDrawline(boardref);
-  const { DragType, Dragline } = useDrag(setlines, boardref);
 
+  const { DragType, Dragline } = useDrag(setlines, boardref);
   const mouseMoveHandler = (e) => {
     drawline(e);
     Dragline(e);
@@ -75,6 +76,13 @@ function BoardStruct() {
             stroke="black"
             strokeWidth="0.5%"
             strokeLinecap="round"
+            onMouseDown={(e) => {
+              if (previewpolygon()) {
+                return;
+              }
+              e.stopPropagation();
+              DragType(e, i, "Polygon");
+            }}
           />
         ))}
       </svg>

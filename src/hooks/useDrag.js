@@ -1,18 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getPointerPosition } from "../utils/getPointerPosition";
 import { useDispatch, useSelector } from "react-redux";
 import { draggingoff, draggingon } from "../store/moveableslice";
 import { useDrawline } from "./useDrawline";
 
-export const useDrag = ( setlines, boardref) => {
+export const useDrag = (setlines, boardref) => {
   const [start, setstart] = useState(null);
   const [SelectedElement, setSelectedElement] = useState(null);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const dragging = useSelector((state) => state.moveable.dragging);
+  const dragRef = useRef(dragging);
 
+  useEffect(() => {
+    dragRef.current = dragging;
+  }, [dragging]);
+
+  useEffect(() => {
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => window.removeEventListener("mouseup", handleMouseUp);
+  }, []);
   const DragType = (e, i, element) => {
-    dispatch(draggingon())
+    e.stopPropagation()
+    if (!dragging) {
+      dispatch(draggingon());
+    }
     const { x, y } = getPointerPosition(e, boardref);
-    e.stopPropagation();
     setSelectedElement({
       element: element,
       index: i,
@@ -27,11 +39,11 @@ export const useDrag = ( setlines, boardref) => {
     if (e.buttons !== 1) {
       return;
     }
-    if (SelectedElement != null) {
-      if (e.buttons == 1) {
-        const { x, y } = getPointerPosition(e, boardref);
-        const deltaX = x - start.x;
-        const deltaY = y - start.y;
+    if (SelectedElement != null && e.buttons == 1) {
+      const { x, y } = getPointerPosition(e, boardref);
+      const deltaX = x - start.x;
+      const deltaY = y - start.y;
+      if (SelectedElement.element === "Line") {
         setlines((lines) =>
           lines.map((line, index) => {
             if (index === SelectedElement.index) {
@@ -58,22 +70,34 @@ export const useDrag = ( setlines, boardref) => {
             return line;
           })
         );
-        setstart({ x, y });
       }
+
+      setstart({ x, y });
+    }
+  };
+
+  const debounceTimer = useRef(null);
+  const handleMouseUp = (e) => {
+    setstart(null);
+    setSelectedElement(null);
+
+    if (dragRef.current) {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+      debounceTimer.current = setTimeout(() => {
+        dispatch(draggingoff());
+      }, 700);
     }
   };
 
   useEffect(() => {
-    window.addEventListener("mouseup", handleMouseUp);
-    return () => window.removeEventListener("mouseup", handleMouseUp);
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
   }, []);
-
-  const handleMouseUp = () => {
-    setstart(null);
-    setSelectedElement(null);
-    dispatch(draggingoff())
-    
-  };
 
   return { Dragline, DragType };
 };
