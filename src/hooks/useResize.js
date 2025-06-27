@@ -37,6 +37,10 @@ export const useResize = (setpolygons, setlines, boardref) => {
     }
     const { x, y } = getPointerPosition(e, boardref);
 
+    if (SelectedElement.element==="Line") {
+        
+    }
+
     if (SelectedElement.element === "Polygon") {
       setpolygons((prev) =>
         prev.map((polygon, index) => {
@@ -67,7 +71,7 @@ export const useResize = (setpolygons, setlines, boardref) => {
 
     // could be added the mouse up of use drag 
     // like modularity is reduced here by a similar funciton of mouse up but okay it makes it look cleaner and more understandable but on cost of the use of some extra states
-    
+
 
   };
 

@@ -82,7 +82,8 @@ export const useDrawline = (boardref) => {
   const handleMouseUp = (e) => {
     const currentLine = lineRef.current;
     if (!currentLine) return;
-    setlines((prev) => [...prev, currentLine]);
+    console.log(currentLine)
+    setlines((prev) => [...prev, {line:currentLine}]);
     cleanline();
   };
 

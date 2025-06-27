@@ -62,10 +62,10 @@ function BoardStruct() {
         {lines.map((line, i) => (
           <line
             key={i}
-            x1={`${line.x1}%`}
-            y1={`${line.y1}%`}
-            x2={`${line.x2}%`}
-            y2={`${line.y2}%`}
+            x1={`${line.line.x1}%`}
+            y1={`${line.line.y1}%`}
+            x2={`${line.line.x2}%`}
+            y2={`${line.line.y2}%`}
             style={{ cursor: "pointer" }}
             stroke="black"
             strokeWidth="0.5%"
@@ -85,21 +85,7 @@ function BoardStruct() {
             i={i}
           />
 
-          // <polygon
-          //   key={i}
-          //   points={polygonparser(polygon.polygon)}
-          //   style={{ cursor: "pointer" }}
-          //   stroke="black"
-          //   strokeWidth="0.5%"
-          //   strokeLinecap="round"
-          //   onMouseDown={(e) => {
-          //     if (previewpolygon()) {
-          //       return;
-          //     }
-          //     e.stopPropagation();
-          //     DragType(e, i, "Polygon");
-          //   }}
-          // />
+
         ))}
       </svg>
     </div>

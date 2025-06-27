@@ -44,7 +44,8 @@ export const useDrag = (setpolygons, setlines, boardref) => {
     const deltaY = y - start.y;
     if (SelectedElement.element === "Line") {
       setlines((lines) =>
-        lines.map((line, index) => {
+        lines.map((lineObj, index) => {
+          const line = lineObj.line;
           if (index === SelectedElement.index) {
             const isWithinBounds =
               line.x1 + deltaX >= 0 &&
@@ -58,15 +59,18 @@ export const useDrag = (setpolygons, setlines, boardref) => {
 
             return isWithinBounds
               ? {
-                  ...line,
-                  x1: line.x1 + deltaX,
-                  y1: line.y1 + deltaY,
-                  x2: line.x2 + deltaX,
-                  y2: line.y2 + deltaY,
+                  ...lineObj,
+                  line: {
+                    ...line,
+                    x1: line.x1 + deltaX,
+                    y1: line.y1 + deltaY,
+                    x2: line.x2 + deltaX,
+                    y2: line.y2 + deltaY,
+                  },
                 }
-              : line;
+              : lineObj;
           }
-          return line;
+          return lineObj;
         })
       );
     } else if (SelectedElement.element === "Polygon") {
@@ -106,7 +110,6 @@ export const useDrag = (setpolygons, setlines, boardref) => {
     if (dragRef.current == false) {
       return;
     }
-
     if (dragRef.current) {
       if (debounceTimer.current) {
         clearTimeout(debounceTimer.current);

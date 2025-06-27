@@ -39,8 +39,6 @@ function Polygon({
         fillOpacity={0.4}
       />
       {polygon.polygon.map((point, index) => {
-        // const x = (point[0] / 100) * svgRef.current.clientWidth; // Convert percentage to pixel
-        // const y = (point[1] / 100) * svgRef.current.clientHeight; // Convert percentage to pixel
         return (
           <circle
             key={index}
