@@ -1,8 +1,11 @@
 import Board from "./board/Board"
 import BoardStruct from "./board/BoardStruct"
 import FootballField from "./board/Field"
+import Polygon from "./board/Polygon"
 import Footer from "./footer/Footer"
 import Header from "./header/Header"
+
+
 
 
 export{
@@ -11,6 +14,7 @@ export{
     FootballField,
     Header,
     Footer,
+    Polygon,
     
 
 }

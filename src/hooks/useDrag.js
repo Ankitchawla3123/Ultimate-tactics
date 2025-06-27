@@ -36,75 +36,76 @@ export const useDrag = (setpolygons, setlines, boardref) => {
   };
 
   const Dragline = (e) => {
-    if (e.buttons !== 1 && SelectedElement==null) {
+    if (e.buttons !== 1 || SelectedElement == null) {
       return;
     }
-    if (SelectedElement != null && e.buttons == 1) {
-      const { x, y } = getPointerPosition(e, boardref);
-      const deltaX = x - start.x;
-      const deltaY = y - start.y;
-      if (SelectedElement.element === "Line") {
-        setlines((lines) =>
-          lines.map((line, index) => {
-            if (index === SelectedElement.index) {
-              const isWithinBounds =
-                line.x1 + deltaX >= 0 &&
-                line.x2 + deltaX >= 0 &&
-                line.x1 + deltaX <= 100 &&
-                line.x2 + deltaX <= 100 &&
-                line.y1 + deltaY >= 0 &&
-                line.y2 + deltaY >= 0 &&
-                line.y1 + deltaY <= 100 &&
-                line.y2 + deltaY <= 100;
+    const { x, y } = getPointerPosition(e, boardref);
+    const deltaX = x - start.x;
+    const deltaY = y - start.y;
+    if (SelectedElement.element === "Line") {
+      setlines((lines) =>
+        lines.map((line, index) => {
+          if (index === SelectedElement.index) {
+            const isWithinBounds =
+              line.x1 + deltaX >= 0 &&
+              line.x2 + deltaX >= 0 &&
+              line.x1 + deltaX <= 100 &&
+              line.x2 + deltaX <= 100 &&
+              line.y1 + deltaY >= 0 &&
+              line.y2 + deltaY >= 0 &&
+              line.y1 + deltaY <= 100 &&
+              line.y2 + deltaY <= 100;
 
-              return isWithinBounds
-                ? {
-                    ...line,
-                    x1: line.x1 + deltaX,
-                    y1: line.y1 + deltaY,
-                    x2: line.x2 + deltaX,
-                    y2: line.y2 + deltaY,
-                  }
-                : line;
+            return isWithinBounds
+              ? {
+                  ...line,
+                  x1: line.x1 + deltaX,
+                  y1: line.y1 + deltaY,
+                  x2: line.x2 + deltaX,
+                  y2: line.y2 + deltaY,
+                }
+              : line;
+          }
+          return line;
+        })
+      );
+    } else if (SelectedElement.element === "Polygon") {
+      setpolygons((prev) =>
+        prev.map((polygonObj, index) => {
+          if (index === SelectedElement.index) {
+            const allWithinBounds = polygonObj.polygon.every(([px, py]) => {
+              const newX = px + deltaX;
+              const newY = py + deltaY;
+              return newX >= 0 && newX <= 100 && newY >= 0 && newY <= 100;
+            });
+
+            if (allWithinBounds) {
+              return {
+                ...polygonObj,
+                polygon: polygonObj.polygon.map(([px, py]) => [
+                  px + deltaX,
+                  py + deltaY,
+                ]),
+              };
+            } else {
+              return polygonObj;
             }
-            return line;
-          })
-        );
-      } else if (SelectedElement.element === "Polygon") {
-        setpolygons( (prev) =>
-          prev.map((polygonObj, index) => {
-            if (index === SelectedElement.index) {
-              const allWithinBounds = polygonObj.polygon.every(([px, py]) => {
-                const newX = px + deltaX;
-                const newY = py + deltaY;
-                return newX >= 0 && newX <= 100 && newY >= 0 && newY <= 100;
-              });
-
-              if (allWithinBounds) {
-                return {
-                  ...polygonObj,
-                  polygon: polygonObj.polygon.map(([px, py]) => [
-                    px + deltaX,
-                    py + deltaY,
-                  ]),
-                };
-              } else {
-                return polygonObj;
-              }
-            }
-            return polygonObj;
-          })
-        );
-      }
-
-      setstart({ x, y });
+          }
+          return polygonObj;
+        })
+      );
     }
+
+    setstart({ x, y });
   };
 
   const debounceTimer = useRef(null);
   const handleMouseUp = (e) => {
     setstart(null);
     setSelectedElement(null);
+    if (dragRef.current == false) {
+      return;
+    }
 
     if (dragRef.current) {
       if (debounceTimer.current) {
@@ -112,7 +113,7 @@ export const useDrag = (setpolygons, setlines, boardref) => {
       }
       debounceTimer.current = setTimeout(() => {
         dispatch(draggingoff());
-      }, 500);
+      }, 0);
     }
   };
 

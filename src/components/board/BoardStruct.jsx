@@ -2,20 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { getPointerPosition } from "../../utils/getPointerPosition";
 import { useDrawline } from "../../hooks/useDrawline";
 import { useDrag } from "../../hooks/useDrag";
+import { Polygon } from "../index";
+import { useResize } from "../../hooks/useResize";
 
 function BoardStruct() {
   const boardref = useRef(null);
-
-  const [resizeTrigger, setResizeTrigger] = useState(0);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setResizeTrigger((prev) => prev + 1);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const {
     polygonparser,
@@ -30,9 +21,12 @@ function BoardStruct() {
   } = useDrawline(boardref);
 
   const { DragType, Dragline } = useDrag(setplygons, setlines, boardref);
+  const { Resize, ResizeType } = useResize(setplygons, setlines, boardref);
+
   const mouseMoveHandler = (e) => {
     drawline(e);
     Dragline(e);
+    Resize(e)
   };
 
   return (
@@ -81,21 +75,31 @@ function BoardStruct() {
         ))}
 
         {polygons.map((polygon, i) => (
-          <polygon
+          <Polygon
             key={i}
-            points={polygonparser(polygon.polygon)}
-            style={{ cursor: "pointer" }}
-            stroke="black"
-            strokeWidth="0.5%"
-            strokeLinecap="round"
-            onMouseDown={(e) => {
-              if (previewpolygon()) {
-                return;
-              }
-              e.stopPropagation();
-              DragType(e, i, "Polygon");
-            }}
+            polygon={polygon}
+            polygonparser={polygonparser}
+            previewpolygon={previewpolygon}
+            DragType={DragType}
+            ResizeType={ResizeType}
+            i={i}
           />
+
+          // <polygon
+          //   key={i}
+          //   points={polygonparser(polygon.polygon)}
+          //   style={{ cursor: "pointer" }}
+          //   stroke="black"
+          //   strokeWidth="0.5%"
+          //   strokeLinecap="round"
+          //   onMouseDown={(e) => {
+          //     if (previewpolygon()) {
+          //       return;
+          //     }
+          //     e.stopPropagation();
+          //     DragType(e, i, "Polygon");
+          //   }}
+          // />
         ))}
       </svg>
     </div>

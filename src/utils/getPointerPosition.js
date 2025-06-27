@@ -10,5 +10,6 @@ export const getPointerPosition = (event, ref) => {
   const x = ((clientX - left) / width) * 100;
   const y = ((clientY - top) / height) * 100;
 
+
   return { x, y };
 };
