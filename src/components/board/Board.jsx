@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { FootballField, BoardStruct } from "../index";
 import { useDispatch, useSelector } from "react-redux";
+import { DropMenu } from "./menu/DropMenu";
 
 function Board() {
   const isVertical = useSelector((state) => state.board.vertical); // true = portrait
@@ -31,7 +32,7 @@ function Board() {
           </div>
         </div>
       </div>
-      <div>conrext menu</div>
+      <div className="z-50"> <DropMenu/></div>
     </div>
   );
 }

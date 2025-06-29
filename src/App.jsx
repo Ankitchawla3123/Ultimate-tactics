@@ -1,7 +1,7 @@
 import "./App.css";
 import Board from "./components/board/Board";
 import { Footer, Header } from "./components";
-
+ 
 function App() {
   return (
     <div
