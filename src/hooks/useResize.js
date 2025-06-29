@@ -37,8 +37,27 @@ export const useResize = (setpolygons, setlines, boardref) => {
     }
     const { x, y } = getPointerPosition(e, boardref);
 
-    if (SelectedElement.element==="Line") {
-        
+    if (SelectedElement.element === "Line") {
+      setlines((prev) =>
+        prev.map((lineObj, index) => {
+          if (index !== SelectedElement.index) return lineObj;
+
+          const line = lineObj.line;
+          const boundcheck = x <= 100 && x >= 0 && y <= 100 && y >= 0;
+
+          if (!boundcheck) return lineObj;
+
+          const updatedLine =
+            SelectedElement.pointindex === 1
+              ? { ...line, x1: x, y1: y }
+              : { ...line, x2: x, y2: y };
+
+          return {
+            ...lineObj,
+            line: updatedLine,
+          };
+        })
+      );
     }
 
     if (SelectedElement.element === "Polygon") {
@@ -62,20 +81,15 @@ export const useResize = (setpolygons, setlines, boardref) => {
     }
   };
 
-
   const handleMouseUp = (e) => {
     setSelectedElement(null);
     if (dragRef.current == false) {
       return;
     }
 
-    // could be added the mouse up of use drag 
+    // could be added the mouse up of use drag
     // like modularity is reduced here by a similar funciton of mouse up but okay it makes it look cleaner and more understandable but on cost of the use of some extra states
-
-
   };
-
-
 
   return { ResizeType, Resize };
 };

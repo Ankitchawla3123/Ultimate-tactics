@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { getPointerPosition } from "../../utils/getPointerPosition";
 import { useDrawline } from "../../hooks/useDrawline";
 import { useDrag } from "../../hooks/useDrag";
-import { Polygon } from "../index";
+import { Line, Polygon } from "../index";
 import { useResize } from "../../hooks/useResize";
 
 function BoardStruct() {
@@ -26,7 +26,7 @@ function BoardStruct() {
   const mouseMoveHandler = (e) => {
     drawline(e);
     Dragline(e);
-    Resize(e)
+    Resize(e);
   };
 
   return (
@@ -60,17 +60,13 @@ function BoardStruct() {
           />
         )}
         {lines.map((line, i) => (
-          <line
+          <Line
             key={i}
-            x1={`${line.line.x1}%`}
-            y1={`${line.line.y1}%`}
-            x2={`${line.line.x2}%`}
-            y2={`${line.line.y2}%`}
-            style={{ cursor: "pointer" }}
-            stroke="black"
-            strokeWidth="0.5%"
-            strokeLinecap="round"
-            onMouseDown={(e) => DragType(e, i, "Line")}
+            index={i}
+            line={line}
+            DragType={DragType}
+            ResizeType={ResizeType}
+            previewpolygon={previewpolygon}
           />
         ))}
 
@@ -84,8 +80,6 @@ function BoardStruct() {
             ResizeType={ResizeType}
             i={i}
           />
-
-
         ))}
       </svg>
     </div>
