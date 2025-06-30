@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { FootballField, BoardStruct } from "../index";
 import { useDispatch, useSelector } from "react-redux";
 import { DropMenu } from "./menu/DropMenu";
+import FullMenu from "./menu/FullMenu";
 
 function Board() {
   const isVertical = useSelector((state) => state.board.vertical); // true = portrait
@@ -17,7 +18,17 @@ function Board() {
     aspectRatio: "1.60",
   };
   return (
-    <div >
+    <div 
+          onTouchEnd={(e) => {
+        e.stopPropagation();
+        var changedTouch = e.changedTouches[0];
+        var elem = document.elementFromPoint(
+          changedTouch.clientX,
+          changedTouch.clientY
+        );
+
+      }}
+>
       <div className=" flex flex-col">
         <div
           ref={ref}
@@ -32,7 +43,10 @@ function Board() {
           </div>
         </div>
       </div>
-      <div className="z-50"> <DropMenu/></div>
+      <div className="z-50">
+        {" "}
+        <FullMenu />
+      </div>
     </div>
   );
 }

@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/select";
 import React, { useState } from "react";
 
-export function DropMenu({ placeholder }) {
-  const [selectedOption, setSelectedOption] = useState("apple");
+export function DropMenu({ placeholder, label, options, Default }) {
+  const [selectedOption, setSelectedOption] = useState(Default);
 
   return (
     <Select
@@ -19,18 +19,17 @@ export function DropMenu({ placeholder }) {
         setSelectedOption(value);
       }}
     >
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select a fruit" />
+      <SelectTrigger className="w-auto px-3">
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Fruits</SelectLabel>
-
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="blueberry">Blueberry</SelectItem>
-          <SelectItem value="grapes">Grapes</SelectItem>
-          <SelectItem value="pineapple">Pineapple</SelectItem>
+          <SelectLabel>{label}</SelectLabel>
+          {options.map((opt, i) => (
+            <SelectItem key={i} value={opt.value}>
+              {opt.placeholder}
+            </SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>
