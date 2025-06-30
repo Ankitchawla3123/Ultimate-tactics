@@ -16,13 +16,13 @@ function Player({ Player }) {
       <text
         className="font-bold select-none"
         x="50%"
-        y="50%"
+        y="50.1%"
         textAnchor="middle"
         dominantBaseline="middle"
         fill="white"
         fontSize={`${fontSizeVW}vw`}
       >
-        10
+        9
       </text>
     </g>
   );
