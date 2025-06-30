@@ -4,6 +4,7 @@ import { useDrawline } from "../../hooks/useDrawline";
 import { useDrag } from "../../hooks/useDrag";
 import { Line, Polygon } from "../index";
 import { useResize } from "../../hooks/useResize";
+import Player from "./Player";
 
 function BoardStruct() {
   const boardref = useRef(null);
@@ -81,6 +82,7 @@ function BoardStruct() {
             i={i}
           />
         ))}
+        <Player/>
       </svg>
     </div>
   );

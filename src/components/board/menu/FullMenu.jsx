@@ -1,10 +1,12 @@
 import { LineSquiggle, Move } from "lucide-react";
 import React from "react";
 import { DropMenu } from "../../index";
+import PlayerOptions from "./PlayerOptions";
 
 function FullMenu() {
   return (
-    <div>
+    <div className="w-full flex h-10">
+      <PlayerOptions/>
       <DropMenu
         placeholder={"Mode"}
         label={"Features"}
@@ -30,6 +32,7 @@ function FullMenu() {
         ]}
         Default={"drag"}
       />
+
     </div>
   );
 }
