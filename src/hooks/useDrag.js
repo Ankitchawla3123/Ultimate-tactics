@@ -19,6 +19,7 @@ export const useDrag = (setpolygons, setlines, boardref) => {
     window.addEventListener("mouseup", handleMouseUp);
     return () => window.removeEventListener("mouseup", handleMouseUp);
   }, []);
+  
   const DragType = (e, i, element) => {
     e.stopPropagation();
     if (!dragging) {

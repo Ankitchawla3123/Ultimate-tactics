@@ -1,27 +1,27 @@
 import React, { useState, useRef } from "react";
 import { getNumberColor, getOuterRingColor } from "../../../utils/getColor";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addselectedplayer,
+  plusone,
+  resetselectedplayer,
+} from "../../../store/playerslice";
 
-function PlayerOptions() {
-  const [PlayerOptions] = useState([
-    { number: 1, color: "#8B0000" },
-    { number: 1, color: "#FFD700" },
-    { number: 1, color: "#8A2BE2" },
-    { number: 1, color: "#32CD32" },
-    { number: 1, color: "#0000FF" },
-    { number: 1, color: "#FF4500" },
-    { number: 1, color: "#00CED1" },
-    { number: 1, color: "#FFFFFF" },
-    { number: 1, color: "#000000" },
-  ]);
-
+function PlayerOptions({ addplayer }) {
+  const PlayerOptions = useSelector((state) => state.player.PlayerOptions);
+  const dispatch = useDispatch();
+  const [index, setindex] = useState(null);
+  const selectedplayer = useSelector((state) => state.player.selectedplayer);
   const ghostRef = useRef(null);
   const count = PlayerOptions.length;
   const diameterPercent = 100 / count;
   const radiusPercent = diameterPercent / 2;
   const fontSizeVW = radiusPercent * 0.18;
 
-  const handleTouchStart = (e, option) => {
+  const handleTouchStart = (e, option, index) => {
     const touch = e.touches[0];
+    dispatch(addselectedplayer({ ...option, name: "" }));
+    setindex(index);
     createGhost(option, touch.clientX, touch.clientY);
   };
 
@@ -30,20 +30,35 @@ function PlayerOptions() {
     moveGhost(touch.clientX, touch.clientY);
   };
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e) => {
     removeGhost();
+
+    e.stopPropagation();
+    var changedTouch = e.changedTouches[0];
+    var elem = document.elementFromPoint(
+      changedTouch.clientX,
+      changedTouch.clientY
+    );
+    if (
+      elem.dataset.component === "Board" &&
+      Object.keys(selectedplayer).length != 0
+    ) {
+      addplayer(e, selectedplayer);
+      dispatch(plusone(index));
+      setindex(null);
+    }
+    dispatch(resetselectedplayer());
   };
 
   const createGhost = (option, x, y) => {
-    removeGhost(); 
-
+    removeGhost();
     const ghost = document.createElement("div");
     ghost.style.position = "fixed";
     ghost.style.left = `${x}px`;
     ghost.style.top = `${y}px`;
     ghost.style.transform = "translate(-50%, -50%)";
-    ghost.style.width = "4vw"; 
-    ghost.style.height = "4vw";
+    ghost.style.width = "3vw";
+    ghost.style.height = "3vw";
     ghost.style.borderRadius = "50%";
     ghost.style.backgroundColor = option.color;
     ghost.style.border = `0.3vw solid ${getOuterRingColor(option.color)}`;
@@ -54,10 +69,9 @@ function PlayerOptions() {
     ghost.style.justifyContent = "center";
     ghost.style.fontWeight = "bold";
     ghost.style.color = getNumberColor(option.color);
-    ghost.style.fontSize = "2.5vw";
+    ghost.style.fontSize = "1.5vw";
     ghost.style.pointerEvents = "none";
     ghost.textContent = option.number;
-
     document.body.appendChild(ghost);
     ghostRef.current = ghost;
   };
@@ -82,7 +96,7 @@ function PlayerOptions() {
     <div
       className="w-5/12 h-full flex p-0 m-0"
       onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      onTouchEnd={(e) => handleTouchEnd(e)}
       onTouchCancel={handleTouchEnd}
     >
       <svg className="w-full h-full">
@@ -93,7 +107,7 @@ function PlayerOptions() {
           return (
             <g
               key={index}
-              onTouchStart={(e) => handleTouchStart(e, option)}
+              onTouchStart={(e) => handleTouchStart(e, option, index)}
             >
               <circle
                 cx={`${cx}%`}

@@ -3,10 +3,10 @@ import React from "react";
 import { DropMenu } from "../../index";
 import PlayerOptions from "./PlayerOptions";
 
-function FullMenu() {
+function FullMenu({addplayer}) {
   return (
     <div className="w-full flex h-10">
-      <PlayerOptions/>
+      <PlayerOptions addplayer={addplayer}/>
       <DropMenu
         placeholder={"Mode"}
         label={"Features"}

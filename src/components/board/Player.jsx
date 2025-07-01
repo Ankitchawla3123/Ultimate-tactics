@@ -1,28 +1,31 @@
 import React from "react";
+import { getNumberColor, getOuterRingColor } from "../../utils/getColor";
 
-function Player({ Player }) {
-  const radius = 1.9;
+function Player({ player }) {
+  const radius = 1.8;
   const fontSizeVW = radius * 0.46;
 
   return (
     <g>
       <circle
-        className="fill-red-700 stroke-red-950"
+        className=""
+        fill={player.color}
+        stroke={getOuterRingColor(player.color)}
         r={`${radius}%`}
         strokeWidth="0.7%"
-        cx="50%"
-        cy="50%"
+        cx={`${player.x}%`}
+        cy={`${player.y}%`}
       />
       <text
         className="font-bold select-none"
-        x="50%"
-        y="50.1%"
+        x={`${player.x}%`}
+        y={`${player.y + 0.1}%`}
         textAnchor="middle"
         dominantBaseline="middle"
-        fill="white"
+        fill={getNumberColor(player.color)}
         fontSize={`${fontSizeVW}vw`}
       >
-        9
+        {player.number}
       </text>
     </g>
   );

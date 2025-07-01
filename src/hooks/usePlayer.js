@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { getPointerPosition } from "../utils/getPointerPosition";
 
-export const useDrawline = (boardref) => {
+export const usePlayer = (boardref) => {
   const ref = boardref.current;
   const [players, setplayers] = useState([]);
   const dragging = useSelector((state) => state.moveable.dragging);
@@ -27,4 +27,6 @@ export const useDrawline = (boardref) => {
       })
     );
   };
+
+  return { players, setplayers, addplayer, UpdatePlayer };
 };

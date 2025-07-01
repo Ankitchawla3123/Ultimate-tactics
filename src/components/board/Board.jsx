@@ -3,11 +3,15 @@ import { FootballField, BoardStruct } from "../index";
 import { useDispatch, useSelector } from "react-redux";
 import { DropMenu } from "./menu/DropMenu";
 import FullMenu from "./menu/FullMenu";
+import { usePlayer } from "../../hooks/usePlayer";
 
 function Board() {
   const isVertical = useSelector((state) => state.board.vertical); // true = portrait
 
   const ref = useRef();
+  const boardref = useRef(null);
+  const {players,setplayers,addplayer,UpdatePlayer} = usePlayer(boardref);
+
 
   const boardStyle = {
     width: "52vw",
@@ -17,7 +21,8 @@ function Board() {
     aspectRatio: "1.60",
   };
   return (
-    <div className="w-fit"
+    <div
+      className="w-fit"
       onTouchEnd={(e) => {
         e.stopPropagation();
         var changedTouch = e.changedTouches[0];
@@ -27,9 +32,7 @@ function Board() {
         );
       }}
     >
-      <div className=" flex flex-col"
-      style={{width:"52vw"}}
-      >
+      <div className=" flex flex-col" style={{ width: "52vw" }}>
         <div
           ref={ref}
           style={boardStyle}
@@ -39,11 +42,11 @@ function Board() {
             <FootballField />
           </div>
           <div className="z-20 w-full h-full absolute">
-            <BoardStruct />
+            <BoardStruct boardref={boardref} players={players} setplayers={setplayers}/>
           </div>
         </div>
         <div className="z-50">
-          <FullMenu />
+          <FullMenu addplayer={addplayer} />
         </div>
       </div>
     </div>

@@ -6,9 +6,7 @@ import { Line, Polygon } from "../index";
 import { useResize } from "../../hooks/useResize";
 import Player from "./Player";
 
-function BoardStruct() {
-  const boardref = useRef(null);
-
+function BoardStruct({ boardref, players, setplayers }) {
   const {
     polygonparser,
     polygons,
@@ -34,6 +32,7 @@ function BoardStruct() {
     <div className="w-full h-full">
       <svg
         ref={boardref}
+        data-component="Board"
         width="100%"
         height="100%"
         onMouseMove={(e) => mouseMoveHandler(e)}
@@ -82,7 +81,9 @@ function BoardStruct() {
             i={i}
           />
         ))}
-        <Player/>
+        {players.map((player, index) => (
+          <Player key={index} player={player} />
+        ))}
       </svg>
     </div>
   );
