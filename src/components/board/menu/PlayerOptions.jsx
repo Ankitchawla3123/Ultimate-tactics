@@ -13,10 +13,8 @@ function PlayerOptions({ addplayer }) {
   const selectedPlayerRef = useRef(selectedplayer);
   const indexRef = useRef(null);
   const dispatch = useDispatch();
-
   const ghostRef = useRef(null);
   const touchInProgress = useRef(false);
-
   const count = PlayerOptions.length;
   const diameterPercent = 100 / count;
   const radiusPercent = diameterPercent / 2;
@@ -43,12 +41,12 @@ function PlayerOptions({ addplayer }) {
     const ev = e.type.startsWith("touch") ? e.touches[0] : e;
 
     dispatch(addselectedplayer({ ...option, name: "" }));
-    indexRef.current = index; // ⬅️ track index
+    indexRef.current = index;
     createGhost(option, ev.clientX, ev.clientY);
   };
 
   const handleTouchMove = (e) => {
-    if (Object.keys(selectedPlayerRef.current).length === 0) return;
+    if (selectedPlayerRef.current == null) return;
     const ev = e.type.startsWith("touch") ? e.touches[0] : e;
     moveGhost(ev.clientX, ev.clientY);
   };
@@ -57,7 +55,6 @@ function PlayerOptions({ addplayer }) {
     touchInProgress.current = false;
     removeGhost();
     e.stopPropagation();
-
     let elem;
     if (e.type.startsWith("touch")) {
       const changedTouch = e.changedTouches[0];
@@ -68,19 +65,13 @@ function PlayerOptions({ addplayer }) {
     } else {
       elem = document.elementFromPoint(e.clientX, e.clientY);
     }
-
     const isDroppedOnBoard =
       elem?.closest?.('[data-component="Board"]') !== null;
-
-    if (
-      isDroppedOnBoard &&
-      Object.keys(selectedPlayerRef.current).length !== 0
-    ) {
+    if (isDroppedOnBoard && selectedPlayerRef.current != null) {
       addplayer(e, selectedPlayerRef.current);
       dispatch(plusone(indexRef.current));
       indexRef.current = null;
     }
-
     dispatch(resetselectedplayer());
   };
 
@@ -144,6 +135,7 @@ function PlayerOptions({ addplayer }) {
               key={index}
               onTouchStart={(e) => handleStart(e, option, index)}
               onMouseDown={(e) => handleStart(e, option, index)}
+              style={{ cursor: "pointer" }}
             >
               <circle
                 cx={`${cx}%`}
@@ -156,7 +148,7 @@ function PlayerOptions({ addplayer }) {
               <text
                 className="select-none"
                 x={`${cx}%`}
-                y="51%"
+                y="50%"
                 textAnchor="middle"
                 dominantBaseline="middle"
                 fill={textColor}

@@ -14,7 +14,7 @@ function FullMenu({addplayer}) {
           {
             value: "drag",
             placeholder: (
-              <span className="flex items-center gap-1">
+              <span className="flex select-none items-center gap-1">
                 <Move className="w-1/4 h-1/4" />
                 Drag
               </span>
@@ -23,7 +23,7 @@ function FullMenu({addplayer}) {
           {
             value: "draw",
             placeholder: (
-              <span className="flex items-center gap-1">
+              <span className="flex select-none items-center gap-1">
                 <LineSquiggle className="w-1/4 h-1/4" />
                 Draw
               </span>

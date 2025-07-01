@@ -6,6 +6,7 @@ export const useDrawline = (boardref) => {
   const svg = boardref.current;
 
   const drawtype = useSelector((state) => state.moveable.drawtype);
+  const selectedplayer=useSelector((state)=>state.player.selectedplayer)
   const [previewline, setline] = useState(null);
   const [lines, setlines] = useState([]);
   const lineRef = useRef(previewline);
@@ -16,6 +17,7 @@ export const useDrawline = (boardref) => {
   const typeRef = useRef(drawtype);
   const polyRef = useRef(polygon);
   const dragRef = useRef(dragging);
+
 
   useEffect(() => {
     polyRef.current = polygon;
@@ -43,9 +45,11 @@ export const useDrawline = (boardref) => {
       }
     };
   }, []);
+  
+  
 
   const drawline = (e) => {
-    if (dragging) {
+    if (dragging || selectedplayer!=null) {
       return;
     }
 

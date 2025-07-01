@@ -19,11 +19,11 @@ function BoardStruct({ boardref, players, setplayers }) {
     setlines,
   } = useDrawline(boardref);
 
-  const { DragType, Dragline } = useDrag(setplygons, setlines, boardref);
+  const { DragType, Dragline } = useDrag(setplygons, setlines,setplayers, boardref);
   const { Resize, ResizeType } = useResize(setplygons, setlines, boardref);
 
   const mouseMoveHandler = (e) => {
-    // drawline(e);
+    drawline(e);
     Dragline(e);
     Resize(e);
   };
@@ -82,7 +82,12 @@ function BoardStruct({ boardref, players, setplayers }) {
           />
         ))}
         {players.map((player, index) => (
-          <Player key={index} player={player} />
+          <Player
+            key={index}
+            player={player}
+            DragType={DragType}
+            index={index}
+          />
         ))}
       </svg>
     </div>

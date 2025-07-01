@@ -12,7 +12,7 @@ const initialState = {
     { number: 1, color: "#FFFFFF" },
     { number: 1, color: "#000000" },
   ],
-  selectedplayer: {},
+  selectedplayer: null,
 };
 
 const playerslice = createSlice({
@@ -23,18 +23,19 @@ const playerslice = createSlice({
       state.selectedplayer = action.payload;
     },
     resetselectedplayer: (state) => {
-      state.selectedplayer = {};
+      state.selectedplayer = null;
     },
     plusone: (state, action) => {
       state.PlayerOptions = state.PlayerOptions.map((opt, index) => {
         if (index === action.payload) {
           return { ...opt, number: opt.number + 1 };
         }
-        return opt
+        return opt;
       });
     },
   },
 });
 
-export const { addselectedplayer, resetselectedplayer, plusone } = playerslice.actions;
+export const { addselectedplayer, resetselectedplayer, plusone } =
+  playerslice.actions;
 export default playerslice.reducer;
