@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { getNumberColor, getOuterRingColor } from "../../../utils/getColor";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,44 +9,78 @@ import {
 
 function PlayerOptions({ addplayer }) {
   const PlayerOptions = useSelector((state) => state.player.PlayerOptions);
-  const dispatch = useDispatch();
-  const [index, setindex] = useState(null);
   const selectedplayer = useSelector((state) => state.player.selectedplayer);
+  const selectedPlayerRef = useRef(selectedplayer);
+  const indexRef = useRef(null);
+  const dispatch = useDispatch();
+
   const ghostRef = useRef(null);
+  const touchInProgress = useRef(false);
+
   const count = PlayerOptions.length;
   const diameterPercent = 100 / count;
   const radiusPercent = diameterPercent / 2;
   const fontSizeVW = radiusPercent * 0.18;
 
-  const handleTouchStart = (e, option, index) => {
-    const touch = e.touches[0];
+  useEffect(() => {
+    selectedPlayerRef.current = selectedplayer;
+  }, [selectedplayer]);
+
+  useEffect(() => {
+    window.addEventListener("mousemove", handleTouchMove);
+    window.addEventListener("mouseup", handleTouchEnd);
+    return () => {
+      window.removeEventListener("mousemove", handleTouchMove);
+      window.removeEventListener("mouseup", handleTouchEnd);
+    };
+  }, []);
+
+  const handleStart = (e, option, index) => {
+    if (e.type === "mousedown" && touchInProgress.current) return;
+    if (e.type === "touchstart") {
+      touchInProgress.current = true;
+    }
+    const ev = e.type.startsWith("touch") ? e.touches[0] : e;
+
     dispatch(addselectedplayer({ ...option, name: "" }));
-    setindex(index);
-    createGhost(option, touch.clientX, touch.clientY);
+    indexRef.current = index; // ⬅️ track index
+    createGhost(option, ev.clientX, ev.clientY);
   };
 
   const handleTouchMove = (e) => {
-    const touch = e.touches[0];
-    moveGhost(touch.clientX, touch.clientY);
+    if (Object.keys(selectedPlayerRef.current).length === 0) return;
+    const ev = e.type.startsWith("touch") ? e.touches[0] : e;
+    moveGhost(ev.clientX, ev.clientY);
   };
 
   const handleTouchEnd = (e) => {
+    touchInProgress.current = false;
     removeGhost();
-
     e.stopPropagation();
-    var changedTouch = e.changedTouches[0];
-    var elem = document.elementFromPoint(
-      changedTouch.clientX,
-      changedTouch.clientY
-    );
-    if (
-      elem.dataset.component === "Board" &&
-      Object.keys(selectedplayer).length != 0
-    ) {
-      addplayer(e, selectedplayer);
-      dispatch(plusone(index));
-      setindex(null);
+
+    let elem;
+    if (e.type.startsWith("touch")) {
+      const changedTouch = e.changedTouches[0];
+      elem = document.elementFromPoint(
+        changedTouch.clientX,
+        changedTouch.clientY
+      );
+    } else {
+      elem = document.elementFromPoint(e.clientX, e.clientY);
     }
+
+    const isDroppedOnBoard =
+      elem?.closest?.('[data-component="Board"]') !== null;
+
+    if (
+      isDroppedOnBoard &&
+      Object.keys(selectedPlayerRef.current).length !== 0
+    ) {
+      addplayer(e, selectedPlayerRef.current);
+      dispatch(plusone(indexRef.current));
+      indexRef.current = null;
+    }
+
     dispatch(resetselectedplayer());
   };
 
@@ -72,6 +106,7 @@ function PlayerOptions({ addplayer }) {
     ghost.style.fontSize = "1.5vw";
     ghost.style.pointerEvents = "none";
     ghost.textContent = option.number;
+
     document.body.appendChild(ghost);
     ghostRef.current = ghost;
   };
@@ -96,7 +131,7 @@ function PlayerOptions({ addplayer }) {
     <div
       className="w-5/12 h-full flex p-0 m-0"
       onTouchMove={handleTouchMove}
-      onTouchEnd={(e) => handleTouchEnd(e)}
+      onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchEnd}
     >
       <svg className="w-full h-full">
@@ -107,7 +142,8 @@ function PlayerOptions({ addplayer }) {
           return (
             <g
               key={index}
-              onTouchStart={(e) => handleTouchStart(e, option, index)}
+              onTouchStart={(e) => handleStart(e, option, index)}
+              onMouseDown={(e) => handleStart(e, option, index)}
             >
               <circle
                 cx={`${cx}%`}

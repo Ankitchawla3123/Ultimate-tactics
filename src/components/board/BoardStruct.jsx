@@ -23,7 +23,7 @@ function BoardStruct({ boardref, players, setplayers }) {
   const { Resize, ResizeType } = useResize(setplygons, setlines, boardref);
 
   const mouseMoveHandler = (e) => {
-    drawline(e);
+    // drawline(e);
     Dragline(e);
     Resize(e);
   };
