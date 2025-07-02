@@ -7,6 +7,7 @@ import { useResize } from "../../hooks/useResize";
 import Player from "./Player";
 
 function BoardStruct({ boardref, players, setplayers }) {
+  const [selected, setselected] = useState(false);
   const {
     polygonparser,
     polygons,
@@ -17,9 +18,16 @@ function BoardStruct({ boardref, players, setplayers }) {
     drawline,
     lines,
     setlines,
-  } = useDrawline(boardref);
+  } = useDrawline(selected, boardref);
 
-  const { DragType, Dragline } = useDrag(setplygons, setlines,setplayers, boardref);
+  const { DragType, Dragline } = useDrag(
+    setplygons,
+    setlines,
+    setplayers,
+    setselected,
+    previewpolygon,
+    boardref
+  );
   const { Resize, ResizeType } = useResize(setplygons, setlines, boardref);
 
   const mouseMoveHandler = (e) => {
@@ -37,6 +45,7 @@ function BoardStruct({ boardref, players, setplayers }) {
         height="100%"
         onMouseMove={(e) => mouseMoveHandler(e)}
         onContextMenu={(e) => Stopdrawingpolygon(e)}
+        onDoubleClick={(e) => e.preventDefault()}
       >
         {previewline && (
           <line
@@ -83,6 +92,7 @@ function BoardStruct({ boardref, players, setplayers }) {
         ))}
         {players.map((player, index) => (
           <Player
+            setselected={setselected}
             key={index}
             player={player}
             DragType={DragType}

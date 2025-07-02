@@ -4,7 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { draggingoff, draggingon } from "../store/moveableslice";
 import { useDrawline } from "./useDrawline";
 
-export const useDrag = (setpolygons, setlines, setplayers, boardref) => {
+export const useDrag = (
+  setpolygons,
+  setlines,
+  setplayers,
+  setselected,
+  previewpolygon,
+  boardref
+) => {
   const [start, setstart] = useState(null);
   const [SelectedElement, setSelectedElement] = useState(null);
   const dispatch = useDispatch();
@@ -21,10 +28,11 @@ export const useDrag = (setpolygons, setlines, setplayers, boardref) => {
   }, []);
 
   const DragType = (e, i, element) => {
-    e.stopPropagation();
-    if (!dragging) {
-      dispatch(draggingon());
+    if (previewpolygon()) {
+      return;
     }
+    e.stopPropagation();
+    dispatch(draggingon());
     const { x, y } = getPointerPosition(e, boardref);
     setSelectedElement({
       element: element,
@@ -103,17 +111,12 @@ export const useDrag = (setpolygons, setlines, setplayers, boardref) => {
       setplayers((prev) =>
         prev.map((player, index) => {
           if (index === SelectedElement.index) {
-            const newX = player.x + deltaX;
-            const newY = player.y + deltaY;
-
-            const isWithinBounds =
-              newX >= 0 && newX <= 100 && newY >= 0 && newY <= 100;
-
+            const isWithinBounds = x >= 0 && x <= 100 && y >= 0 && y <= 100;
             return isWithinBounds
               ? {
                   ...player,
-                  x: newX,
-                  y: newY,
+                  x: x,
+                  y: y,
                 }
               : player;
           }
@@ -129,6 +132,7 @@ export const useDrag = (setpolygons, setlines, setplayers, boardref) => {
   const handleMouseUp = (e) => {
     setstart(null);
     setSelectedElement(null);
+    setselected(false);
     if (dragRef.current == false) {
       return;
     }

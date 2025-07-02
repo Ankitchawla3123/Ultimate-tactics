@@ -14,6 +14,7 @@ export const usePlayer = (boardref) => {
       x: x,
       y: y,
     };
+    // console.log(player)
     setplayers((prev) => [...prev, player]);
   };
   const UpdatePlayer = (data, i) => {

@@ -2,22 +2,25 @@ import { useEffect, useRef, useState } from "react";
 import { getPointerPosition } from "../utils/getPointerPosition";
 import { useSelector } from "react-redux";
 
-export const useDrawline = (boardref) => {
+export const useDrawline = (selected, boardref) => {
   const svg = boardref.current;
 
   const drawtype = useSelector((state) => state.moveable.drawtype);
-  const selectedplayer=useSelector((state)=>state.player.selectedplayer)
+  const selectedplayer = useSelector((state) => state.player.selectedplayer);
   const [previewline, setline] = useState(null);
   const [lines, setlines] = useState([]);
   const lineRef = useRef(previewline);
   const dragging = useSelector((state) => state.moveable.dragging);
+  const mode = useSelector((state) => state.board.mode);
   const [polygon, setpolypoints] = useState([]);
   const [polygons, setplygons] = useState([]);
   const [nextpointforpoly, setnextpointforpoly] = useState([]);
+
   const typeRef = useRef(drawtype);
   const polyRef = useRef(polygon);
   const dragRef = useRef(dragging);
-
+  const modeRef = useRef(mode);
+  const selectedRef = useRef(selected);
 
   useEffect(() => {
     polyRef.current = polygon;
@@ -36,6 +39,14 @@ export const useDrawline = (boardref) => {
   }, [drawtype]);
 
   useEffect(() => {
+    modeRef.current = mode;
+  }, [mode]);
+
+  useEffect(() => {
+    selectedRef.current = selected;
+  }, [selected]);
+
+  useEffect(() => {
     window.addEventListener("mouseup", handleMouseUp);
     boardref.current.addEventListener("click", handleclick);
     return () => {
@@ -45,11 +56,9 @@ export const useDrawline = (boardref) => {
       }
     };
   }, []);
-  
-  
 
   const drawline = (e) => {
-    if (dragging || selectedplayer!=null) {
+    if (mode !== "draw" || dragging || selectedplayer != null || selected) {
       return;
     }
 
@@ -73,7 +82,13 @@ export const useDrawline = (boardref) => {
   };
 
   const handleclick = (e) => {
-    if (typeRef.current !== "polygon" || dragRef.current) return;
+    if (
+      modeRef.current !== "draw" ||
+      typeRef.current !== "polygon" ||
+      dragRef.current ||
+      selectedRef.current
+    )
+      return;
 
     const { x, y } = getPointerPosition(e, boardref);
     if (dragging) {
@@ -84,10 +99,14 @@ export const useDrawline = (boardref) => {
   };
 
   const handleMouseUp = (e) => {
+    if (selectedRef.current) {
+      setpolypoints([]);
+      setnextpointforpoly([]);
+    }
     const currentLine = lineRef.current;
     if (!currentLine) return;
-    console.log(currentLine)
-    setlines((prev) => [...prev, {line:currentLine}]);
+    console.log(currentLine);
+    setlines((prev) => [...prev, { line: currentLine }]);
     cleanline();
   };
 
