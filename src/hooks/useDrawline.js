@@ -57,7 +57,7 @@ export const useDrawline = (selected, boardref) => {
     };
   }, []);
 
-  const drawline = (e) => {
+  const drawline = (e) => { // mouse move handle
     if (mode !== "draw" || dragging || selectedplayer != null || selected) {
       return;
     }
@@ -68,6 +68,9 @@ export const useDrawline = (selected, boardref) => {
         return;
       }
       if (previewline == null) {
+        if (e.target.dataset.component !== "Board") {
+          return;
+        }
         setline({ x1: x, y1: y, x2: x, y2: y });
       } else {
         setline((prev) => ({ ...prev, x2: x, y2: y }));
@@ -87,11 +90,15 @@ export const useDrawline = (selected, boardref) => {
       typeRef.current !== "polygon" ||
       dragRef.current ||
       selectedRef.current
-    )
+    ) {
       return;
+    }
 
     const { x, y } = getPointerPosition(e, boardref);
     if (dragging) {
+      return;
+    }
+    if (polyRef.current.length == 0 && e.target.dataset.component !== "Board") {
       return;
     }
     const newPoints = [...polyRef.current, [x, y]];
@@ -99,10 +106,7 @@ export const useDrawline = (selected, boardref) => {
   };
 
   const handleMouseUp = (e) => {
-    if (selectedRef.current) {
-      setpolypoints([]);
-      setnextpointforpoly([]);
-    }
+
     const currentLine = lineRef.current;
     if (!currentLine) return;
     console.log(currentLine);
