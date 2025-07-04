@@ -44,8 +44,8 @@ function Polygon({
             key={index}
             cx={`${point[0]}%`}
             cy={`${point[1]}%`}
-            r="5"
-            fill="blue"
+            r="0.7%"
+            fill="black"
             cursor="pointer"
             onMouseDown={(event) => {
               if (previewpolygon()) {

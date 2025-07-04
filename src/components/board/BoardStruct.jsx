@@ -18,6 +18,7 @@ function BoardStruct({ boardref, players, setplayers }) {
     drawline,
     lines,
     setlines,
+    polygon,
   } = useDrawline(selected, boardref);
 
   const { DragType, Dragline } = useDrag(
@@ -60,13 +61,33 @@ function BoardStruct({ boardref, players, setplayers }) {
           />
         )}
         {previewpolygon() && (
-          <polygon
-            points={previewpolygon()}
-            style={{ cursor: "pointer" }}
-            stroke="black"
-            strokeWidth="0.5%"
-            strokeLinecap="round"
-          />
+          <g>
+            <polygon
+              points={previewpolygon()}
+              style={{ cursor: "pointer" }}
+              stroke="black"
+              strokeWidth="0.5%"
+              strokeLinecap="round"
+              fillOpacity={0.4}
+            />
+            {polygon &&
+              polygon.map((point, index) => {
+                return (
+                  <circle
+                    key={index}
+                    cx={`${point[0]}%`}
+                    cy={`${point[1]}%`}
+                    r="0.7%"
+                    fill="black"
+                    cursor="pointer"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      Stopdrawingpolygon(e)
+                    }}
+                  />
+                );
+              })}
+          </g>
         )}
         {lines.map((line, i) => (
           <Line

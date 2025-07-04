@@ -101,20 +101,29 @@ export const useDrawline = (selected, boardref) => {
     ) {
       return;
     }
+    console.log(e.target.dataset.component);
 
     const { x, y } = getPointerPosition(e, boardref);
     if (dragging) {
       return;
     }
+
     const newPoints = [...polyRef.current, [x, y]];
     setpolypoints(newPoints);
   };
+
+  const distance = (x1, y1, x2, y2) => Math.hypot(x2 - x1, y2 - y1);
 
   const handleMouseUp = (e) => {
     const currentLine = lineRef.current;
     if (!currentLine) return;
     console.log(currentLine);
-    setlines((prev) => [...prev, { line: currentLine }]);
+    const { x1, y1, x2, y2 } = currentLine;
+    var d = distance(x1, y1, x2, y2);
+    if (d > 1.2) {
+      setlines((prev) => [...prev, { line: currentLine }]);
+    }
+
     cleanline();
   };
 
@@ -153,8 +162,12 @@ export const useDrawline = (selected, boardref) => {
 
   const Stopdrawingpolygon = (e) => {
     e.preventDefault();
-    if (polygon.length > 2) {
-      setplygons((prev) => [...prev, { polygon: polygon }]);
+    const newpolygon = polygon;
+    if (e.type == "click") {
+      newpolygon.pop();
+    }
+    if (newpolygon.length > 2) {
+      setplygons((prev) => [...prev, { polygon: newpolygon }]);
     }
     ClearPolygon();
   };
@@ -174,5 +187,6 @@ export const useDrawline = (selected, boardref) => {
     drawline,
     lines,
     setlines,
+    polygon,
   };
 };

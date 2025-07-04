@@ -97,6 +97,7 @@ function PlayerOptions({ addplayer }) {
     ghost.style.fontSize = "1.5vw";
     ghost.style.pointerEvents = "none";
     ghost.textContent = option.number;
+    ghost.style.userSelect="none"
 
     document.body.appendChild(ghost);
     ghostRef.current = ghost;

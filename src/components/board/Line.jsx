@@ -14,16 +14,16 @@ function Marker({ line, previewpolygon, ResizeType, index }) {
       <circle
         cx={`${line.line.x1}%`}
         cy={`${line.line.y1}%`}
-        r="5.5"
-        fill="red"
+        r="0.7%"
+        fill="black"
         cursor="pointer"
         onMouseDown={(event) => MouseDownHandler(event, 1)}
       />
       <circle
         cx={`${line.line.x2}%`}
         cy={`${line.line.y2}%`}
-        r="5.5"
-        fill="red"
+        r="0.7%"
+        fill="black"
         cursor="pointer"
         onMouseDown={(event) => MouseDownHandler(event, 2)}
       />
