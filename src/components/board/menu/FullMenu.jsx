@@ -1,24 +1,14 @@
-import {
-  ArrowLeftFromLine,
-  ArrowRightFromLine,
-  CircleSmall,
-  LineSquiggle,
-  Minus,
-  Move,
-  Tally1,
-} from "lucide-react";
 import React from "react";
-import { DropMenu } from "../../index";
-import PlayerOptions from "./PlayerOptions";
+import { Hexagon, LineSquiggle, Minus, Move } from "lucide-react";
+
+import { DropMenu, PlayerOptions, EditOption } from "../../index";
 import { useDispatch, useSelector } from "react-redux";
-import { setmode } from "../../../store/boardslice";
-import { setdrawtype } from "../../../store/moveableslice";
-import { DropMenu2 } from "./DropMenu2";
+import { setdrawtype, setlinetype, setmode } from "../../../store/boardslice";
 
 function FullMenu({ addplayer }) {
   const dispatch = useDispatch();
   const mode = useSelector((state) => state.board.mode);
-
+  const drawtype = useSelector((state) => state.board.drawtype);
   const handleModeChange = (value) => {
     dispatch(setmode(value));
   };
@@ -27,105 +17,71 @@ function FullMenu({ addplayer }) {
     dispatch(setdrawtype(value));
   };
 
+  const handleLineType = (value) => {
+    dispatch(setlinetype(value));
+  };
   return (
-    <div className="w-full flex h-10">
+    <div className="w-full flex h-9">
       <PlayerOptions addplayer={addplayer} />
-
-      <DropMenu
-        placeholder={"Mode"}
-        label={"Features"}
-        options={[
-          {
-            value: "drag",
-            placeholder: (
-              <span className="flex select-none items-center gap-1">
-                <Move className="w-1/4 h-1/4" />
-                Drag
-              </span>
-            ),
-          },
-          {
-            value: "draw",
-            placeholder: (
-              <span className="flex select-none items-center gap-1">
-                <LineSquiggle className="w-1/4 h-1/4" />
-                Draw
-              </span>
-            ),
-          },
-        ]}
-        Default={"drag"}
-        onChange={handleModeChange}
-      />
-
-      <DropMenu
-        placeholder={"tool"}
-        label={"Element"}
-        options={[
-          {
-            value: "line",
-            placeholder: (
-              <span className="flex select-none items-center gap-1">
-                <Move className="w-1/4 h-1/4" />
-                Line
-              </span>
-            ),
-          },
-          {
-            value: "polygon",
-            placeholder: (
-              <span className="flex select-none items-center gap-1">
-                <LineSquiggle className="w-1/4 h-1/4" />
-                Polygon
-              </span>
-            ),
-          },
-        ]}
-        Default={"line"}
-        onChange={handleElementChange}
-      />
-
-      <DropMenu2
-        placeholder={"line-features"}
-        label={"Ends"}
-        options={[
-          {
-            value: "left-arrow",
-            placeholder: <ArrowLeftFromLine />,
-          },
-          {
-            value: "left-end",
-            placeholder: (
-              <span className=" ">
-                <CircleSmall className="w-2/3" />
-              </span>
-            ),
-          },
-        ]}
-        Default={"left-end"}
-        onChange={handleElementChange}
-      />
-
-      <DropMenu2
-        placeholder={"line-features"}
-        label={"ends"}
-        options={[
-          {
-            value: "right-arrow",
-            placeholder: <ArrowRightFromLine />,
-          },
-          {
-            value: "right-end",
-            placeholder: (
-              <span className=" ">
-                <CircleSmall className="w-2/3" />
-              </span>
-            ),
-          },
-        ]}
-        Default={"right-end"}
-        onChange={handleElementChange}
-      />
+      <div className="flex gap-2">
+        <DropMenu
+          placeholder={"Mode"}
+          label={"Features"}
+          options={[
+            {
+              value: "drag",
+              placeholder: (
+                <span className="flex select-none items-center gap-1">
+                  <Move className="w-1/4 h-1/4" />
+                  Drag
+                </span>
+              ),
+            },
+            {
+              value: "draw",
+              placeholder: (
+                <span className="flex select-none items-center gap-1">
+                  <LineSquiggle className="w-1/4 h-1/4" />
+                  Draw
+                </span>
+              ),
+            },
+          ]}
+          Default={"drag"}
+          onChange={handleModeChange}
+        />
+        {mode === "draw" && (
+          <DropMenu
+            placeholder={"tool"}
+            label={"Element"}
+            options={[
+              {
+                value: "line",
+                placeholder: (
+                  <span className="flex select-none items-center gap-0.5">
+                    <Minus className="w-1/2 h-1/4" />
+                    Line
+                  </span>
+                ),
+              },
+              {
+                value: "polygon",
+                placeholder: (
+                  <span className="flex select-none items-center gap-1">
+                    <Hexagon className="w-1/5 " />
+                    Polygon
+                  </span>
+                ),
+              },
+            ]}
+            Default={"line"}
+            onChange={handleElementChange}
+          />
+        )}
+        {drawtype === "line" && mode === "draw" && (
+          <EditOption handleLineType={handleLineType} />
+        )}
+      </div>
     </div>
   );
 }

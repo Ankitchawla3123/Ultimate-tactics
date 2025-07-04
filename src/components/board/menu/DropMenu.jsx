@@ -26,7 +26,7 @@ export function DropMenu({ placeholder, label, options, Default, onChange }) {
         setSelectedOption(value);
       }}
     >
-      <SelectTrigger className="w-auto px-3">
+      <SelectTrigger className="w-auto px-3 h-9">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

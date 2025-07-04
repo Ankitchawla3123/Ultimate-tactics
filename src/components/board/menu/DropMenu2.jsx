@@ -23,10 +23,11 @@ export function DropMenu2({ placeholder, label, options, Default, onChange }) {
   const selectedItem = options.find((opt) => opt.value === selectedoption);
   const displayText = selectedItem ? selectedItem.placeholder : placeholder;
 
+
   return (
     <DropdownMenu className="w-auto">
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="px-2 ">
+        <Button variant="ghost" className=" px-1 ">
           {displayText}
         </Button>
       </DropdownMenuTrigger>

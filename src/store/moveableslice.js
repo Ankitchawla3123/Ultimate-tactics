@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   drawing: false,
   dragging: false,
-  drawtype: "line",
 };
 
 const moveableslice = createSlice({
@@ -22,13 +21,10 @@ const moveableslice = createSlice({
     draggingon: (state) => {
       state.dragging = true;
     },
-    setdrawtype: (state, action) => {
-      state.drawtype = action.payload;
-    },
   },
 });
 
-export const { draggingoff, draggingon, drawingoff, drawingon, setdrawtype } =
+export const { draggingoff, draggingon, drawingoff, drawingon } =
   moveableslice.actions;
 
 export default moveableslice.reducer;

@@ -68,7 +68,6 @@ function PlayerOptions({ addplayer }) {
     const isDroppedOnBoard =
       elem?.closest?.('[data-component="Board"]') !== null;
     if (isDroppedOnBoard && selectedPlayerRef.current != null) {
-      // console.log(selectedPlayerRef.current);
       addplayer(e, selectedPlayerRef.current);
       dispatch(plusone(indexRef.current));
       indexRef.current = null;

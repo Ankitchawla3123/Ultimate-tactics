@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 export const useDrawline = (selected, boardref) => {
   const svg = boardref.current;
 
-  const drawtype = useSelector((state) => state.moveable.drawtype);
+  const drawtype = useSelector((state) => state.board.drawtype);
   const dragging = useSelector((state) => state.moveable.dragging);
   const mode = useSelector((state) => state.board.mode);
   const selectedplayer = useSelector((state) => state.player.selectedplayer);
