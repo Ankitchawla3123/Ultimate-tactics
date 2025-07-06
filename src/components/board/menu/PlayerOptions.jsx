@@ -40,7 +40,7 @@ function PlayerOptions({ addplayer }) {
     }
     const ev = e.type.startsWith("touch") ? e.touches[0] : e;
 
-    dispatch(addselectedplayer({ ...option, name: "" }));
+    dispatch(addselectedplayer({ ...option, name: "", type: "player" }));
     indexRef.current = index;
     createGhost(option, ev.clientX, ev.clientY);
   };
@@ -97,7 +97,7 @@ function PlayerOptions({ addplayer }) {
     ghost.style.fontSize = "1.5vw";
     ghost.style.pointerEvents = "none";
     ghost.textContent = option.number;
-    ghost.style.userSelect="none"
+    ghost.style.userSelect = "none";
 
     document.body.appendChild(ghost);
     ghostRef.current = ghost;

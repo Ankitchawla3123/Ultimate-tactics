@@ -6,7 +6,13 @@ import { Line, Polygon } from "../index";
 import { useResize } from "../../hooks/useResize";
 import Player from "./Player";
 
-function BoardStruct({ boardref, players, setplayers, UpdatePlayer }) {
+function BoardStruct({
+  boardref,
+  players,
+  setplayers,
+  UpdatePlayer,
+  DeletePlayer,
+}) {
   const [selected, setselected] = useState(false);
   const {
     polygonparser,
@@ -118,6 +124,8 @@ function BoardStruct({ boardref, players, setplayers, UpdatePlayer }) {
             player={player}
             DragType={DragType}
             index={index}
+            UpdatePlayer={UpdatePlayer}
+            DeletePlayer={DeletePlayer}
           />
         ))}
       </svg>

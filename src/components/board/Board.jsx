@@ -10,7 +10,8 @@ function Board() {
 
   const ref = useRef();
   const boardref = useRef(null);
-  const { players, setplayers, addplayer, UpdatePlayer } = usePlayer(boardref);
+  const { players, setplayers, addplayer, UpdatePlayer, DeletePlayer } =
+    usePlayer(boardref);
 
   const boardStyle = {
     width: "52vw",
@@ -35,6 +36,8 @@ function Board() {
               boardref={boardref}
               players={players}
               setplayers={setplayers}
+              UpdatePlayer={UpdatePlayer}
+              DeletePlayer={DeletePlayer}
             />
           </div>
         </div>

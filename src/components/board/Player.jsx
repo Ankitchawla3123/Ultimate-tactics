@@ -2,12 +2,25 @@ import React from "react";
 import { getNumberColor, getOuterRingColor } from "../../utils/getColor";
 import ItemsContextMenu from "../ItemsContextMenu";
 
-function Player({ player, DragType, index, setselected }) {
+function Player({
+  player,
+  DragType,
+  index,
+  setselected,
+  UpdatePlayer,
+  DeletePlayer,
+}) {
   const radius = 1.8;
   const fontSizeVW = radius * 0.46;
 
+  const Update = (data) => {
+    UpdatePlayer(data, index);
+  };
+  const Delete = () => {
+    DeletePlayer(index);
+  };
   return (
-    <ItemsContextMenu>
+    <ItemsContextMenu Item={player} Update={Update} Delete={Delete}>
       <g
         onDoubleClick={(e) => {
           e.stopPropagation();

@@ -18,16 +18,15 @@ export const usePlayer = (boardref) => {
     setplayers((prev) => [...prev, player]);
   };
   const UpdatePlayer = (data, i) => {
-    setplayers(
-      (prev) => prev,
-      map((player, index) => {
-        if (index == i) {
-          return { ...player, ...data };
-        }
-        return player;
-      })
+    setplayers((prev) =>
+      prev.map((player, index) =>
+        index === i ? { ...player, ...data } : player
+      )
     );
   };
+  const DeletePlayer = (i) => {
+    setplayers((prev) => prev.filter((_, index) => index !== i));
+  };
 
-  return { players, setplayers, addplayer, UpdatePlayer };
+  return { players, setplayers, addplayer, UpdatePlayer, DeletePlayer };
 };

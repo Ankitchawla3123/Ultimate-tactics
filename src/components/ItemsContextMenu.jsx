@@ -2,17 +2,9 @@ import { useState } from "react";
 
 import {
   ContextMenu,
-  ContextMenuCheckboxItem,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuRadioGroup,
-  ContextMenuRadioItem,
   ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { Input } from "@/components/ui/input";
@@ -20,65 +12,73 @@ import { Button } from "@/components/ui/button";
 
 export default function ItemsContextMenu({ children, Update, Delete, Item }) {
   const ContextMenutype = Item.type;
-
   const [name, setname] = useState(Item?.name || "");
   const [number, setnumber] = useState(Item?.number || "");
   const [color, setcolor] = useState(Item?.color || "");
 
-  useEffect(() => {
-    if (ContextMenu.type !== "player") {
-      Update(name);
-    }
-  }, [name, setname]);
+  const handleNameChange = (e) => {
+    const value = e.target.value;
+    setname(value);
+    Update({ name: value });
+  };
 
-  useEffect(() => {
-    if (ContextMenu.type !== "player") {
-      Update(number);
-    }
-  }, [number, setnumber]);
+  const handleNumberChange = (e) => {
+    const value = e.target.value;
+    const numberValue = parseInt(value, 10);
 
-  useEffect(() => {
-    Update(color);
-  }, [color, setcolor]);
+    if (value === "") {
+      setnumber("");
+    } else if (!isNaN(numberValue) && numberValue >= 0 && numberValue <= 99) {
+      const strVal = numberValue.toString();
+      setnumber(strVal);
+      Update({ number: strVal });
+    }
+  };
+
+  const handleColorChange = (e) => {
+    const value = e.target.value;
+    setcolor(value);
+  };
 
   const handleDelete = () => {
     Delete();
   };
 
+  const handleOpenChange = (open) => {
+    if (open) {
+      setname(Item?.name || "");
+      setnumber(Item?.number || "");
+      setcolor(Item?.color || "");
+    }
+  };
+
   return (
-    <ContextMenu>
+    <ContextMenu onOpenChange={handleOpenChange}>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
-      <ContextMenuContent className="w-44 sm:w-60 md:w-64 lg:w-68  text-xs sm:text-sm md:text-base">
+      <ContextMenuContent className="w-44 sm:w-60 md:w-64 lg:w-68 text-xs sm:text-sm md:text-base">
         {ContextMenutype === "player" && (
           <>
             <ContextMenuItem
-              onSelect={(e) => {
-                e.preventDefault();
-              }}
+              onSelect={(e) => e.preventDefault()}
               className="lg:h-12"
             >
               <Input
                 type="text"
                 value={name}
-                onChange={(e) => setname(e.target.value)}
+                onChange={handleNameChange}
                 onMouseDown={(e) => e.stopPropagation()}
                 onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
                 placeholder="Player name"
                 className="w-full bg-transparent outline-none text-xs sm:text-sm md:text-base px-2 py-1"
-                onKeyDown={(e) => e.stopPropagation()}
               />
             </ContextMenuItem>
 
-            <ContextMenuItem
-              onSelect={(e) => {
-                e.preventDefault();
-              }}
-              // className="flex flex-col gap-1 px-2 py-2"
-            >
+            <ContextMenuItem onSelect={(e) => e.preventDefault()}>
               <Input
                 type="number"
                 value={number}
-                onChange={(e) => setnumber(e.target.value)}
+                onChange={handleNumberChange}
                 placeholder="Player number"
                 className="w-full bg-transparent outline-none text-xs sm:text-sm md:text-base px-2 py-1"
                 onKeyDown={(e) => e.stopPropagation()}
@@ -86,20 +86,19 @@ export default function ItemsContextMenu({ children, Update, Delete, Item }) {
             </ContextMenuItem>
 
             <ContextMenuItem
-              onSelect={(e) => {
-                e.preventDefault();
-              }}
-              className="flex items-center gap-2 px-2 "
+              onSelect={(e) => e.preventDefault()}
+              className="flex items-center gap-2 px-2"
             >
               <Input
                 type="color"
                 value={color}
-                onChange={(e) => setcolor(e.target.value)}
-                className=" w-16 lg:w-20 p-0 "
+                onChange={handleColorChange}
+                className="w-16 lg:w-20 p-0"
               />
               <Button
+                onClick={() => Update({ color: color })}
                 variant="default"
-                className="text-xs sm:text-sm md:text-base px-2 "
+                className="text-xs sm:text-sm md:text-base px-2"
               >
                 Apply Color
               </Button>
@@ -111,38 +110,44 @@ export default function ItemsContextMenu({ children, Update, Delete, Item }) {
               <Button
                 onClick={handleDelete}
                 variant="destructive"
-                className="text-xs sm:text-sm md:text-base px-2 "
+                className="text-xs sm:text-sm md:text-base px-2"
               >
                 Remove Player
               </Button>
             </ContextMenuItem>
           </>
         )}
-
         {ContextMenutype === "shape" && (
           <>
-            <ContextMenuItem className="flex items-center gap-2 px-2 py-2">
-              <input
+            <ContextMenuItem
+              onSelect={(e) => e.preventDefault()}
+              className="flex items-center gap-2 px-2"
+            >
+              <Input
                 type="color"
-                value={shapeColor}
-                onChange={handleShapeColorChange}
-                className="w-10 h-8"
+                value={color}
+                onChange={handleColorChange}
+                className="w-16 lg:w-20 p-0"
               />
-              <button
-                onClick={applyShapeColor}
-                className="text-xs sm:text-sm md:text-base"
+              <Button
+                onClick={() => Update({ color: color })}
+                variant="default"
+                className="text-xs sm:text-sm md:text-base px-2"
               >
                 Apply Color
-              </button>
+              </Button>
             </ContextMenuItem>
 
             <ContextMenuSeparator />
 
-            <ContextMenuItem
-              onClick={removeShape}
-              className="text-xs sm:text-sm md:text-base px-2 py-2"
-            >
-              Remove Shape
+            <ContextMenuItem>
+              <Button
+                onClick={handleDelete}
+                variant="destructive"
+                className="text-xs sm:text-sm md:text-base px-2"
+              >
+                Remove Shape
+              </Button>
             </ContextMenuItem>
           </>
         )}
