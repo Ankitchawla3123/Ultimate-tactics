@@ -6,7 +6,7 @@ import { Line, Polygon } from "../index";
 import { useResize } from "../../hooks/useResize";
 import Player from "./Player";
 
-function BoardStruct({ boardref, players, setplayers }) {
+function BoardStruct({ boardref, players, setplayers, UpdatePlayer }) {
   const [selected, setselected] = useState(false);
   const {
     polygonparser,
@@ -81,8 +81,8 @@ function BoardStruct({ boardref, players, setplayers }) {
                     fill="black"
                     cursor="pointer"
                     onClick={(e) => {
-                      e.stopPropagation()
-                      Stopdrawingpolygon(e)
+                      e.stopPropagation();
+                      Stopdrawingpolygon(e);
                     }}
                   />
                 );

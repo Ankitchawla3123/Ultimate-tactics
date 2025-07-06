@@ -18,12 +18,32 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export default function ItemsContextMenu({ children, Update, Delete }) {
-  const [name, setname] = useState("");
-  const [number, setnumber] = useState("");
-  const [color, setcolor] = useState("#000000");
+export default function ItemsContextMenu({ children, Update, Delete, Item }) {
+  const ContextMenutype = Item.type;
 
-  const ContextMenutype = "player";
+  const [name, setname] = useState(Item?.name || "");
+  const [number, setnumber] = useState(Item?.number || "");
+  const [color, setcolor] = useState(Item?.color || "");
+
+  useEffect(() => {
+    if (ContextMenu.type !== "player") {
+      Update(name);
+    }
+  }, [name, setname]);
+
+  useEffect(() => {
+    if (ContextMenu.type !== "player") {
+      Update(number);
+    }
+  }, [number, setnumber]);
+
+  useEffect(() => {
+    Update(color);
+  }, [color, setcolor]);
+
+  const handleDelete = () => {
+    Delete();
+  };
 
   return (
     <ContextMenu>
@@ -35,7 +55,6 @@ export default function ItemsContextMenu({ children, Update, Delete }) {
               onSelect={(e) => {
                 e.preventDefault();
               }}
-              // className="flex flex-col gap-1 px-2 py-2"
               className="lg:h-12"
             >
               <Input
@@ -90,6 +109,7 @@ export default function ItemsContextMenu({ children, Update, Delete }) {
 
             <ContextMenuItem>
               <Button
+                onClick={handleDelete}
                 variant="destructive"
                 className="text-xs sm:text-sm md:text-base px-2 "
               >
