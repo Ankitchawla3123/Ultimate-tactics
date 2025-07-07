@@ -1,4 +1,4 @@
-const useShape = (setlines, setpolygons) => {
+export const useShape = (setlines, setpolygons) => {
   const UpdateShape = (shapeName, data, i) => {
     if (shapeName === "line") {
       setlines((prev) =>
@@ -17,7 +17,7 @@ const useShape = (setlines, setpolygons) => {
     if (shapeName === "line") {
       setlines((prev) => prev.filter((_, index) => index !== i));
     } else if (shapeName === "polygon") {
-      setlines((prev) => prev.filter((_, index) => index !== i));
+      setpolygons((prev) => prev.filter((_, index) => index !== i));
     }
   };
   return { UpdateShape, DeleteShape };

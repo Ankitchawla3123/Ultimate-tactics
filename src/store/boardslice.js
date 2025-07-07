@@ -7,6 +7,7 @@ const initialState = {
   LeftEnd: "left-end",
   RightEnd: "right-end",
   LineType: "plane",
+  color: "#000000",
 };
 
 const boardslice = createSlice({
@@ -31,9 +32,13 @@ const boardslice = createSlice({
         state.LineType = action.payload;
       }
     },
+    setcolor: (state, action) => {
+      state.color = action.payload;
+    },
   },
 });
 
-export const { togglerotation, setmode, setdrawtype, setlinetype } = boardslice.actions;
+export const { togglerotation, setmode, setdrawtype, setlinetype, setcolor } =
+  boardslice.actions;
 
 export default boardslice.reducer;

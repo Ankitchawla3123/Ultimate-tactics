@@ -9,6 +9,7 @@ export const useDrawline = (selected, boardref) => {
   const dragging = useSelector((state) => state.moveable.dragging);
   const mode = useSelector((state) => state.board.mode);
   const selectedplayer = useSelector((state) => state.player.selectedplayer);
+  const color = useSelector((state) => state.board.color);
 
   const [previewline, setline] = useState(null);
   const [lines, setlines] = useState([]);
@@ -23,6 +24,7 @@ export const useDrawline = (selected, boardref) => {
   const dragRef = useRef(dragging);
   const modeRef = useRef(mode);
   const selectedRef = useRef(selected);
+  const colorRef = useRef(color);
 
   useEffect(() => {
     polyRef.current = polygon;
@@ -48,9 +50,14 @@ export const useDrawline = (selected, boardref) => {
     selectedRef.current = selected;
   }, [selected]);
 
+  // clear drawing polygon if clicked on menu or somewhere
   useEffect(() => {
     ClearPolygon();
-  }, [drawtype, mode, selectedplayer]);
+  }, [drawtype, mode, selectedplayer, color]);
+
+  useEffect(() => {
+    colorRef.current = color;
+  }, [color]);
 
   useEffect(() => {
     window.addEventListener("mouseup", handleMouseUp);
@@ -123,6 +130,7 @@ export const useDrawline = (selected, boardref) => {
         ...prev,
         {
           metadata: { type: "shape", name: "line" },
+          color: colorRef.current,
           line: currentLine,
         },
       ]);
@@ -173,7 +181,11 @@ export const useDrawline = (selected, boardref) => {
     if (newpolygon.length > 2) {
       setpolygons((prev) => [
         ...prev,
-        { metadata: { type: "shape", name: "polygon" }, polygon: newpolygon },
+        {
+          metadata: { type: "shape", name: "polygon" },
+          color: colorRef.current,
+          polygon: newpolygon,
+        },
       ]);
     }
     ClearPolygon();

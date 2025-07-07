@@ -1,7 +1,7 @@
 import React from "react";
 import { Hexagon, LineSquiggle, Minus, Move } from "lucide-react";
 
-import { DropMenu, PlayerOptions, EditOption } from "../../index";
+import { DropMenu, PlayerOptions, EditOption, ColorInput } from "../../index";
 import { useDispatch, useSelector } from "react-redux";
 import { setdrawtype, setlinetype, setmode } from "../../../store/boardslice";
 
@@ -81,6 +81,7 @@ function FullMenu({ addplayer }) {
         {drawtype === "line" && mode === "draw" && (
           <EditOption handleLineType={handleLineType} />
         )}
+        {mode === "draw" && <ColorInput />}
       </div>
     </div>
   );

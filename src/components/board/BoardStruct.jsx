@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { getPointerPosition } from "../../utils/getPointerPosition";
 import { useDrawline } from "../../hooks/useDrawline";
 import { useDrag } from "../../hooks/useDrag";
 import { Line, Polygon } from "../index";
 import { useResize } from "../../hooks/useResize";
 import Player from "./Player";
+import { useSelector } from "react-redux";
+import { useShape } from "../../hooks/useShape";
 
 function BoardStruct({
   boardref,
@@ -36,6 +37,9 @@ function BoardStruct({
     boardref
   );
   const { Resize, ResizeType } = useResize(setpolygons, setlines, boardref);
+  const { UpdateShape, DeleteShape } = useShape(setlines, setpolygons);
+
+  const color = useSelector((state) => state.board.color);
 
   const mouseMoveHandler = (e) => {
     drawline(e);
@@ -61,7 +65,7 @@ function BoardStruct({
             x2={`${previewline.x2}%`}
             y2={`${previewline.y2}%`}
             style={{ cursor: "pointer" }}
-            stroke="black"
+            stroke={color}
             strokeWidth="0.5%"
             strokeLinecap="round"
           />
@@ -71,7 +75,8 @@ function BoardStruct({
             <polygon
               points={previewpolygon()}
               style={{ cursor: "pointer" }}
-              stroke="black"
+              stroke={color}
+              fill={color}
               strokeWidth="0.5%"
               strokeLinecap="round"
               fillOpacity={0.4}
@@ -84,7 +89,7 @@ function BoardStruct({
                     cx={`${point[0]}%`}
                     cy={`${point[1]}%`}
                     r="0.7%"
-                    fill="black"
+                    fill={color}
                     cursor="pointer"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -97,6 +102,8 @@ function BoardStruct({
         )}
         {lines.map((line, i) => (
           <Line
+            UpdateShape={UpdateShape}
+            DeleteShape={DeleteShape}
             key={i}
             index={i}
             line={line}
@@ -108,6 +115,8 @@ function BoardStruct({
 
         {polygons.map((polygon, i) => (
           <Polygon
+            UpdateShape={UpdateShape}
+            DeleteShape={DeleteShape}
             key={i}
             polygon={polygon}
             polygonparser={polygonparser}

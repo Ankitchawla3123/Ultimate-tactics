@@ -10,7 +10,8 @@ function Polygon({
   i,
   polygonparser,
   ResizeType,
-  
+  UpdateShape,
+  DeleteShape,
 }) {
   const [resizeTrigger, setResizeTrigger] = useState(0);
   useEffect(() => {
@@ -22,13 +23,21 @@ function Polygon({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const Update = (data) => {
+    UpdateShape("polygon", data, i);
+  };
+
+  const Delete = () => {
+    DeleteShape("polygon", i);
+  };
+
   return (
-    <ItemsContextMenu>
+    <ItemsContextMenu Update={Update} Delete={Delete} Item={polygon}>
       <g>
         <polygon
           points={polygonparser(polygon.polygon)}
           style={{ cursor: "pointer", zIndex: "20" }}
-          stroke="black"
+          stroke={polygon.color}
           strokeWidth="0.5%"
           strokeLinecap="round"
           onMouseDown={(e) => {
@@ -38,7 +47,7 @@ function Polygon({
             e.stopPropagation();
             DragType(e, i, "Polygon");
           }}
-          fill="black"
+          fill={polygon.color}
           fillOpacity={0.4}
         />
         {polygon.polygon.map((point, index) => {
@@ -48,7 +57,7 @@ function Polygon({
               cx={`${point[0]}%`}
               cy={`${point[1]}%`}
               r="0.7%"
-              fill="black"
+              fill={polygon.color}
               cursor="pointer"
               onMouseDown={(event) => {
                 if (previewpolygon()) {
