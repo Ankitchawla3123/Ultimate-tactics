@@ -18,7 +18,7 @@ function BoardStruct({
     polygonparser,
     polygons,
     Stopdrawingpolygon,
-    setplygons,
+    setpolygons,
     previewpolygon,
     previewline,
     drawline,
@@ -28,14 +28,14 @@ function BoardStruct({
   } = useDrawline(selected, boardref);
 
   const { DragType, Dragline } = useDrag(
-    setplygons,
+    setpolygons,
     setlines,
     setplayers,
     setselected,
     previewpolygon,
     boardref
   );
-  const { Resize, ResizeType } = useResize(setplygons, setlines, boardref);
+  const { Resize, ResizeType } = useResize(setpolygons, setlines, boardref);
 
   const mouseMoveHandler = (e) => {
     drawline(e);

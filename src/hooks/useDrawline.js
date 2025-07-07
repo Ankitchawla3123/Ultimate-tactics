@@ -15,7 +15,7 @@ export const useDrawline = (selected, boardref) => {
   const lineRef = useRef(previewline);
 
   const [polygon, setpolypoints] = useState([]);
-  const [polygons, setplygons] = useState([]);
+  const [polygons, setpolygons] = useState([]);
   const [nextpointforpoly, setnextpointforpoly] = useState([]);
 
   const typeRef = useRef(drawtype);
@@ -101,7 +101,6 @@ export const useDrawline = (selected, boardref) => {
     ) {
       return;
     }
-    console.log(e.target.dataset.component);
 
     const { x, y } = getPointerPosition(e, boardref);
     if (dragging) {
@@ -117,11 +116,16 @@ export const useDrawline = (selected, boardref) => {
   const handleMouseUp = (e) => {
     const currentLine = lineRef.current;
     if (!currentLine) return;
-    console.log(currentLine);
     const { x1, y1, x2, y2 } = currentLine;
     var d = distance(x1, y1, x2, y2);
     if (d > 1.2) {
-      setlines((prev) => [...prev, { line: currentLine }]);
+      setlines((prev) => [
+        ...prev,
+        {
+          metadata: { type: "shape", name: "line" },
+          line: currentLine,
+        },
+      ]);
     }
 
     cleanline();
@@ -167,7 +171,10 @@ export const useDrawline = (selected, boardref) => {
       newpolygon.pop();
     }
     if (newpolygon.length > 2) {
-      setplygons((prev) => [...prev, { polygon: newpolygon }]);
+      setpolygons((prev) => [
+        ...prev,
+        { metadata: { type: "shape", name: "polygon" }, polygon: newpolygon },
+      ]);
     }
     ClearPolygon();
   };
@@ -180,7 +187,7 @@ export const useDrawline = (selected, boardref) => {
   return {
     Stopdrawingpolygon,
     polygonparser,
-    setplygons,
+    setpolygons,
     polygons,
     previewpolygon,
     previewline,

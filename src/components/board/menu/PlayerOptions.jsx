@@ -40,7 +40,13 @@ function PlayerOptions({ addplayer }) {
     }
     const ev = e.type.startsWith("touch") ? e.touches[0] : e;
 
-    dispatch(addselectedplayer({ ...option, name: "", type: "player" }));
+    dispatch(
+      addselectedplayer({
+        ...option,
+        name: "",
+        metadata: { type: "player", name: "player" },
+      })
+    );
     indexRef.current = index;
     createGhost(option, ev.clientX, ev.clientY);
   };

@@ -1,6 +1,6 @@
 import React from "react";
 import { getNumberColor, getOuterRingColor } from "../../utils/getColor";
-import ItemsContextMenu from "../ItemsContextMenu";
+import { ItemsContextMenu } from "../index";
 
 function Player({
   player,

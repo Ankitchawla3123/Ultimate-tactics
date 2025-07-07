@@ -9,7 +9,7 @@ import PlayerOptions from "./board/menu/PlayerOptions";
 import Polygon from "./board/Polygon";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
-
+import ItemsContextMenu from "./ItemsContextMenu";
 export {
   Board,
   BoardStruct,
@@ -22,4 +22,5 @@ export {
   PlayerOptions,
   DropMenu2,
   EditOption,
+  ItemsContextMenu,
 };

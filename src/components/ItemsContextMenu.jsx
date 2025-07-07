@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export default function ItemsContextMenu({ children, Update, Delete, Item }) {
-  const ContextMenutype = Item.type;
+  const ContextMenutype = Item.metadata.type;
   const [name, setname] = useState(Item?.name || "");
   const [number, setnumber] = useState(Item?.number || "");
   const [color, setcolor] = useState(Item?.color || "");
