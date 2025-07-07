@@ -68,11 +68,7 @@ function Line({
 
   return (
     <ItemsContextMenu Update={Update} Delete={Delete} Item={line}>
-      <g
-        onMouseDown={(e) => {
-          DragType(e, index, "Line");
-        }}
-      >
+      <g>
         <line // extra area for touch
           x1={`${line.line.x1}%`}
           y1={`${line.line.y1}%`}
@@ -92,6 +88,9 @@ function Line({
           stroke={line.color}
           strokeWidth="0.5%"
           strokeLinecap="round"
+          onMouseDown={(e) => {
+            DragType(e, index, "Line");
+          }}
         />
         <Marker
           line={line}
