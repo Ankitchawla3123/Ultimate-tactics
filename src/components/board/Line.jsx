@@ -3,31 +3,48 @@ import { ItemsContextMenu } from "../index";
 
 function Marker({ line, previewpolygon, ResizeType, index }) {
   const MouseDownHandler = (event, i) => {
-    if (previewpolygon()) {
-      return;
-    }
+    if (previewpolygon()) return;
     event.stopPropagation();
     ResizeType(event, "Line", index, i);
   };
 
   return (
     <g>
-      <circle
-        cx={`${line.line.x1}%`}
-        cy={`${line.line.y1}%`}
-        r="0.7%"
-        fill={line.color}
-        cursor="pointer"
-        onMouseDown={(event) => MouseDownHandler(event, 1)}
-      />
-      <circle
-        cx={`${line.line.x2}%`}
-        cy={`${line.line.y2}%`}
-        r="0.7%"
-        fill={line.color}
-        cursor="pointer"
-        onMouseDown={(event) => MouseDownHandler(event, 2)}
-      />
+      <>
+        <circle
+          cx={`${line.line.x1}%`}
+          cy={`${line.line.y1}%`}
+          r="5%"
+          fill="transparent"
+          onTouchStart={(event) => MouseDownHandler(event, 1)}
+        />
+        <circle
+          cx={`${line.line.x1}%`}
+          cy={`${line.line.y1}%`}
+          r="0.7%"
+          fill={line.color}
+          cursor="pointer"
+          onMouseDown={(event) => MouseDownHandler(event, 1)}
+        />
+      </>
+
+      <>
+        <circle
+          cx={`${line.line.x2}%`}
+          cy={`${line.line.y2}%`}
+          r="5%"
+          fill="transparent"
+          onTouchStart={(event) => MouseDownHandler(event, 2)}
+        />
+        <circle
+          cx={`${line.line.x2}%`}
+          cy={`${line.line.y2}%`}
+          r="0.7%"
+          fill={line.color}
+          cursor="pointer"
+          onMouseDown={(event) => MouseDownHandler(event, 2)}
+        />
+      </>
     </g>
   );
 }
@@ -62,7 +79,7 @@ function Line({
           x2={`${line.line.x2}%`}
           y2={`${line.line.y2}%`}
           stroke="transparent"
-          strokeWidth="7%" 
+          strokeWidth="7%"
           onTouchStart={(e) => DragType(e, index, "Line")}
         />
 

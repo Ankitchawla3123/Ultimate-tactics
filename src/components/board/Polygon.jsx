@@ -57,25 +57,34 @@ function Polygon({
           fill={polygon.color}
           fillOpacity={0.4}
         />
-        {polygon.polygon.map((point, index) => {
-          return (
+        {polygon.polygon.map((point, index) => (
+          <React.Fragment key={index}>
             <circle
-              key={index}
+              cx={`${point[0]}%`}
+              cy={`${point[1]}%`}
+              r="5%"
+              fill="transparent"
+              onTouchStart={(event) => {
+                if (previewpolygon()) return;
+                event.stopPropagation();
+                ResizeType(event, "Polygon", i, index);
+              }}
+            />
+
+            <circle
               cx={`${point[0]}%`}
               cy={`${point[1]}%`}
               r="0.7%"
               fill={polygon.color}
               cursor="pointer"
               onMouseDown={(event) => {
-                if (previewpolygon()) {
-                  return;
-                }
+                if (previewpolygon()) return;
                 event.stopPropagation();
                 ResizeType(event, "Polygon", i, index);
               }}
             />
-          );
-        })}
+          </React.Fragment>
+        ))}
       </g>
     </ItemsContextMenu>
   );

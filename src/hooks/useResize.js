@@ -15,7 +15,11 @@ export const useResize = (setpolygons, setlines, boardref) => {
 
   useEffect(() => {
     window.addEventListener("mouseup", handleMouseUp);
-    return () => window.removeEventListener("mouseup", handleMouseUp);
+    window.addEventListener("touchend", handleMouseUp);
+    return () => {
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("touchend", handleMouseUp);
+    };
   }, []);
 
   const ResizeType = (e, element, elementindex, pointindex) => {
@@ -32,9 +36,9 @@ export const useResize = (setpolygons, setlines, boardref) => {
   };
 
   const Resize = (e) => {
-    if (e.buttons !== 1 || SelectedElement == null) {
-      return;
-    }
+    const isTouch = e.type.startsWith("touch");
+    if (!isTouch && e.buttons !== 1) return;
+    if (SelectedElement == null) return;
     const { x, y } = getPointerPosition(e, boardref);
 
     if (SelectedElement.element === "Line") {

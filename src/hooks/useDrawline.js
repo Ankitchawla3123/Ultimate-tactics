@@ -77,13 +77,12 @@ export const useDrawline = (selected, boardref) => {
       return;
     }
 
-    const isTouchEvent = e.type.startsWith("touch");
-    if (!isTouchEvent && e.buttons !== 1) {
-      return;
-    }
-
     const { x, y } = getPointerPosition(e, boardref);
     if (drawtype === "line") {
+      const isTouchEvent = e.type.startsWith("touch");
+      if (!isTouchEvent && e.buttons !== 1) {
+        return;
+      }
       if (previewline == null) {
         if (e.target.dataset.component !== "Board") {
           return;
