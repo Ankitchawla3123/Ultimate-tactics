@@ -47,6 +47,13 @@ function Polygon({
             e.stopPropagation();
             DragType(e, i, "Polygon");
           }}
+          onTouchStart={(e) => {
+            if (previewpolygon()) {
+              return;
+            }
+            e.stopPropagation();
+            DragType(e, i, "Polygon");
+          }}
           fill={polygon.color}
           fillOpacity={0.4}
         />

@@ -55,6 +55,7 @@ function BoardStruct({
         width="100%"
         height="100%"
         onMouseMove={(e) => mouseMoveHandler(e)}
+        onTouchMove={(e) => mouseMoveHandler(e)}
         onContextMenu={(e) => Stopdrawingpolygon(e)}
         onDoubleClick={(e) => e.preventDefault()}
       >

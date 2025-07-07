@@ -60,9 +60,11 @@ export const useDrawline = (selected, boardref) => {
   }, [color]);
 
   useEffect(() => {
+    window.addEventListener("touchend", handleMouseUp);
     window.addEventListener("mouseup", handleMouseUp);
     boardref.current.addEventListener("click", handleclick);
     return () => {
+      window.removeEventListener("touchend", handleMouseUp);
       window.removeEventListener("mouseup", handleMouseUp);
       if (boardref.current) {
         boardref.current.removeEventListener("click", handleclick);
@@ -71,16 +73,17 @@ export const useDrawline = (selected, boardref) => {
   }, []);
 
   const drawline = (e) => {
-    // mouse move handle
     if (mode !== "draw" || dragging || selectedplayer != null || selected) {
+      return;
+    }
+
+    const isTouchEvent = e.type.startsWith("touch");
+    if (!isTouchEvent && e.buttons !== 1) {
       return;
     }
 
     const { x, y } = getPointerPosition(e, boardref);
     if (drawtype === "line") {
-      if (e.buttons !== 1) {
-        return;
-      }
       if (previewline == null) {
         if (e.target.dataset.component !== "Board") {
           return;

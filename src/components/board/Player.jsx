@@ -34,6 +34,10 @@ function Player({
           setselected(true);
           DragType(e, index, "Player");
         }}
+        onTouchStart={(e) => {
+          setselected(true);
+          DragType(e, index, "Player");
+        }}
         style={{ cursor: "pointer" }}
       >
         <circle

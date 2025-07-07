@@ -51,7 +51,21 @@ function Line({
 
   return (
     <ItemsContextMenu Update={Update} Delete={Delete} Item={line}>
-      <g>
+      <g
+        onMouseDown={(e) => {
+          DragType(e, index, "Line");
+        }}
+      >
+        <line // extra area for touch
+          x1={`${line.line.x1}%`}
+          y1={`${line.line.y1}%`}
+          x2={`${line.line.x2}%`}
+          y2={`${line.line.y2}%`}
+          stroke="transparent"
+          strokeWidth="7%" 
+          onTouchStart={(e) => DragType(e, index, "Line")}
+        />
+
         <line
           x1={`${line.line.x1}%`}
           y1={`${line.line.y1}%`}
@@ -61,9 +75,6 @@ function Line({
           stroke={line.color}
           strokeWidth="0.5%"
           strokeLinecap="round"
-          onMouseDown={(e) => {
-            DragType(e, index, "Line");
-          }}
         />
         <Marker
           line={line}

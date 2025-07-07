@@ -23,8 +23,12 @@ export const useDrag = (
   }, [dragging]);
 
   useEffect(() => {
+    window.addEventListener("touchend", handleMouseUp);
     window.addEventListener("mouseup", handleMouseUp);
-    return () => window.removeEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("touchend", handleMouseUp);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
   }, []);
 
   const DragType = (e, i, element) => {
@@ -45,9 +49,10 @@ export const useDrag = (
   };
 
   const Dragline = (e) => {
-    if (e.buttons !== 1 || SelectedElement == null) {
-      return;
-    }
+    const isTouch = e.type.startsWith("touch");
+    if (!isTouch && e.buttons !== 1) return;
+    if (SelectedElement == null) return;
+
     const { x, y } = getPointerPosition(e, boardref);
     const deltaX = x - start.x;
     const deltaY = y - start.y;
