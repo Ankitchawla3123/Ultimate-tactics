@@ -101,18 +101,6 @@ function BoardStruct({
               })}
           </g>
         )}
-        {lines.map((line, i) => (
-          <Line
-            UpdateShape={UpdateShape}
-            DeleteShape={DeleteShape}
-            key={i}
-            index={i}
-            line={line}
-            DragType={DragType}
-            ResizeType={ResizeType}
-            previewpolygon={previewpolygon}
-          />
-        ))}
 
         {polygons.map((polygon, i) => (
           <Polygon
@@ -125,6 +113,18 @@ function BoardStruct({
             DragType={DragType}
             ResizeType={ResizeType}
             i={i}
+          />
+        ))}
+        {lines.map((line, i) => (
+          <Line
+            UpdateShape={UpdateShape}
+            DeleteShape={DeleteShape}
+            key={i}
+            index={i}
+            line={line}
+            DragType={DragType}
+            ResizeType={ResizeType}
+            previewpolygon={previewpolygon}
           />
         ))}
         {players.map((player, index) => (

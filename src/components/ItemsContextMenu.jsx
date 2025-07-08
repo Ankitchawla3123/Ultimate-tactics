@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/context-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
 
 export default function ItemsContextMenu({ children, Update, Delete, Item }) {
   const ContextMenutype = Item.metadata.type;
@@ -52,6 +53,10 @@ export default function ItemsContextMenu({ children, Update, Delete, Item }) {
     }
   };
 
+  const disabled = useSelector((state) => state.moveable.polygondrawn);
+  if (disabled) {
+    return <>{children}</>;
+  }
   return (
     <ContextMenu onOpenChange={handleOpenChange}>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>

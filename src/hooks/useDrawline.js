@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { getPointerPosition } from "../utils/getPointerPosition";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { col } from "motion/react-client";
+import { setpolydrawn } from "../store/moveableslice";
 
 export const useDrawline = (selected, boardref) => {
   const svg = boardref.current;
+  
+  const dispatch = useDispatch();
 
   const drawtype = useSelector((state) => state.board.drawtype);
   const dragging = useSelector((state) => state.moveable.dragging);
@@ -14,6 +17,7 @@ export const useDrawline = (selected, boardref) => {
   const leftend = useSelector((state) => state.board.LeftEnd);
   const rightend = useSelector((state) => state.board.RightEnd);
   const linetype = useSelector((state) => state.board.LineType);
+  const polygondrawn = useSelector((state) => state.moveable.dragging);
 
   const [previewline, setline] = useState(null);
   const [lines, setlines] = useState([]);
@@ -37,6 +41,11 @@ export const useDrawline = (selected, boardref) => {
 
   useEffect(() => {
     polyRef.current = polygon;
+    if (polygon.length == 0) {
+      dispatch(setpolydrawn(false));
+    } else if (polygondrawn == false) {
+      dispatch(setpolydrawn(true));
+    }
   }, [polygon]);
 
   useEffect(() => {
