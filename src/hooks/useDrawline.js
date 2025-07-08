@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getPointerPosition } from "../utils/getPointerPosition";
 import { useSelector } from "react-redux";
+import { col } from "motion/react-client";
 
 export const useDrawline = (selected, boardref) => {
   const svg = boardref.current;
@@ -10,6 +11,9 @@ export const useDrawline = (selected, boardref) => {
   const mode = useSelector((state) => state.board.mode);
   const selectedplayer = useSelector((state) => state.player.selectedplayer);
   const color = useSelector((state) => state.board.color);
+  const leftend = useSelector((state) => state.board.LeftEnd);
+  const rightend = useSelector((state) => state.board.RightEnd);
+  const linetype = useSelector((state) => state.board.LineType);
 
   const [previewline, setline] = useState(null);
   const [lines, setlines] = useState([]);
@@ -25,6 +29,11 @@ export const useDrawline = (selected, boardref) => {
   const modeRef = useRef(mode);
   const selectedRef = useRef(selected);
   const colorRef = useRef(color);
+  const linetyperef = useRef({
+    leftend: leftend,
+    rightend: rightend,
+    linetype: linetype,
+  });
 
   useEffect(() => {
     polyRef.current = polygon;
@@ -58,6 +67,14 @@ export const useDrawline = (selected, boardref) => {
   useEffect(() => {
     colorRef.current = color;
   }, [color]);
+
+  useEffect(() => {
+    linetyperef.current = {
+      leftend,
+      rightend,
+      linetype,
+    };
+  }, [leftend, rightend, linetype]);
 
   useEffect(() => {
     window.addEventListener("touchend", handleMouseUp);
@@ -128,12 +145,17 @@ export const useDrawline = (selected, boardref) => {
     const { x1, y1, x2, y2 } = currentLine;
     var d = distance(x1, y1, x2, y2);
     if (d > 1.2) {
+      const { leftend, rightend, linetype } = linetyperef.current;
+
       setlines((prev) => [
         ...prev,
         {
           metadata: { type: "shape", name: "line" },
           color: colorRef.current,
           line: currentLine,
+          leftend: leftend,
+          rightend: rightend,
+          linetype: linetype,
         },
       ]);
     }
