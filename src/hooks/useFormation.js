@@ -15,8 +15,10 @@ export const useFormation = (setplayers) => {
   const setformation = (value) => {
     const formation = value.split("").map((val) => parseInt(val));
     const length = formation.length;
-    const xstart = 5.5;
-    const ystart = 5; // 9.78
+    const xstart = length <= 3 ? 5 : 10;
+    const ystart = 0; // 9.78
+    const xgap = (46 - 10) / length;
+
     formation.forEach((element, index) => {
       const ygap = (100 - ystart - ystart) / (element + 1);
       for (let i = 1; i <= element; i++) {
@@ -25,7 +27,7 @@ export const useFormation = (setplayers) => {
           color: "#FFFFFF",
           name: "",
           metadata: { type: "player", name: "player" },
-          x: (index + 1) * 10,
+          x: xstart + (index + 1) * xgap,
           y: ystart + ygap * i,
         };
         setplayers((prev) => [...prev, player]);
