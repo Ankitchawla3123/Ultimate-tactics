@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DropMenu } from "./menu/DropMenu";
 import FullMenu from "./menu/FullMenu";
 import { usePlayer } from "../../hooks/usePlayer";
+import { useFormation } from "../../hooks/useFormation";
 
 function Board() {
   const isVertical = useSelector((state) => state.board.vertical); // true = portrait
@@ -13,6 +14,7 @@ function Board() {
   const { players, setplayers, addplayer, UpdatePlayer, DeletePlayer } =
     usePlayer(boardref);
 
+  const { setformation } = useFormation(setplayers);
   const boardStyle = {
     width: "52vw",
     height: "auto",
@@ -43,6 +45,7 @@ function Board() {
         </div>
         <div className="z-20">
           <FullMenu addplayer={addplayer} />
+          <button onClick={() => setformation("783")}>add formation</button>
         </div>
       </div>
     </div>
