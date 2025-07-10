@@ -29,14 +29,14 @@ export function FormationDialogue() {
           <DialogHeader>
             <DialogTitle>Add a formation</DialogTitle>
             <DialogDescription>
-              Set up your formation. Make sure the total number of players is
-              exactly 10.
+              Whether it’s 4-3-3 or your own custom style, set your formation
+              your way.
             </DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-4">
+          <div className="grid gap-5">
             {/* LEFT HALF */}
-            <div className="grid gap-3">
+            <div className="grid gap-2">
               <Label>LEFT HALF</Label>
               <OTPInput />
             </div>
@@ -55,7 +55,7 @@ export function FormationDialogue() {
 
             {/* CONDITIONAL RIGHT HALF */}
             {showRightHalf && (
-              <div className="grid gap-3">
+              <div className="grid gap-2">
                 <Label>RIGHT HALF</Label>
                 <OTPInput />
               </div>
