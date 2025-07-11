@@ -18,14 +18,43 @@ import { OTPInput } from "./OTPinput";
 
 export function FormationDialogue() {
   const [showRightHalf, setShowRightHalf] = useState(false);
+  const [LeftHalf, setLeftHalf] = useState("");
+  const [RightHalf, setRightHalf] = useState("");
+  const [leftValid, setleftValid] = useState(false);
+  const [rightValid, setrightValid] = useState(false);
+
+  const reset = () => {
+    setLeftHalf("");
+    setRightHalf("");
+    setleftValid(false);
+    setrightValid(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!leftValid || (showRightHalf && !rightValid)) {
+      alert("Please complete a valid formation.");
+      return;
+    }
+
+    const finalFormation = {
+      left: LeftHalf,
+      right: showRightHalf ? RightHalf : null,
+    };
+
+    reset();
+    console.log("✅ Submitted Formation:", finalFormation);
+  };
 
   return (
-    <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <Button variant="outline">Open Dialog</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+    <Dialog onOpenChange={reset}>
+      <DialogTrigger asChild>
+        <Button variant="outline">Open Dialog</Button>
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-[425px]">
+        <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Add a formation</DialogTitle>
             <DialogDescription>
@@ -35,41 +64,52 @@ export function FormationDialogue() {
           </DialogHeader>
 
           <div className="grid gap-5">
-            {/* LEFT HALF */}
             <div className="grid gap-2">
               <Label>LEFT HALF</Label>
-              <OTPInput />
+              <OTPInput setValid={setleftValid} setVal={setLeftHalf} />
             </div>
 
-            {/* CHECKBOX */}
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="right-half"
                 checked={showRightHalf}
-                onCheckedChange={(checked) =>
-                  setShowRightHalf(Boolean(checked))
-                }
+                onCheckedChange={(checked) => {
+                  const isChecked = Boolean(checked);
+                  setShowRightHalf(isChecked);
+                  if (!isChecked) {
+                    setRightHalf("");
+                    setrightValid(false);
+                  }
+                }}
               />
               <Label htmlFor="right-half">Setup RIGHT HALF?</Label>
             </div>
 
-            {/* CONDITIONAL RIGHT HALF */}
             {showRightHalf && (
               <div className="grid gap-2">
                 <Label>RIGHT HALF</Label>
-                <OTPInput />
+                <OTPInput setValid={setrightValid} setVal={setRightHalf} />
               </div>
             )}
           </div>
 
-          <DialogFooter>
+          <DialogFooter className="mt-4">
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button onClick={reset} variant="outline" type="button">
+                Cancel
+              </Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <DialogClose asChild>
+              <Button
+                type="submit"
+                disabled={!leftValid || (showRightHalf && !rightValid)}
+              >
+                Save changes
+              </Button>
+            </DialogClose>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }

@@ -8,7 +8,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
-export function OTPInput() {
+export function OTPInput({ setVal, setValid }) {
   const MAX_LENGTH = 6;
   const MIN_SLOTS = 2;
   const [value, setValue] = React.useState("");
@@ -22,28 +22,36 @@ export function OTPInput() {
     [...val].reduce((sum, digit) => sum + parseInt(digit, 10), 0);
 
   const handleChange = (newVal) => {
+    const currentSum = computeSum(value);
+    if (currentSum === 10 && newVal.length > value.length) {
+      return;
+    }
+
     const digits = [...newVal].filter((char) => isDigit(char));
+    const joinedDigits = digits.join("");
     const currentLength = digits.length;
-    const sum = computeSum(digits.join(""));
+    const sum = computeSum(joinedDigits);
     const isValid = sum === 10;
 
     if (sum > 10) {
       setError("Only 10 players could be set");
+      setValid(false);
       return;
     }
-
-    if (currentLength > visibleSlots) return;
 
     if (isValid) {
       setVisibleSlots(currentLength);
       setError("");
+      setValid(true);
     } else {
       const newVisible = Math.min(currentLength + 1, MAX_LENGTH);
       setVisibleSlots(Math.max(newVisible, MIN_SLOTS));
       setError("Only 10 players could be set");
+      setValid(false);
     }
 
-    setValue(digits.join(""));
+    setValue(joinedDigits);
+    setVal(joinedDigits);
   };
 
   return (
