@@ -1,10 +1,15 @@
 import React from "react";
 import { Hexagon, LineSquiggle, Minus, Move } from "lucide-react";
 
-import { DropMenu, PlayerOptions, EditOption, ColorInput } from "../../index";
+import {
+  DropMenu,
+  PlayerOptions,
+  EditOption,
+  ColorInput,
+  FormationDialogue,
+} from "../../index";
 import { useDispatch, useSelector } from "react-redux";
 import { setdrawtype, setlinetype, setmode } from "../../../store/boardslice";
-import { FormationDialogue } from "../../FormationDialogue";
 
 function FullMenu({ addplayer }) {
   const dispatch = useDispatch();
@@ -84,7 +89,7 @@ function FullMenu({ addplayer }) {
         )}
         {mode === "draw" && <ColorInput />}
       </div>
-      <FormationDialogue/>
+      <FormationDialogue />
     </div>
   );
 }

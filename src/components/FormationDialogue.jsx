@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { OTPInput } from "./OTPinput";
+import { OTPInput } from "./index";
 
 export function FormationDialogue() {
   const [showRightHalf, setShowRightHalf] = useState(false);
@@ -50,12 +50,17 @@ export function FormationDialogue() {
   return (
     <Dialog onOpenChange={reset}>
       <DialogTrigger asChild>
-        <Button variant="outline">Open Dialog</Button>
+        <Button
+          className="text-xs sm:text-sm md:text-base px-2"
+          variant="outline"
+        >
+          Open Dialog
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit}>
-          <DialogHeader>
+        <form onSubmit={handleSubmit} >
+          <DialogHeader className="mb-4">
             <DialogTitle>Add a formation</DialogTitle>
             <DialogDescription>
               Whether it’s 4-3-3 or your own custom style, set your formation
@@ -63,8 +68,8 @@ export function FormationDialogue() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-5">
-            <div className="grid gap-2">
+          <div className="grid gap-4">
+            <div className="grid gap-1">
               <Label>LEFT HALF</Label>
               <OTPInput setValid={setleftValid} setVal={setLeftHalf} />
             </div>
@@ -86,7 +91,7 @@ export function FormationDialogue() {
             </div>
 
             {showRightHalf && (
-              <div className="grid gap-2">
+              <div className="grid gap-1">
                 <Label>RIGHT HALF</Label>
                 <OTPInput setValid={setrightValid} setVal={setRightHalf} />
               </div>

@@ -9,8 +9,10 @@ import EditOption from "./board/menu/EditOption";
 import PlayerOptions from "./board/menu/PlayerOptions";
 import Polygon from "./board/Polygon";
 import Footer from "./footer/Footer";
+import { FormationDialogue } from "./FormationDialogue";
 import Header from "./header/Header";
 import ItemsContextMenu from "./ItemsContextMenu";
+import { OTPInput } from "./OTPinput";
 
 export {
   Board,
@@ -26,4 +28,6 @@ export {
   EditOption,
   ItemsContextMenu,
   ColorInput,
+  OTPInput,
+  FormationDialogue,
 };
