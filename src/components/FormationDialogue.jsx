@@ -59,7 +59,7 @@ export function FormationDialogue() {
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit} >
+        <form onSubmit={handleSubmit}>
           <DialogHeader className="mb-4">
             <DialogTitle>Add a formation</DialogTitle>
             <DialogDescription>
@@ -109,7 +109,7 @@ export function FormationDialogue() {
                 type="submit"
                 disabled={!leftValid || (showRightHalf && !rightValid)}
               >
-                Save changes
+                Add Formation
               </Button>
             </DialogClose>
           </DialogFooter>
