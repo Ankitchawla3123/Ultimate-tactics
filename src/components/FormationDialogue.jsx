@@ -17,13 +17,17 @@ import { Label } from "@/components/ui/label";
 import { OTPInput } from "./index";
 
 export function FormationDialogue() {
+  const [showLeftHalf, setShowLeftHalf] = useState(true);
   const [showRightHalf, setShowRightHalf] = useState(false);
+
   const [LeftHalf, setLeftHalf] = useState("");
   const [RightHalf, setRightHalf] = useState("");
   const [leftValid, setleftValid] = useState(false);
   const [rightValid, setrightValid] = useState(false);
 
   const reset = () => {
+    setShowLeftHalf(true);
+    setShowRightHalf(false);
     setLeftHalf("");
     setRightHalf("");
     setleftValid(false);
@@ -33,28 +37,36 @@ export function FormationDialogue() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!leftValid || (showRightHalf && !rightValid)) {
+    if ((showLeftHalf && !leftValid) || (showRightHalf && !rightValid)) {
       alert("Please complete a valid formation.");
       return;
     }
 
     const finalFormation = {
-      left: LeftHalf,
+      left: showLeftHalf ? LeftHalf : null,
       right: showRightHalf ? RightHalf : null,
     };
 
-    reset();
     console.log("✅ Submitted Formation:", finalFormation);
+    reset();
   };
+  const isSubmitDisabled =
+    (!showLeftHalf && !showRightHalf) || // New condition added
+    (showLeftHalf && !leftValid) ||
+    (showRightHalf && !rightValid);
 
   return (
-    <Dialog onOpenChange={reset}>
+    <Dialog
+      onOpenChange={(open) => {
+        if (open) reset(); // only reset when opening, not on close
+      }}
+    >
       <DialogTrigger asChild>
         <Button
-          className="text-xs sm:text-sm md:text-base px-2"
+          className="text-xs sm:text-sm md:text-base px-2 h-auto"
           variant="outline"
         >
-          Open Dialog
+          Add Formation
         </Button>
       </DialogTrigger>
 
@@ -63,17 +75,41 @@ export function FormationDialogue() {
           <DialogHeader className="mb-4">
             <DialogTitle>Add a formation</DialogTitle>
             <DialogDescription>
-              Whether it’s 4-3-3 or your own custom style, set your formation
-              your way.
+              Set up your formation—whether it's a classic 4-3-3 or your own
+              custom style.
+              <br />
+              <strong>Note:</strong> Adding a new formation will reset all
+              players.
             </DialogDescription>
           </DialogHeader>
 
           <div className="grid gap-4">
-            <div className="grid gap-1">
-              <Label>LEFT HALF</Label>
-              <OTPInput setValid={setleftValid} setVal={setLeftHalf} />
+            {/* LEFT HALF Checkbox */}
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="left-half"
+                checked={showLeftHalf}
+                onCheckedChange={(checked) => {
+                  const isChecked = Boolean(checked);
+                  setShowLeftHalf(isChecked);
+                  if (!isChecked) {
+                    setLeftHalf("");
+                    setleftValid(false);
+                  }
+                }}
+              />
+              <Label htmlFor="left-half">Setup LEFT HALF?</Label>
             </div>
 
+            {/* LEFT HALF OTP */}
+            {showLeftHalf && (
+              <div className="grid gap-1">
+                <Label>LEFT HALF</Label>
+                <OTPInput setValid={setleftValid} setVal={setLeftHalf} />
+              </div>
+            )}
+
+            {/* RIGHT HALF Checkbox */}
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="right-half"
@@ -90,6 +126,7 @@ export function FormationDialogue() {
               <Label htmlFor="right-half">Setup RIGHT HALF?</Label>
             </div>
 
+            {/* RIGHT HALF OTP */}
             {showRightHalf && (
               <div className="grid gap-1">
                 <Label>RIGHT HALF</Label>
@@ -105,10 +142,7 @@ export function FormationDialogue() {
               </Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button
-                type="submit"
-                disabled={!leftValid || (showRightHalf && !rightValid)}
-              >
+              <Button type="submit" disabled={isSubmitDisabled}>
                 Add Formation
               </Button>
             </DialogClose>

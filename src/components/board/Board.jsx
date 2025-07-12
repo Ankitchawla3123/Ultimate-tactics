@@ -45,7 +45,16 @@ function Board() {
         </div>
         <div className="z-20">
           <FullMenu addplayer={addplayer} />
-          <button onClick={() => setformation("442")}>add formation</button>
+          <button
+            onClick={() =>
+              setformation({
+                left: "4121212",
+                right: "4121212",
+              })
+            }
+          >
+            add formation
+          </button>
         </div>
       </div>
     </div>
