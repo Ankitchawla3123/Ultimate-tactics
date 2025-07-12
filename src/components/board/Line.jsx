@@ -111,12 +111,20 @@ function Line({
           strokeLinecap="round"
           strokeDasharray={line.linetype == "dashed" ? "1%" : null}
           markerStart={
-            line.leftend == "left-arrow"
+            line.leftend === "left-arrow" && line.rightend === "right-end"
+              ? line.line.x1 < line.line.x2
+                ? `url(#triangle-start-${index})`
+                : null
+              : line.leftend === "left-arrow"
               ? `url(#triangle-start-${index})`
               : null
           }
           markerEnd={
-            line.rightend == "right-arrow"
+            line.leftend === "left-arrow" && line.rightend === "right-end"
+              ? line.line.x1 > line.line.x2
+                ? `url(#triangle-end-${index})`
+                : null
+              : line.rightend === "right-arrow"
               ? `url(#triangle-end-${index})`
               : null
           }
