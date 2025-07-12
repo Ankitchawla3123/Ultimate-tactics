@@ -16,7 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { OTPInput } from "./index";
 
-export function FormationDialogue() {
+export function FormationDialogue({ setformation }) {
   const [showLeftHalf, setShowLeftHalf] = useState(true);
   const [showRightHalf, setShowRightHalf] = useState(false);
 
@@ -46,8 +46,8 @@ export function FormationDialogue() {
       left: showLeftHalf ? LeftHalf : null,
       right: showRightHalf ? RightHalf : null,
     };
+    setformation(finalFormation);
 
-    console.log("✅ Submitted Formation:", finalFormation);
     reset();
   };
   const isSubmitDisabled =
@@ -63,7 +63,7 @@ export function FormationDialogue() {
     >
       <DialogTrigger asChild>
         <Button
-          className="text-xs sm:text-sm md:text-base px-2 h-auto"
+          className="  px-2 h-9"
           variant="outline"
         >
           Add Formation

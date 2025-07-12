@@ -1,60 +1,252 @@
-import React from 'react';
+import React from "react";
 
-function FootballField() {
-  const penaltySpotRadius = 5; 
-  const penaltyBoxX = 200; 
-  const goalX = 0; 
-  const penaltyArcRadius = 100; 
-
-  const midpointX = (goalX + penaltyBoxX) / 2;
+function FootballField({ horizontal = false }) {
+  const penaltySpotRadius = 5;
+  const penaltyBox = 200;
+  const goal = 0;
+  const penaltyArcRadius = 100;
+  const midpoint = (goal + penaltyBox) / 2;
 
   return (
     <svg
-      width="100%" 
-      viewBox="0 0 1600 900" 
-    
+      width="100%"
+      height="100%"
+      viewBox={horizontal ? "0 0 1600 1000" : "0 0 1000 1600"}
+      preserveAspectRatio="xMidYMid meet"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      style={{ border: '1px solid black' }}
+      style={{ display: "block" }}
     >
-      {/* Field outline */}
-      <rect x="0" y="0" width="1600" height="900" fill="#4CAF50" stroke="#000" strokeWidth="5" />
-
-      {/* Center circle */}
-      <circle cx="800" cy="450" r="170" fill="none" stroke="#000" strokeWidth="5" />
-
-      {/* Penalty areas */}
-      <rect x="0" y="150" width="200" height="600" fill="none" stroke="#000" strokeWidth="5" />
-      <rect x="1400" y="150" width="200" height="600" fill="none" stroke="#000" strokeWidth="5" />
-
-      {/* Smaller penalty areas */}
-      <rect x="0" y="325" width="75" height="250" fill="none" stroke="#000" strokeWidth="5" />
-      <rect x="1525" y="325" width="75" height="250" fill="none" stroke="#000" strokeWidth="5" />
-
-      {/* Penalty spots */}
-      <circle cx={midpointX + 28} cy="450" r={penaltySpotRadius} fill="#000" />
-      <circle cx={1600 - midpointX -28} cy="450" r={penaltySpotRadius} fill="#000" />
-
-      {/* Goals */}
-      <rect x="0" y="400" width="15" height="100" fill="none" stroke="#000" strokeWidth="5" />
-      <rect x="1585" y="400" width="20" height="100" fill="none" stroke="#000" strokeWidth="5" />
-
-      {/* Center line */}
-      <line x1="800" y1="0" x2="800" y2="900" stroke="#000" strokeWidth="5" />
-
-      {/* Penalty arcs */}
-      <path
-        d={`M 200,${450 - penaltyArcRadius} A ${penaltyArcRadius},${penaltyArcRadius} 0 0,1 200,${450 + penaltyArcRadius}`}
-        fill="none"
-        stroke="#000"
-        strokeWidth="5"
-      />
-      <path
-        d={`M 1400,${450 - penaltyArcRadius} A ${penaltyArcRadius},${penaltyArcRadius} 0 0,0 1400,${450 + penaltyArcRadius}`}
-        fill="none"
-        stroke="#000"
-        strokeWidth="5"
-      />
+      {horizontal ? (
+        <>
+          {/* Horizontal field - 1600x1000 (16:10) */}
+          <rect
+            x="0"
+            y="0"
+            width="1600"
+            height="1000"
+            fill="#4CAF50"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <circle
+            cx="800"
+            cy="500"
+            r="170"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <rect
+            x="0"
+            y="200"
+            width="200"
+            height="600"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <rect
+            x="1400"
+            y="200"
+            width="200"
+            height="600"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <rect
+            x="0"
+            y="375"
+            width="75"
+            height="250"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <rect
+            x="1525"
+            y="375"
+            width="75"
+            height="250"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <circle
+            cx={midpoint + 28}
+            cy="500"
+            r={penaltySpotRadius}
+            fill="#000"
+          />
+          <circle
+            cx={1600 - midpoint - 28}
+            cy="500"
+            r={penaltySpotRadius}
+            fill="#000"
+          />
+          <rect
+            x="0"
+            y="450"
+            width="15"
+            height="100"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <rect
+            x="1585"
+            y="450"
+            width="15"
+            height="100"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <line
+            x1="800"
+            y1="0"
+            x2="800"
+            y2="1000"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <path
+            d={`M 200,${
+              500 - penaltyArcRadius
+            } A ${penaltyArcRadius},${penaltyArcRadius} 0 0,1 200,${
+              500 + penaltyArcRadius
+            }`}
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <path
+            d={`M 1400,${
+              500 - penaltyArcRadius
+            } A ${penaltyArcRadius},${penaltyArcRadius} 0 0,0 1400,${
+              500 + penaltyArcRadius
+            }`}
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+        </>
+      ) : (
+        <>
+          {/* Vertical field - 1000x1600 (10:16) */}
+          <rect
+            x="0"
+            y="0"
+            width="1000"
+            height="1600"
+            fill="#4CAF50"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <circle
+            cx="500"
+            cy="800"
+            r="170"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <rect
+            x="200"
+            y="0"
+            width="600"
+            height="200"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <rect
+            x="200"
+            y="1400"
+            width="600"
+            height="200"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <rect
+            x="375"
+            y="0"
+            width="250"
+            height="75"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <rect
+            x="375"
+            y="1525"
+            width="250"
+            height="75"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <circle
+            cx="500"
+            cy={midpoint + 28}
+            r={penaltySpotRadius}
+            fill="#000"
+          />
+          <circle
+            cx="500"
+            cy={1600 - midpoint - 28}
+            r={penaltySpotRadius}
+            fill="#000"
+          />
+          <rect
+            x="450"
+            y="0"
+            width="100"
+            height="15"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <rect
+            x="450"
+            y="1585"
+            width="100"
+            height="15"
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <line
+            x1="0"
+            y1="800"
+            x2="1000"
+            y2="800"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <path
+            d={`M ${
+              500 - penaltyArcRadius
+            },200 A ${penaltyArcRadius},${penaltyArcRadius} 0 0,1 ${
+              500 + penaltyArcRadius
+            },200`}
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+          <path
+            d={`M ${
+              500 - penaltyArcRadius
+            },1400 A ${penaltyArcRadius},${penaltyArcRadius} 0 0,0 ${
+              500 + penaltyArcRadius
+            },1400`}
+            fill="none"
+            stroke="#000"
+            strokeWidth="5"
+          />
+        </>
+      )}
     </svg>
   );
 }

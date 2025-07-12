@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/input-otp";
 
 export function OTPInput({ setVal, setValid }) {
-  const MAX_LENGTH = 6;
+  const MAX_LENGTH = 7;
   const MIN_SLOTS = 2;
   const [value, setValue] = React.useState("");
   const [visibleSlots, setVisibleSlots] = React.useState(MIN_SLOTS);

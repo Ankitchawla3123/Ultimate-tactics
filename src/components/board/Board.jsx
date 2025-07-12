@@ -1,14 +1,16 @@
 import React, { useEffect, useRef } from "react";
-import { FootballField, BoardStruct } from "../index";
+import {
+  FootballField,
+  BoardStruct,
+  FormationDialogue,
+  FullMenu,
+} from "../index";
 import { useDispatch, useSelector } from "react-redux";
-import { DropMenu } from "./menu/DropMenu";
-import FullMenu from "./menu/FullMenu";
 import { usePlayer } from "../../hooks/usePlayer";
 import { useFormation } from "../../hooks/useFormation";
 
 function Board() {
   const isVertical = useSelector((state) => state.board.vertical); // true = portrait
-
   const ref = useRef();
   const boardref = useRef(null);
   const { players, setplayers, addplayer, UpdatePlayer, DeletePlayer } =
@@ -20,18 +22,18 @@ function Board() {
     height: "auto",
     position: "relative",
     backgroundColor: "green",
-    aspectRatio: "1.60",
+    aspectRatio: "16/10",
   };
   return (
-    <div className="w-fit">
-      <div className=" flex flex-col" style={{ width: "52vw" }}>
+    <div className="w-fit items-center">
+      <div className="relative flex flex-col items-center">
         <div
           ref={ref}
           style={boardStyle}
           className=" flex justify-center items-center"
         >
-          <div className=" relative w-85per h-auto bg-green z-10">
-            <FootballField />
+          <div className=" relative  w-85per  z-10 border-2 border-black">
+            <FootballField horizontal={true} />
           </div>
           <div className="z-20 w-full h-full absolute">
             <BoardStruct
@@ -43,18 +45,9 @@ function Board() {
             />
           </div>
         </div>
-        <div className="z-20">
+        <div className="w-full z-20 self-center">
           <FullMenu addplayer={addplayer} />
-          <button
-            onClick={() =>
-              setformation({
-                left: "4121212",
-                right: "4121212",
-              })
-            }
-          >
-            add formation
-          </button>
+          <FormationDialogue setformation={setformation} />
         </div>
       </div>
     </div>

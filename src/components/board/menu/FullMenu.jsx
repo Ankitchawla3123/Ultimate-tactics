@@ -89,7 +89,6 @@ function FullMenu({ addplayer }) {
         )}
         {mode === "draw" && <ColorInput />}
       </div>
-      <FormationDialogue />
     </div>
   );
 }
