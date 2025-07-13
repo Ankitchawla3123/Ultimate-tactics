@@ -21,7 +21,6 @@ function Board() {
     width: "52vw",
     height: "auto",
     position: "relative",
-    backgroundColor: "green",
     aspectRatio: "16/10",
   };
   return (
@@ -30,7 +29,7 @@ function Board() {
         <div
           ref={ref}
           style={boardStyle}
-          className=" flex justify-center items-center"
+          className=" flex justify-center items-center bg-green-800"
         >
           <div className=" relative  w-85per  z-10 border-2 border-black">
             <FootballField horizontal={true} />

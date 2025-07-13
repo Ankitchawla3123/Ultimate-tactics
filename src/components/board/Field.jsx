@@ -24,7 +24,7 @@ function FootballField({ horizontal = false }) {
             y="0"
             width="1600"
             height="1000"
-            fill="#4CAF50"
+            fill="#2F9F20"
             stroke="#000"
             strokeWidth="5"
           />

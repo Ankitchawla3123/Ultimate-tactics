@@ -60,6 +60,18 @@ function Player({
         >
           {player.number}
         </text>
+        <text
+          className="font-bold select-none"
+          x={`${player.x}%`}
+          y={`${player.y }%`}
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fill="#242124"
+          fontSize={`${fontSizeVW}vw`}
+          dy={"-4.3%"}
+        >
+          {player.name}
+        </text>
       </g>
     </ItemsContextMenu>
   );
