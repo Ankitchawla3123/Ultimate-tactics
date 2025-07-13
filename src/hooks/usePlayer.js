@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { getPointerPosition } from "../utils/getPointerPosition";
 
@@ -14,7 +14,6 @@ export const usePlayer = (boardref) => {
       x: x,
       y: y,
     };
-    // console.log(player)
     setplayers((prev) => [...prev, player]);
   };
   const UpdatePlayer = (data, i) => {
@@ -27,6 +26,40 @@ export const usePlayer = (boardref) => {
   const DeletePlayer = (i) => {
     setplayers((prev) => prev.filter((_, index) => index !== i));
   };
+
+  const emptplayerref = useRef(false);
+  useEffect(() => {
+    const handleWindowLoad = () => {
+      const storedPlayers = localStorage.getItem("players");
+      if (storedPlayers === "[]") {
+        emptplayerref.current = true;
+      }
+
+      if (storedPlayers) {
+        try {
+          setplayers(JSON.parse(storedPlayers));
+        } catch (e) {
+          console.error("Failed to parse polygons from localStorage", e);
+        }
+      }
+    };
+
+    if (document.readyState === "complete") {
+      handleWindowLoad();
+    } else {
+      window.addEventListener("load", handleWindowLoad);
+      return () => window.removeEventListener("load", handleWindowLoad);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (emptplayerref.current) {
+      localStorage.setItem("players", JSON.stringify(players));
+    }
+    if (!emptplayerref.current) {
+      emptplayerref.current = true;
+    }
+  }, [players]);
 
   return { players, setplayers, addplayer, UpdatePlayer, DeletePlayer };
 };

@@ -6,7 +6,7 @@ import { setpolydrawn } from "../store/moveableslice";
 
 export const useDrawline = (selected, boardref) => {
   const svg = boardref.current;
-  
+
   const dispatch = useDispatch();
 
   const drawtype = useSelector((state) => state.board.drawtype);
@@ -97,6 +97,57 @@ export const useDrawline = (selected, boardref) => {
       }
     };
   }, []);
+
+  const emptlineref = useRef(false);
+  const emptpolygonref = useRef(false);
+  useEffect(() => {
+    const handleWindowLoad = () => {
+      const storedLines = localStorage.getItem("lines");
+      const storedPolygons = localStorage.getItem("polygons");
+      if (storedLines === "[]") {
+        emptlineref.current = true;
+      }
+      if (storedPolygons === "[]") {
+        emptpolygonref.current = true;
+      }
+      if (storedLines) {
+        try {
+          setlines(JSON.parse(storedLines));
+        } catch (e) {
+          console.error("Failed to parse lines from localStorage", e);
+        }
+      }
+
+      if (storedPolygons) {
+        try {
+          setpolygons(JSON.parse(storedPolygons));
+        } catch (e) {
+          console.error("Failed to parse polygons from localStorage", e);
+        }
+      }
+    };
+
+    if (document.readyState === "complete") {
+      handleWindowLoad();
+    } else {
+      window.addEventListener("load", handleWindowLoad);
+      return () => window.removeEventListener("load", handleWindowLoad);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (emptlineref.current) {
+      localStorage.setItem("lines", JSON.stringify(lines));
+    }
+    emptlineref.current = true;
+  }, [lines]);
+
+  useEffect(() => {
+    if (emptpolygonref.current) {
+      localStorage.setItem("polygons", JSON.stringify(polygons));
+    }
+    emptpolygonref.current = true;
+  }, [polygons]);
 
   const drawline = (e) => {
     if (mode !== "draw" || dragging || selectedplayer != null || selected) {

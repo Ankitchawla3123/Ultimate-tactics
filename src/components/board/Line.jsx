@@ -8,24 +8,36 @@ function Marker({ line, previewpolygon, ResizeType, index }) {
     ResizeType(event, "Line", index, i);
   };
 
+  const isTouchDevice =
+    typeof window !== "undefined" &&
+    ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
   return (
     <g>
+      {/* Touch hit areas (always active) */}
       <circle
         cx={`${line.line.x1}%`}
         cy={`${line.line.y1}%`}
         r="5%"
         fill="transparent"
+        style={{
+          pointerEvents: isTouchDevice ? "auto" : "none",
+        }}
         onTouchStart={(event) => MouseDownHandler(event, 1)}
       />
-
       <circle
         cx={`${line.line.x2}%`}
         cy={`${line.line.y2}%`}
         r="5%"
         fill="transparent"
+        style={{
+          pointerEvents: isTouchDevice ? "auto" : "none",
+        }}
         onTouchStart={(event) => MouseDownHandler(event, 2)}
       />
-      <circle // left visible circle
+
+      {/* Visible resize handles */}
+      <circle
         cx={`${line.line.x1}%`}
         cy={`${line.line.y1}%`}
         r="0.7%"
@@ -33,7 +45,7 @@ function Marker({ line, previewpolygon, ResizeType, index }) {
         cursor="pointer"
         onMouseDown={(event) => MouseDownHandler(event, 1)}
       />
-      <circle // right visible circle
+      <circle
         cx={`${line.line.x2}%`}
         cy={`${line.line.y2}%`}
         r="0.7%"
@@ -96,7 +108,7 @@ function Line({
           x2={`${line.line.x2}%`}
           y2={`${line.line.y2}%`}
           stroke="transparent"
-          strokeWidth="7%"
+          strokeWidth="4%"
           onTouchStart={(e) => DragType(e, index, "Line")}
         />
 
@@ -111,20 +123,12 @@ function Line({
           strokeLinecap="round"
           strokeDasharray={line.linetype == "dashed" ? "1%" : null}
           markerStart={
-            line.leftend === "left-arrow" && line.rightend === "right-end"
-              ? line.line.x1 < line.line.x2
-                ? `url(#triangle-start-${index})`
-                : null
-              : line.leftend === "left-arrow"
+            line.leftend === "left-arrow"
               ? `url(#triangle-start-${index})`
               : null
           }
           markerEnd={
-            line.leftend === "left-arrow" && line.rightend === "right-end"
-              ? line.line.x1 > line.line.x2
-                ? `url(#triangle-end-${index})`
-                : null
-              : line.rightend === "right-arrow"
+            line.rightend === "right-arrow"
               ? `url(#triangle-end-${index})`
               : null
           }
