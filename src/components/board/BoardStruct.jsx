@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDrawline } from "../../hooks/useDrawline";
 import { useDrag } from "../../hooks/useDrag";
-import { Line, Polygon } from "../index";
+import { Line, Polygon, Player } from "../index";
 import { useResize } from "../../hooks/useResize";
-import Player from "./Player";
 import { useSelector } from "react-redux";
 import { useShape } from "../../hooks/useShape";
 
@@ -36,10 +35,12 @@ function BoardStruct({
     previewpolygon,
     boardref
   );
+
   const { Resize, ResizeType } = useResize(setpolygons, setlines, boardref);
   const { UpdateShape, DeleteShape } = useShape(setlines, setpolygons);
 
   const color = useSelector((state) => state.board.color);
+  const linetype = useSelector((state) => state.board.LineType);
 
   const mouseMoveHandler = (e) => {
     drawline(e);
@@ -69,6 +70,7 @@ function BoardStruct({
             stroke={color}
             strokeWidth="0.5%"
             strokeLinecap="round"
+            strokeDasharray={linetype == "dashed" ? "1%" : null}
           />
         )}
         {previewpolygon() && (

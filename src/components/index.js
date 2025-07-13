@@ -8,6 +8,7 @@ import { DropMenu2 } from "./board/menu/DropMenu2";
 import EditOption from "./board/menu/EditOption";
 import FullMenu from "./board/menu/FullMenu";
 import PlayerOptions from "./board/menu/PlayerOptions";
+import Player from "./board/Player";
 import Polygon from "./board/Polygon";
 import Footer from "./footer/Footer";
 import { FormationDialogue } from "./FormationDialogue";
@@ -32,4 +33,5 @@ export {
   OTPInput,
   FormationDialogue,
   FullMenu,
+  Player,
 };
