@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { usePlayer } from "../../hooks/usePlayer";
 import { useFormation } from "../../hooks/useFormation";
 import { Button } from "../ui/button";
-import { setmenutoggle } from "../../store/boardslice";
+import { setclearval, setmenutoggle } from "../../store/boardslice";
 
 function Board() {
   const isVertical = useSelector((state) => state.board.vertical); // true = portrait
@@ -21,8 +21,15 @@ function Board() {
     usePlayer(boardref);
   const { setformation } = useFormation(setplayers);
 
-  function handleClear() {
-    dispatch();
+  const options = [
+    { value: "lines", placeholder: "Lines", variant: "ghost" },
+    { value: "polygons", placeholder: "Polygons", variant: "ghost" },
+    { value: "players", placeholder: "Players", variant: "ghost" },
+    { value: "all", placeholder: "Clear All", variant: "destructive" },
+  ];
+
+  function handleClear(value) {
+    dispatch(setclearval(value));
   }
 
   const boardStyle = {
@@ -73,7 +80,7 @@ function Board() {
           >
             Clear
           </Button> */}
-          <ClearMenu />
+          <ClearMenu options={options} onChange={handleClear} />
         </div>
       </div>
     </div>

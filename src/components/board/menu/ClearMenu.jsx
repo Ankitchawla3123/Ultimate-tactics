@@ -21,19 +21,12 @@ import {
 import { Button } from "../../ui/button";
 import { useState } from "react";
 
-export function ClearMenu({ placeholder, Default, onChange }) {
+export function ClearMenu({ options, onChange }) {
   const [selected, setSelected] = useState(null);
   const label = "Clear Options";
 
-  const options = [
-    { value: "lines", placeholder: "Lines", variant: "ghost" },
-    { value: "polygons", placeholder: "Polygons", variant: "ghost" },
-    { value: "players", placeholder: "Players", variant: "ghost" },
-    { value: "all", placeholder: "Clear All", variant: "destructive" },
-  ];
-
   const handleConfirm = (value) => {
-    onChange?.(value);
+    onChange(value);
     setSelected(null);
   };
 

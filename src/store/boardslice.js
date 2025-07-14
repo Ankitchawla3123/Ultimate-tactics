@@ -9,7 +9,7 @@ const initialState = {
   LineType: "plane",
   color: "#000000",
   menuselect: false,
-  setclear: "",
+  clearval: "",
 };
 
 const boardslice = createSlice({
@@ -40,8 +40,8 @@ const boardslice = createSlice({
     setmenutoggle: (state) => {
       state.menuselect = !state.menuselect;
     },
-    setcleartoggle: () => {
-      state.cleartoggle();
+    setclearval: (state, action) => {
+      state.clearval = action.payload;
     },
   },
 });
@@ -53,6 +53,7 @@ export const {
   setlinetype,
   setcolor,
   setmenutoggle,
+  setclearval,
 } = boardslice.actions;
 
 export default boardslice.reducer;

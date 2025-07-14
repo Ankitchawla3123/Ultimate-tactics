@@ -3,8 +3,9 @@ import { useDrawline } from "../../hooks/useDrawline";
 import { useDrag } from "../../hooks/useDrag";
 import { Line, Polygon, Player } from "../index";
 import { useResize } from "../../hooks/useResize";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useShape } from "../../hooks/useShape";
+import { setclearval } from "../../store/boardslice";
 
 function BoardStruct({
   boardref,
@@ -38,17 +39,42 @@ function BoardStruct({
     boardref
   );
 
-  const clearall = () => {
-    clearlines();
-    clearpolygons;
-    setplayers([]);
-  };
-
   const { Resize, ResizeType } = useResize(setpolygons, setlines, boardref);
   const { UpdateShape, DeleteShape } = useShape(setlines, setpolygons);
 
+  const dispatch = useDispatch();
   const color = useSelector((state) => state.board.color);
   const linetype = useSelector((state) => state.board.LineType);
+  const clearval = useSelector((state) => state.board.clearval);
+
+  useEffect(() => {
+    if (!clearval) return;
+
+    switch (clearval) {
+      case "lines":
+        clearlines();
+        break;
+
+      case "polygons":
+        clearpolygons();
+        break;
+
+      case "players":
+        setplayers([]);
+        break;
+
+      case "all":
+        clearlines();
+        clearpolygons();
+        setplayers([]);
+        break;
+
+      default:
+        break;
+    }
+
+    dispatch(setclearval(""));
+  }, [clearval, clearlines, clearpolygons, setplayers, dispatch]);
 
   const mouseMoveHandler = (e) => {
     drawline(e);
