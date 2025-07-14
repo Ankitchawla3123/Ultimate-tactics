@@ -2,6 +2,7 @@ import Board from "./board/Board";
 import BoardStruct from "./board/BoardStruct";
 import FootballField from "./board/Field";
 import Line from "./board/Line";
+import { ClearMenu } from "./board/menu/ClearMenu";
 import ColorInput from "./board/menu/ColorInput";
 import { DropMenu } from "./board/menu/DropMenu";
 import { DropMenu2 } from "./board/menu/DropMenu2";
@@ -34,4 +35,5 @@ export {
   FormationDialogue,
   FullMenu,
   Player,
+  ClearMenu,
 };

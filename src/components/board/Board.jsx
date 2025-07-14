@@ -4,6 +4,7 @@ import {
   BoardStruct,
   FormationDialogue,
   FullMenu,
+  ClearMenu,
 } from "../index";
 import { useDispatch, useSelector } from "react-redux";
 import { usePlayer } from "../../hooks/usePlayer";
@@ -20,10 +21,8 @@ function Board() {
     usePlayer(boardref);
   const { setformation } = useFormation(setplayers);
 
-  function handleClear(...clrFuncs) {
-    clrFuncs.forEach((func) => {
-      func();
-    });
+  function handleClear() {
+    dispatch();
   }
 
   const boardStyle = {
@@ -65,7 +64,7 @@ function Board() {
         >
           <FullMenu addplayer={addplayer} />
           <FormationDialogue setformation={setformation} />
-          <Button
+          {/* <Button
             onClick={(e) => {
               handleClear;
             }}
@@ -73,7 +72,8 @@ function Board() {
             variant="destructive"
           >
             Clear
-          </Button>
+          </Button> */}
+          <ClearMenu />
         </div>
       </div>
     </div>
