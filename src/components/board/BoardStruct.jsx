@@ -25,6 +25,8 @@ function BoardStruct({
     lines,
     setlines,
     polygon,
+    clearlines,
+    clearpolygons,
   } = useDrawline(selected, boardref);
 
   const { DragType, Dragline } = useDrag(
@@ -35,6 +37,12 @@ function BoardStruct({
     previewpolygon,
     boardref
   );
+
+  const clearall = () => {
+    clearlines();
+    clearpolygons;
+    setplayers([]);
+  };
 
   const { Resize, ResizeType } = useResize(setpolygons, setlines, boardref);
   const { UpdateShape, DeleteShape } = useShape(setlines, setpolygons);
@@ -48,12 +56,11 @@ function BoardStruct({
     Resize(e);
   };
 
-
-
   return (
     <div className="w-full h-full">
       <svg
         ref={boardref}
+        className="touch-none"
         data-component="Board"
         width="100%"
         height="100%"

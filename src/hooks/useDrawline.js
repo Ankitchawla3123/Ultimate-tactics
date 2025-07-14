@@ -18,6 +18,7 @@ export const useDrawline = (selected, boardref) => {
   const rightend = useSelector((state) => state.board.RightEnd);
   const linetype = useSelector((state) => state.board.LineType);
   const polygondrawn = useSelector((state) => state.moveable.dragging);
+  const menutoggle = useSelector((state) => state.board.menuselect);
 
   const [previewline, setline] = useState(null);
   const [lines, setlines] = useState([]);
@@ -71,7 +72,7 @@ export const useDrawline = (selected, boardref) => {
   // clear drawing polygon if clicked on menu or somewhere
   useEffect(() => {
     ClearPolygon();
-  }, [drawtype, mode, selectedplayer, color]);
+  }, [drawtype, mode, selectedplayer, color, menutoggle]);
 
   useEffect(() => {
     colorRef.current = color;
@@ -280,6 +281,14 @@ export const useDrawline = (selected, boardref) => {
     setnextpointforpoly([]);
   };
 
+  const clearlines = () => {
+    setlines([]);
+  };
+
+  const clearpolygons = () => {
+    setpolygons([]);
+  };
+
   return {
     Stopdrawingpolygon,
     polygonparser,
@@ -291,5 +300,7 @@ export const useDrawline = (selected, boardref) => {
     lines,
     setlines,
     polygon,
+    clearlines,
+    clearpolygons,
   };
 };

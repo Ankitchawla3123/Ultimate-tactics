@@ -8,17 +8,26 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { usePlayer } from "../../hooks/usePlayer";
 import { useFormation } from "../../hooks/useFormation";
+import { Button } from "../ui/button";
+import { setmenutoggle } from "../../store/boardslice";
 
 function Board() {
   const isVertical = useSelector((state) => state.board.vertical); // true = portrait
+  const dispatch = useDispatch();
   const ref = useRef();
   const boardref = useRef(null);
   const { players, setplayers, addplayer, UpdatePlayer, DeletePlayer } =
     usePlayer(boardref);
-
   const { setformation } = useFormation(setplayers);
+
+  function handleClear(...clrFuncs) {
+    clrFuncs.forEach((func) => {
+      func();
+    });
+  }
+
   const boardStyle = {
-    width: "52vw",
+    width: "48vw",
     height: "auto",
     position: "relative",
     aspectRatio: "16/10",
@@ -45,9 +54,26 @@ function Board() {
             />
           </div>
         </div>
-        <div className="w-full z-20 self-center">
+        <div
+          onMouseDown={() => {
+            dispatch(setmenutoggle());
+          }}
+          onTouchStart={() => {
+            dispatch(setmenutoggle());
+          }}
+          className="w-full z-20 self-center"
+        >
           <FullMenu addplayer={addplayer} />
           <FormationDialogue setformation={setformation} />
+          <Button
+            onClick={(e) => {
+              handleClear;
+            }}
+            className="w-auto h-auto"
+            variant="destructive"
+          >
+            Clear
+          </Button>
         </div>
       </div>
     </div>

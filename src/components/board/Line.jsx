@@ -41,7 +41,7 @@ function Marker({ line, previewpolygon, ResizeType, index }) {
         cx={`${line.line.x1}%`}
         cy={`${line.line.y1}%`}
         r="0.7%"
-        fill={line.color}
+        fill={"transparent"}
         cursor="pointer"
         onMouseDown={(event) => MouseDownHandler(event, 1)}
       />
@@ -49,7 +49,7 @@ function Marker({ line, previewpolygon, ResizeType, index }) {
         cx={`${line.line.x2}%`}
         cy={`${line.line.y2}%`}
         r="0.7%"
-        fill={line.color}
+        fill={"transparent"}
         cursor="pointer"
         onMouseDown={(event) => MouseDownHandler(event, 2)}
       />
@@ -78,24 +78,27 @@ function Line({
     <ItemsContextMenu Update={Update} Delete={Delete} Item={line}>
       <g>
         <defs>
-          <marker // end points
+          <marker
             id={`triangle-start-${index}`}
-            viewBox="0 0 10 10"
+            viewBox="0 0 20 20"
             refX="8"
             refY="5"
-            markerWidth="0.8%"
-            markerHeight="0.8%"
+            markerWidth="16" // 
+            markerHeight="16"
+            markerUnits="userSpaceOnUse" // ⬅️ makes size relative to SVG
             orient="auto"
           >
             <path d="M10 0 L0 5 L10 10 Z" fill={line.color} />
           </marker>
+
           <marker
             id={`triangle-end-${index}`}
             viewBox="0 0 10 10"
             refX="2"
             refY="5"
-            markerWidth="0.8%"
-            markerHeight="0.8%"
+            markerWidth="8"
+            markerHeight="8"
+            markerUnits="userSpaceOnUse"
             orient="auto"
           >
             <path d="M0 0 L10 5 L0 10 Z" fill={line.color} />
