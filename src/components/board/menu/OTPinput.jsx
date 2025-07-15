@@ -8,14 +8,14 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
-export function OTPInput({ setVal, setValid }) {
+export function OTPInput({ setVal, setValid, setColor, DefaultColor }) {
   const MAX_LENGTH = 7;
   const MIN_SLOTS = 2;
   const [value, setValue] = React.useState("");
   const [visibleSlots, setVisibleSlots] = React.useState(MIN_SLOTS);
   const [error, setError] = React.useState("");
+  const [color, setColorState] = React.useState(DefaultColor);
 
-  // Only allow digits 1-9 (no 0)
   const isDigit = (char) => /^[1-9]$/.test(char);
 
   const computeSum = (val) =>
@@ -54,17 +54,38 @@ export function OTPInput({ setVal, setValid }) {
     setVal(joinedDigits);
   };
 
-  return (
-    <div className="space-y-2">
-      <InputOTP maxLength={MAX_LENGTH} value={value} onChange={handleChange}>
-        <InputOTPGroup>
-          {[...Array(visibleSlots)].map((_, i) => (
-            <InputOTPSlot key={i} index={i} />
-          ))}
-        </InputOTPGroup>
-      </InputOTP>
+  const handleColorChange = (e) => {
+    const selectedColor = e.target.value;
+    setColorState(selectedColor);
+    if (setColor) setColor(selectedColor);
+  };
 
-      <div className="text-center text-sm mt-1">
+  return (
+    <div className="space-y-2 relative">
+      <div className="flex items-center">
+        {/* OTP Input */}
+        <InputOTP maxLength={MAX_LENGTH} value={value} onChange={handleChange}>
+          <InputOTPGroup>
+            {[...Array(visibleSlots)].map((_, i) => (
+              <InputOTPSlot key={i} index={i} />
+            ))}
+          </InputOTPGroup>
+        </InputOTP>
+
+        <div className="ml-4">
+          <label className="flex items-center gap-2 text-sm">
+            <span className="font-medium">Color:</span>
+            <input
+              type="color"
+              value={color}
+              onChange={handleColorChange}
+              className="w-6 h-6 p-0 border-none cursor-pointer"
+            />
+          </label>
+        </div>
+      </div>
+
+      <div className="text-sm text-center mt-1">
         {value === "" ? (
           <span>Set up your formation (10 players).</span>
         ) : (

@@ -15,7 +15,7 @@ import Footer from "./footer/Footer";
 import { FormationDialogue } from "./FormationDialogue";
 import Header from "./header/Header";
 import ItemsContextMenu from "./ItemsContextMenu";
-import { OTPInput } from "./OTPinput";
+import { OTPInput } from "./board/menu/OTPinput";
 
 export {
   Board,

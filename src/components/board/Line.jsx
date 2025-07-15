@@ -41,7 +41,7 @@ function Marker({ line, previewpolygon, ResizeType, index }) {
         cx={`${line.line.x1}%`}
         cy={`${line.line.y1}%`}
         r="0.7%"
-        fill={"transparent"}
+        fill={line.leftend === "left-arrow" ? "transparent" : line.color}
         cursor="pointer"
         onMouseDown={(event) => MouseDownHandler(event, 1)}
       />
@@ -49,7 +49,7 @@ function Marker({ line, previewpolygon, ResizeType, index }) {
         cx={`${line.line.x2}%`}
         cy={`${line.line.y2}%`}
         r="0.7%"
-        fill={"transparent"}
+        fill={line.rightend === "right-arrow" ? "transparent" : line.color}
         cursor="pointer"
         onMouseDown={(event) => MouseDownHandler(event, 2)}
       />
@@ -83,7 +83,7 @@ function Line({
             viewBox="0 0 20 20"
             refX="8"
             refY="5"
-            markerWidth="16" // 
+            markerWidth="16" //
             markerHeight="16"
             markerUnits="userSpaceOnUse" // ⬅️ makes size relative to SVG
             orient="auto"
