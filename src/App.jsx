@@ -10,7 +10,6 @@ function App() {
 
       <div className="flex flex-col items-center justify-between flex-1 pt-20">
         <Board />
-        <Footer />
       </div>
     </div>
   );
