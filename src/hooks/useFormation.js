@@ -94,9 +94,9 @@ export const useFormation = (setplayers) => {
     if (value.left !== null) {
       const formation = value.left.split("").map(Number);
       const totalRows = formation.length;
-      const xstart = totalRows <= 3 ? 7 : 12;
-      const ystart = 1.5;
-      const xgap = (46 - 12) / totalRows;
+      const xstart = totalRows <= 3 ? 6 : 11;
+      const ystart = 0;
+      const xgap = (46 - 11) / totalRows;
 
       setplayers((prev) => [
         ...prev,
@@ -105,7 +105,7 @@ export const useFormation = (setplayers) => {
           color: getOpposingColor(value.leftColor),
           name: "",
           metadata: { type: "player", name: "player" },
-          x: 12,
+          x: 9.5,
           y: 50,
         },
       ]);
@@ -148,9 +148,9 @@ export const useFormation = (setplayers) => {
     if (value.right !== null) {
       const formation = value.right.split("").map(Number);
       const totalRows = formation.length;
-      const xstart = totalRows <= 3 ? 7 : 12;
-      const ystart = 1.5;
-      const xgap = (46 - 12) / totalRows;
+      const xstart = totalRows <= 3 ? 6 : 11;
+      const ystart = 0;
+      const xgap = (46 - 11) / totalRows;
 
       setplayers((prev) => [
         ...prev,
@@ -159,7 +159,7 @@ export const useFormation = (setplayers) => {
           color: getOpposingColor(value.rightColor),
           name: "",
           metadata: { type: "player", name: "player" },
-          x: 88,
+          x: 90.5,
           y: 50,
         },
       ]);

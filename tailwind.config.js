@@ -11,7 +11,7 @@ export default {
         0.25: "0.0625rem",
       },
       width: {
-        "85per": "85%",
+        "85per": "90%",
       },
       height: {
         "85per": "85%",
