@@ -32,30 +32,11 @@ export const useFormation = (setplayers) => {
     used,
     force10 = false,
     isRight = false,
-    isOnlyStriker = false,
-    isMidfieldSpecial = false,
-    playerIndexInRow = 0,
-    totalInRow = 0
+    isOnlyStriker = false
   ) => {
-    // STRIKER: only one in last row → number 9
     if (isOnlyStriker && !used.has(9)) {
       used.add(9);
       return 9;
-    }
-
-    // MIDFIELD: special case for more than 3 players → assign 6 and 8 to middle two
-    if (isMidfieldSpecial) {
-      const mid1 = Math.floor((totalInRow - 1) / 2);
-      const mid2 = Math.ceil((totalInRow - 1) / 2);
-
-      if (playerIndexInRow === mid1 && !used.has(6)) {
-        used.add(6);
-        return 6;
-      }
-      if (playerIndexInRow === mid2 && !used.has(8)) {
-        used.add(8);
-        return 8;
-      }
     }
 
     if (force10 && !used.has(10)) {
@@ -66,8 +47,8 @@ export const useFormation = (setplayers) => {
     let preferred = [];
     let fallback = [];
 
-    const isFirst = rowIndex === 0;
     const isLast = rowIndex === totalRows - 1;
+    const isFirst = rowIndex === 0;
 
     if (isFirst) {
       preferred = [2, 3, 4, 5];
@@ -76,15 +57,19 @@ export const useFormation = (setplayers) => {
       preferred = [7, 9, 11, 19];
       fallback = [17, 30, 20, 18, 26];
     } else {
-      preferred = [6, 8]; // handled separately if needed
+      preferred = [6, 8]; // exclude 10
       fallback = [14, 21, 23, 16, 15, 25];
     }
 
+    // Reverse preferred if right side and in first or last row
     if (isRight && (isFirst || isLast)) {
       preferred.reverse();
     }
 
-    const pool = [...preferred.filter((n) => n !== 10), ...fallback.filter((n) => n !== 10)];
+    const pool = [
+      ...preferred.filter((n) => n !== 10),
+      ...fallback.filter((n) => n !== 10),
+    ];
 
     for (const num of pool) {
       if (!used.has(num)) {
@@ -101,19 +86,13 @@ export const useFormation = (setplayers) => {
 
   const setformation = (value) => {
     setplayers([]);
+
     const usedNumbersLeft = new Set();
     const usedNumbersRight = new Set();
 
-    const createPlayers = (
-      side,
-      formationStr,
-      teamColor,
-      keeperX,
-      playerXCalc,
-      usedSet,
-      isRight
-    ) => {
-      const formation = formationStr.split("").map(Number);
+    // LEFT SIDE
+    if (value.left !== null) {
+      const formation = value.left.split("").map(Number);
       const totalRows = formation.length;
       const xstart = totalRows <= 3 ? 7 : 12;
       const ystart = 1.5;
@@ -123,10 +102,10 @@ export const useFormation = (setplayers) => {
         ...prev,
         {
           number: 1,
-          color: getOpposingColor(teamColor),
+          color: getOpposingColor(value.leftColor),
           name: "",
           metadata: { type: "player", name: "player" },
-          x: keeperX,
+          x: 12,
           y: 50,
         },
       ]);
@@ -136,64 +115,87 @@ export const useFormation = (setplayers) => {
         const isSecondLastRow = rowIndex === totalRows - 2;
         const isLastRow = rowIndex === totalRows - 1;
         const isOnlyStriker = isLastRow && count === 1;
-        const isMidfieldSpecial = rowIndex !== 0 && rowIndex !== totalRows - 1 && count >= 4;
 
-        for (let i = 0; i < count; i++) {
-          const force10 = isSecondLastRow && ((isRight && i === 0) || (!isRight && i === count - 1));
+        for (let i = 1; i <= count; i++) {
+          const isLastInRow = i === count;
+          const force10 = isSecondLastRow && isLastInRow;
+
           const number = getNumber(
             rowIndex,
             totalRows,
-            usedSet,
+            usedNumbersLeft,
             force10,
-            isRight,
-            isOnlyStriker,
-            isMidfieldSpecial,
-            i,
-            count
+            false,
+            isOnlyStriker
           );
-
-          const x = playerXCalc(xstart, rowIndex, xgap);
-          const y = ystart + ygap * (i + 1);
 
           setplayers((prev) => [
             ...prev,
             {
               number,
-              color: teamColor,
+              color: value.leftColor,
               name: "",
               metadata: { type: "player", name: "player" },
-              x,
-              y,
+              x: xstart + (rowIndex + 1) * xgap,
+              y: ystart + ygap * i,
             },
           ]);
         }
       });
-    };
-
-    // LEFT
-    if (value.left !== null) {
-      createPlayers(
-        "left",
-        value.left,
-        value.leftColor,
-        12,
-        (xstart, rowIndex, xgap) => xstart + (rowIndex + 1) * xgap,
-        usedNumbersLeft,
-        false
-      );
     }
 
-    // RIGHT
+    // RIGHT SIDE
     if (value.right !== null) {
-      createPlayers(
-        "right",
-        value.right,
-        value.rightColor,
-        88,
-        (xstart, rowIndex, xgap) => 100 - (xstart + (rowIndex + 1) * xgap),
-        usedNumbersRight,
-        true
-      );
+      const formation = value.right.split("").map(Number);
+      const totalRows = formation.length;
+      const xstart = totalRows <= 3 ? 7 : 12;
+      const ystart = 1.5;
+      const xgap = (46 - 12) / totalRows;
+
+      setplayers((prev) => [
+        ...prev,
+        {
+          number: 1,
+          color: getOpposingColor(value.rightColor),
+          name: "",
+          metadata: { type: "player", name: "player" },
+          x: 88,
+          y: 50,
+        },
+      ]);
+
+      formation.forEach((count, rowIndex) => {
+        const ygap = (100 - ystart * 2) / (count + 1);
+        const isSecondLastRow = rowIndex === totalRows - 2;
+        const isLastRow = rowIndex === totalRows - 1;
+        const isOnlyStriker = isLastRow && count === 1;
+
+        for (let i = 1; i <= count; i++) {
+          const isFirstInRow = i === 1;
+          const force10 = isSecondLastRow && isFirstInRow;
+
+          const number = getNumber(
+            rowIndex,
+            totalRows,
+            usedNumbersRight,
+            force10,
+            true,
+            isOnlyStriker
+          );
+
+          setplayers((prev) => [
+            ...prev,
+            {
+              number,
+              color: value.rightColor,
+              name: "",
+              metadata: { type: "player", name: "player" },
+              x: 100 - (xstart + (rowIndex + 1) * xgap),
+              y: ystart + ygap * i,
+            },
+          ]);
+        }
+      });
     }
   };
 
