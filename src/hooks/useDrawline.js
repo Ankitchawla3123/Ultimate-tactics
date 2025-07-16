@@ -19,10 +19,12 @@ export const useDrawline = (selected, boardref) => {
   const linetype = useSelector((state) => state.board.LineType);
   const polygondrawn = useSelector((state) => state.moveable.dragging);
   const menutoggle = useSelector((state) => state.board.menuselect);
+  const aspect = useSelector((state) => state.board.aspect);
 
   const [previewline, setline] = useState(null);
   const [lines, setlines] = useState([]);
   const lineRef = useRef(previewline);
+  const aspectref = useRef(aspect);
 
   const [polygon, setpolypoints] = useState([]);
   const [polygons, setpolygons] = useState([]);
@@ -79,12 +81,51 @@ export const useDrawline = (selected, boardref) => {
   }, [color]);
 
   useEffect(() => {
+    aspectref.current = aspect;
+  }, [aspect]);
+
+  useEffect(() => {
     linetyperef.current = {
       leftend,
       rightend,
       linetype,
     };
   }, [leftend, rightend, linetype]);
+
+  useEffect(() => {
+    setlines((prevLines) =>
+      prevLines.map((item) => {
+        if (!item.aspect || item.aspect === aspect) return item;
+
+        return {
+          ...item,
+          line: {
+            x1: aspect == "10 / 16" ? 100 - item.line.y1 : item.line.y1,
+            y1: aspect == "16 / 10" ? 100 - item.line.x1 : item.line.x1,
+            x2: aspect == "10 / 16" ? 100 - item.line.y2 : item.line.y2,
+            y2: aspect == "16 / 10" ? 100 - item.line.x2 : item.line.x2,
+          },
+          aspect, // update to current aspect
+        };
+      })
+    );
+
+    setpolygons((prevPolygons) =>
+      prevPolygons.map((item) => {
+        if (!item.aspect || item.aspect === aspect) return item;
+
+        const newPoints = item.polygon.map(([x, y]) =>
+          aspect === "10 / 16" ? [100 - y, x] : [y, 100 - x]
+        );
+
+        return {
+          ...item,
+          polygon: newPoints,
+          aspect,
+        };
+      })
+    );
+  }, [aspect]);
 
   useEffect(() => {
     window.addEventListener("touchend", handleMouseUp);
@@ -217,6 +258,7 @@ export const useDrawline = (selected, boardref) => {
           leftend: leftend,
           rightend: rightend,
           linetype: linetype,
+          aspect: aspectref.current,
         },
       ]);
     }
@@ -270,6 +312,7 @@ export const useDrawline = (selected, boardref) => {
           metadata: { type: "shape", name: "polygon" },
           color: colorRef.current,
           polygon: newpolygon,
+          aspect: aspectref.current,
         },
       ]);
     }

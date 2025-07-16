@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  vertical: true,
+  aspect: "16 / 10",
   mode: "drag",
   drawtype: "line",
   LeftEnd: "left-end",
@@ -17,7 +17,7 @@ const boardslice = createSlice({
   initialState,
   reducers: {
     togglerotation: (state, action) => {
-      state.vertical = action.payload;
+      state.aspect = action.payload;
     },
     setmode: (state, action) => {
       state.mode = action.payload;

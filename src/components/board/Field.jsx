@@ -18,7 +18,7 @@ function FootballField({ horizontal = false }) {
     >
       {horizontal ? (
         <>
-          {/* Horizontal field - 1600x1000 (16:10) */}
+          {/* Horizontal field - 1600x1000 */}
           <rect
             x="0"
             y="0"
@@ -133,13 +133,13 @@ function FootballField({ horizontal = false }) {
         </>
       ) : (
         <>
-          {/* Vertical field - 1000x1600 (10:16) */}
+          {/* Vertical field - 1000x1600 */}
           <rect
             x="0"
             y="0"
             width="1000"
             height="1600"
-            fill="#4CAF50"
+            fill="#219B1F"
             stroke="#000"
             strokeWidth="5"
           />
@@ -228,7 +228,7 @@ function FootballField({ horizontal = false }) {
           <path
             d={`M ${
               500 - penaltyArcRadius
-            },200 A ${penaltyArcRadius},${penaltyArcRadius} 0 0,1 ${
+            },200 A ${penaltyArcRadius},${penaltyArcRadius} 0 0,0 ${
               500 + penaltyArcRadius
             },200`}
             fill="none"
@@ -238,7 +238,7 @@ function FootballField({ horizontal = false }) {
           <path
             d={`M ${
               500 - penaltyArcRadius
-            },1400 A ${penaltyArcRadius},${penaltyArcRadius} 0 0,0 ${
+            },1400 A ${penaltyArcRadius},${penaltyArcRadius} 0 0,1 ${
               500 + penaltyArcRadius
             },1400`}
             fill="none"

@@ -1,11 +1,18 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { togglerotation } from "../store/boardslice";
 
 export const useResponsiveSize = () => {
   const [heightVh, setHeightVh] = useState(70);
   const [aspect, setAspect] = useState("16 / 10");
   const [playerNumberFontSize, setPlayerNumberFontSize] = useState(0);
+  const dispatch = useDispatch();
 
   const radius = 1.8;
+
+  useEffect(() => {
+    dispatch(togglerotation(aspect));
+  }, [aspect]);
 
   const computeResponsiveSize = () => {
     const { innerWidth: W, innerHeight: H } = window;
@@ -22,6 +29,9 @@ export const useResponsiveSize = () => {
       computedVh -= 1;
     }
 
+    if (aspectString === "10 / 16") {
+      computedVh = 68;
+    }
     const viewportHeight = (computedVh / 100) * H;
     const multiplier = aspectString === "16 / 10" ? 1.5 : 0.9;
     const fontSize = (viewportHeight * radius * multiplier) / 100;

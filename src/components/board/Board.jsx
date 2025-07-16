@@ -49,7 +49,7 @@ function Board() {
           className="flex justify-center items-center"
         >
           <div className="relative w-85per z-10 border-2 border-green-950 border-opacity-90">
-            <FootballField horizontal={true} />
+            <FootballField horizontal={aspect == "10 / 16" ? false : true} />
           </div>
           <div className="z-20 w-full h-full absolute">
             <BoardStruct
