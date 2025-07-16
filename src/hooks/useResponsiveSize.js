@@ -8,12 +8,6 @@ export const useResponsiveSize = () => {
   const [playerNumberFontSize, setPlayerNumberFontSize] = useState(0);
   const dispatch = useDispatch();
 
-  const radius = 1.8;
-
-  useEffect(() => {
-    dispatch(togglerotation(aspect));
-  }, [aspect]);
-
   const computeResponsiveSize = () => {
     const { innerWidth: W, innerHeight: H } = window;
     const isLandscape = W > H;
@@ -32,9 +26,15 @@ export const useResponsiveSize = () => {
     if (aspectString === "10 / 16") {
       computedVh = 68;
     }
-    const viewportHeight = (computedVh / 100) * H;
-    const multiplier = aspectString === "16 / 10" ? 1.5 : 0.9;
-    const fontSize = (viewportHeight * radius * multiplier) / 100;
+
+    const pxHeight = (computedVh / 100) * H;
+    const pxWidth = pxHeight * (aspectW / aspectH);
+
+    const referenceSize = Math.min(pxWidth, pxHeight);
+    const radius = 0.018 * referenceSize;
+
+    const multiplier = aspectString === "16 / 10" ? 1.5 : 1;
+    const fontSize = radius * multiplier;
 
     return {
       computedVh,
@@ -43,15 +43,13 @@ export const useResponsiveSize = () => {
     };
   };
 
-  // ✅ Sync: Initialize once before first render
-  const initial = computeResponsiveSize();
-  useState(() => {
-    setHeightVh(initial.computedVh);
-    setAspect(initial.aspectString);
-    setPlayerNumberFontSize(initial.fontSize);
-  });
+  useEffect(() => {
+    const { computedVh, aspectString, fontSize } = computeResponsiveSize();
+    setHeightVh(computedVh);
+    setAspect(aspectString);
+    setPlayerNumberFontSize(fontSize);
+  }, []);
 
-  // ✅ Async: Handle window resize
   useEffect(() => {
     const handleResize = () => {
       const { computedVh, aspectString, fontSize } = computeResponsiveSize();
@@ -61,8 +59,16 @@ export const useResponsiveSize = () => {
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
+    };
   }, []);
+
+  useEffect(() => {
+    dispatch(togglerotation(aspect));
+  }, [aspect]);
 
   return { heightVh, aspect, playerNumberFontSize };
 };

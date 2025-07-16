@@ -83,9 +83,9 @@ function Line({
             viewBox="0 0 20 20"
             refX="8"
             refY="5"
-            markerWidth="16" //
-            markerHeight="16"
-            markerUnits="userSpaceOnUse" // ⬅️ makes size relative to SVG
+            markerWidth={line.aspect == "16 / 10" ? "20" : "12"}
+            markerHeight={line.aspect == "16 / 10" ? "20" : "12"}
+            markerUnits="userSpaceOnUse"
             orient="auto"
           >
             <path d="M10 0 L0 5 L10 10 Z" fill={line.color} />
@@ -93,11 +93,11 @@ function Line({
 
           <marker
             id={`triangle-end-${index}`}
-            viewBox="0 0 10 10"
+            viewBox="0 0 20 20"
             refX="2"
             refY="5"
-            markerWidth="8"
-            markerHeight="8"
+            markerWidth={line.aspect == "16 / 10" ? "20" : "12"}
+            markerHeight={line.aspect == "16 / 10" ? "20" : "12"}
             markerUnits="userSpaceOnUse"
             orient="auto"
           >

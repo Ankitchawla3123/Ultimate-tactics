@@ -6,6 +6,23 @@ export const usePlayer = (boardref) => {
   const ref = boardref.current;
   const [players, setplayers] = useState([]);
   const dragging = useSelector((state) => state.moveable.dragging);
+  const aspect = useSelector((state) => state.board.aspect);
+
+  useEffect(() => {
+    setplayers((prev) =>
+      prev.map((item) => {
+        if (!item.aspect || item.aspect === aspect) return item;
+
+        return {
+          ...item,
+          x: aspect === "10 / 16" ? 100 - item.y : item.y,
+          y: aspect === "10 / 16" ? item.x : 100 - item.x,
+
+          aspect,
+        };
+      })
+    );
+  }, [aspect]);
 
   const addplayer = (e, data) => {
     const { x, y } = getPointerPosition(e, boardref);
@@ -13,9 +30,11 @@ export const usePlayer = (boardref) => {
       ...data,
       x: x,
       y: y,
+      aspect: aspect,
     };
     setplayers((prev) => [...prev, player]);
   };
+
   const UpdatePlayer = (data, i) => {
     setplayers((prev) =>
       prev.map((player, index) =>

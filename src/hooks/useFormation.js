@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useSelector } from "react-redux";
 import chroma from "chroma-js";
 
 export const useFormation = (setplayers) => {
+  const aspect = useSelector((state) => state.board.aspect);
+
   const getOpposingColor = (color) => {
     try {
       const base = chroma(color);
@@ -24,6 +26,16 @@ export const useFormation = (setplayers) => {
     } catch {
       return "#000000";
     }
+  };
+
+  const rotatePosition = (x, y) => {
+    if (aspect === "10 / 16") {
+      return {
+        x: 100 - y,
+        y: x,
+      };
+    }
+    return { x, y };
   };
 
   const getNumber = (
@@ -61,7 +73,6 @@ export const useFormation = (setplayers) => {
       fallback = [14, 21, 23, 16, 15, 25];
     }
 
-    // Reverse preferred if right side and in first or last row
     if (isRight && (isFirst || isLast)) {
       preferred.reverse();
     }
@@ -98,6 +109,7 @@ export const useFormation = (setplayers) => {
       const ystart = 0;
       const xgap = (46 - 11) / totalRows;
 
+      const { x: gkX, y: gkY } = rotatePosition(9.5, 50);
       setplayers((prev) => [
         ...prev,
         {
@@ -105,8 +117,9 @@ export const useFormation = (setplayers) => {
           color: getOpposingColor(value.leftColor),
           name: "",
           metadata: { type: "player", name: "player" },
-          x: 9.5,
-          y: 50,
+          x: gkX,
+          y: gkY,
+          aspect,
         },
       ]);
 
@@ -129,6 +142,10 @@ export const useFormation = (setplayers) => {
             isOnlyStriker
           );
 
+          const x = xstart + (rowIndex + 1) * xgap;
+          const y = ystart + ygap * i;
+          const { x: finalX, y: finalY } = rotatePosition(x, y);
+
           setplayers((prev) => [
             ...prev,
             {
@@ -136,8 +153,9 @@ export const useFormation = (setplayers) => {
               color: value.leftColor,
               name: "",
               metadata: { type: "player", name: "player" },
-              x: xstart + (rowIndex + 1) * xgap,
-              y: ystart + ygap * i,
+              x: finalX,
+              y: finalY,
+              aspect,
             },
           ]);
         }
@@ -152,6 +170,7 @@ export const useFormation = (setplayers) => {
       const ystart = 0;
       const xgap = (46 - 11) / totalRows;
 
+      const { x: gkX, y: gkY } = rotatePosition(90.5, 50);
       setplayers((prev) => [
         ...prev,
         {
@@ -159,8 +178,9 @@ export const useFormation = (setplayers) => {
           color: getOpposingColor(value.rightColor),
           name: "",
           metadata: { type: "player", name: "player" },
-          x: 90.5,
-          y: 50,
+          x: gkX,
+          y: gkY,
+          aspect,
         },
       ]);
 
@@ -183,6 +203,10 @@ export const useFormation = (setplayers) => {
             isOnlyStriker
           );
 
+          const x = 100 - (xstart + (rowIndex + 1) * xgap);
+          const y = ystart + ygap * i;
+          const { x: finalX, y: finalY } = rotatePosition(x, y);
+
           setplayers((prev) => [
             ...prev,
             {
@@ -190,8 +214,9 @@ export const useFormation = (setplayers) => {
               color: value.rightColor,
               name: "",
               metadata: { type: "player", name: "player" },
-              x: 100 - (xstart + (rowIndex + 1) * xgap),
-              y: ystart + ygap * i,
+              x: finalX,
+              y: finalY,
+              aspect,
             },
           ]);
         }
