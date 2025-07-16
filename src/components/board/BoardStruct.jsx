@@ -13,6 +13,7 @@ function BoardStruct({
   setplayers,
   UpdatePlayer,
   DeletePlayer,
+  playerNumberFontSize,
 }) {
   const [selected, setselected] = useState(false);
   const {
@@ -173,6 +174,7 @@ function BoardStruct({
             index={index}
             UpdatePlayer={UpdatePlayer}
             DeletePlayer={DeletePlayer}
+            playerNumberFontSize={playerNumberFontSize}
           />
         ))}
       </svg>

@@ -9,16 +9,18 @@ function Player({
   setselected,
   UpdatePlayer,
   DeletePlayer,
+  playerNumberFontSize,
 }) {
   const radius = 1.8;
-  const fontSizeVW = radius * 0.46;
 
   const Update = (data) => {
     UpdatePlayer(data, index);
   };
+
   const Delete = () => {
     DeletePlayer(index);
   };
+
   return (
     <ItemsContextMenu Item={player} Update={Update} Delete={Delete}>
       <g
@@ -41,7 +43,6 @@ function Player({
         style={{ cursor: "pointer" }}
       >
         <circle
-          className=""
           fill={player.color}
           stroke={getOuterRingColor(player.color)}
           r={`${radius}%`}
@@ -56,19 +57,19 @@ function Player({
           textAnchor="middle"
           dominantBaseline="middle"
           fill={getNumberColor(player.color)}
-          fontSize={`${fontSizeVW}vw`}
+          fontSize={playerNumberFontSize}
         >
           {player.number}
         </text>
         <text
           className="font-bold select-none"
           x={`${player.x}%`}
-          y={`${player.y }%`}
+          y={`${player.y}%`}
           textAnchor="middle"
           dominantBaseline="middle"
           fill="#242124"
-          fontSize={`${fontSizeVW}vw`}
-          dy={"-4.3%"}
+          fontSize={playerNumberFontSize}
+          dy="-4.3%"
         >
           {player.name}
         </text>

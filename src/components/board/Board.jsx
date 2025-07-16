@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import {
   FootballField,
   BoardStruct,
@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { usePlayer } from "../../hooks/usePlayer";
 import { useFormation } from "../../hooks/useFormation";
 import { setclearval, setmenutoggle } from "../../store/boardslice";
+import { useResponsiveSize } from "../../hooks/useResponsiveSize"; // new hook
 
 function Board() {
   const dispatch = useDispatch();
@@ -20,35 +21,7 @@ function Board() {
     usePlayer(boardref);
   const { setformation } = useFormation(setplayers);
 
-  const [heightVh, setHeightVh] = useState(70); // initial 70vh
-  const [aspect, setAspect] = useState("16 / 10");
-
-  const updateBoardHeight = () => {
-    const { innerWidth: W, innerHeight: H } = window;
-    const isLandscape = W > H;
-    const aspectW = isLandscape ? 16 : 10;
-    const aspectH = isLandscape ? 10 : 16;
-
-    setAspect(`${aspectW} / ${aspectH}`);
-
-    let vh = 70;
-
-    while (vh > 40) {
-      const pxHeight = (vh / 100) * H;
-      const calculatedWidth = pxHeight * (aspectW / aspectH);
-
-      if (calculatedWidth <= W) break;
-      vh -= 1;
-    }
-
-    setHeightVh(vh);
-  };
-
-  useEffect(() => {
-    updateBoardHeight();
-    window.addEventListener("resize", updateBoardHeight);
-    return () => window.removeEventListener("resize", updateBoardHeight);
-  }, []);
+  const { heightVh, aspect, playerNumberFontSize } = useResponsiveSize();
 
   const boardStyle = {
     width: "auto",
@@ -85,6 +58,7 @@ function Board() {
               setplayers={setplayers}
               UpdatePlayer={UpdatePlayer}
               DeletePlayer={DeletePlayer}
+              playerNumberFontSize={playerNumberFontSize}
             />
           </div>
         </div>
