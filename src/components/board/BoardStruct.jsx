@@ -14,6 +14,7 @@ function BoardStruct({
   UpdatePlayer,
   DeletePlayer,
   playerNumberFontSize,
+  aspect,
 }) {
   const [selected, setselected] = useState(false);
   const {
@@ -175,6 +176,7 @@ function BoardStruct({
             UpdatePlayer={UpdatePlayer}
             DeletePlayer={DeletePlayer}
             playerNumberFontSize={playerNumberFontSize}
+            aspect={aspect}
           />
         ))}
       </svg>

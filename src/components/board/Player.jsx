@@ -10,6 +10,7 @@ function Player({
   UpdatePlayer,
   DeletePlayer,
   playerNumberFontSize,
+  aspect,
 }) {
   const radius = 1.8;
 
@@ -69,7 +70,7 @@ function Player({
           dominantBaseline="middle"
           fill="#242124"
           fontSize={playerNumberFontSize}
-          dy="-4.3%"
+          dy={aspect == "16 / 10" ? "-4.3%" : "-2.6%"}
         >
           {player.name}
         </text>

@@ -59,6 +59,7 @@ function Board() {
               UpdatePlayer={UpdatePlayer}
               DeletePlayer={DeletePlayer}
               playerNumberFontSize={playerNumberFontSize}
+              aspect={aspect}
             />
           </div>
         </div>
