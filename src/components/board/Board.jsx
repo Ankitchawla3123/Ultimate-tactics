@@ -48,6 +48,11 @@ function Board() {
       className="relative flex flex-col items-center"
       style={{ maxWidth: `${calculatedWidthVh}vh` }}
     >
+      <div className="flex justify-center items-center mb-3 gap-x-1">
+        <FormationDialogue setformation={setformation} />
+        <ClearMenu options={options} onChange={handleClear} />
+      </div>
+
       <div
         ref={ref}
         style={boardStyle}
@@ -72,7 +77,7 @@ function Board() {
       <div
         onMouseDown={() => dispatch(setmenutoggle())}
         onTouchStart={() => dispatch(setmenutoggle())}
-        className="w-full z-20 self-center"
+        className="w-full h-full z-20 self-center"
       >
         <FullMenu
           addplayer={addplayer}

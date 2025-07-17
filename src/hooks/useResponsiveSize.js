@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { togglerotation } from "../store/boardslice";
+import { togglerotation, setshortscreen } from "../store/boardslice";
 
 export const useResponsiveSize = () => {
   const [heightVh, setHeightVh] = useState(70);
@@ -40,22 +40,30 @@ export const useResponsiveSize = () => {
       computedVh,
       aspectString,
       fontSize,
+      innerHeight: H,
     };
   };
 
-  useEffect(() => {
-    const { computedVh, aspectString, fontSize } = computeResponsiveSize();
+  const updateResponsiveData = () => {
+    const { computedVh, aspectString, fontSize, innerHeight } =
+      computeResponsiveSize();
     setHeightVh(computedVh);
     setAspect(aspectString);
     setPlayerNumberFontSize(fontSize);
-  }, []);
+
+    dispatch(togglerotation(aspectString));
+    if (aspectString === "16 / 10" && innerHeight < 400) {
+      dispatch(setshortscreen(true));
+    } else {
+      dispatch(setshortscreen(false));
+    }
+  };
 
   useEffect(() => {
+    updateResponsiveData(); // initial run
+
     const handleResize = () => {
-      const { computedVh, aspectString, fontSize } = computeResponsiveSize();
-      setHeightVh(computedVh);
-      setAspect(aspectString);
-      setPlayerNumberFontSize(fontSize);
+      updateResponsiveData();
     };
 
     window.addEventListener("resize", handleResize);
@@ -65,10 +73,6 @@ export const useResponsiveSize = () => {
       window.removeEventListener("orientationchange", handleResize);
     };
   }, []);
-
-  useEffect(() => {
-    dispatch(togglerotation(aspect));
-  }, [aspect]);
 
   return { heightVh, aspect, playerNumberFontSize };
 };

@@ -34,7 +34,7 @@ export function ClearMenu({ options, onChange }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="p-2 focus-visible:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:shadow-none"
+          className=" select-none h-auto focus-visible:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:shadow-none"
           variant="destructive"
         >
           Clear

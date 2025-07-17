@@ -8,10 +8,11 @@ import {
 import { ArrowLeftFromLine, ArrowRightFromLine } from "lucide-react";
 import { DropMenu2 } from "../../index";
 
-function EditOption({ handleLineType }) {
+function EditOption({ handleLineType, isPortrait }) {
   return (
-    <div>
+    <div className="flex">
       <DropMenu2
+        isPortrait={isPortrait}
         placeholder={"line-features"}
         label={"Ends"}
         options={[
@@ -34,6 +35,7 @@ function EditOption({ handleLineType }) {
 
       <DropMenu2
         placeholder={"line-features"}
+        isPortrait={isPortrait}
         label={"line-type"}
         options={[
           {
@@ -56,6 +58,7 @@ function EditOption({ handleLineType }) {
 
       <DropMenu2
         placeholder={"line-features"}
+        isPortrait={isPortrait}
         label={"Ends"}
         options={[
           {

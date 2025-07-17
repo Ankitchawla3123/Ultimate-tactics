@@ -8,14 +8,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export function DropMenu({ placeholder, label, options, Default, onChange }) {
   const [selectedOption, setSelectedOption] = useState(Default);
+  const shortscreen = useSelector((state) => state.board.shortscreen);
 
   useEffect(() => {
     if (onChange) {
-      onChange(selectedOption); 
+      onChange(selectedOption);
     }
   }, [selectedOption, onChange]);
 
@@ -26,7 +27,11 @@ export function DropMenu({ placeholder, label, options, Default, onChange }) {
         setSelectedOption(value);
       }}
     >
-      <SelectTrigger   className="w-auto px-3 h-9 focus:outline-none focus:ring-0 focus:ring-offset-0">
+      <SelectTrigger
+        className={`${
+          shortscreen ? "w-12" : "w-auto"
+        } h-8 focus:outline-none focus:ring-0 focus:ring-offset-0`}
+      >
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

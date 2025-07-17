@@ -80,7 +80,7 @@ export function FormationDialogue({ setformation }) {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
           <Button
-            className="px-2 h-9 focus-visible:ring-0 focus-visible:outline-none focus-visible:shadow-none"
+            className=" select-none px-2 h-9 focus-visible:ring-0 focus-visible:outline-none focus-visible:shadow-none"
             variant="outline"
           >
             Add Formation

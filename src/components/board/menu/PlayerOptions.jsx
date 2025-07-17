@@ -130,7 +130,7 @@ function PlayerOptions({ addplayer, playerNumberFontSize }) {
   return (
     <div
       className={`${
-        isPortrait ? "w-11/12 self-center" : "w-5/12"
+        isPortrait ? "w-full self-center" : "w-5/12"
       } h-full flex p-0 m-0`}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}

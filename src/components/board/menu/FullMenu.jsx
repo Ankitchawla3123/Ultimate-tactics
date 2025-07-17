@@ -3,6 +3,7 @@ import { Hexagon, LineSquiggle, Minus, Move } from "lucide-react";
 import { DropMenu, PlayerOptions, EditOption, ColorInput } from "../../index";
 import { useDispatch, useSelector } from "react-redux";
 import { setdrawtype, setlinetype, setmode } from "../../../store/boardslice";
+import { div } from "motion/react-client";
 
 function FullMenu({ addplayer, playerNumberFontSize }) {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ function FullMenu({ addplayer, playerNumberFontSize }) {
   return (
     <div
       className={`w-full ${
-        isPortrait ? "flex flex-col gap-2 h-9" : "flex h-9 sm:h-9"
+        isPortrait ? "flex flex-col gap-1 h-8" : "flex h-9 "
       }`}
     >
       <PlayerOptions
@@ -35,7 +36,11 @@ function FullMenu({ addplayer, playerNumberFontSize }) {
         playerNumberFontSize={playerNumberFontSize}
         addplayer={addplayer}
       />
-      <div className={`${isPortrait ? "flex gap-2" : "flex gap-2 ml-2"}`}>
+      <div
+        className={`${
+          isPortrait ? "flex gap-1 items-center" : "flex gap-2 items-center"
+        }`}
+      >
         <DropMenu
           placeholder={"Mode"}
           label={"Features"}
@@ -91,7 +96,7 @@ function FullMenu({ addplayer, playerNumberFontSize }) {
           />
         )}
         {drawtype === "line" && mode === "draw" && (
-          <EditOption handleLineType={handleLineType} />
+          <EditOption isPortrait={isPortrait} handleLineType={handleLineType} />
         )}
         {mode === "draw" && <ColorInput />}
       </div>

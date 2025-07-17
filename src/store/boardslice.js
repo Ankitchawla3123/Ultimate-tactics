@@ -10,6 +10,7 @@ const initialState = {
   color: "#000000",
   menuselect: false,
   clearval: "",
+  shortscreen: false, // 👈 NEW
 };
 
 const boardslice = createSlice({
@@ -43,6 +44,10 @@ const boardslice = createSlice({
     setclearval: (state, action) => {
       state.clearval = action.payload;
     },
+    setshortscreen: (state, action) => {
+      // 👈 NEW
+      state.shortscreen = action.payload;
+    },
   },
 });
 
@@ -54,6 +59,7 @@ export const {
   setcolor,
   setmenutoggle,
   setclearval,
+  setshortscreen, // 👈 NEW
 } = boardslice.actions;
 
 export default boardslice.reducer;

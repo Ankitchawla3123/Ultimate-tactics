@@ -11,7 +11,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function DropMenu2({ placeholder, label, options, Default, onChange }) {
+export function DropMenu2({
+  placeholder,
+  label,
+  options,
+  Default,
+  onChange,
+  isPortrait,
+}) {
   const [selectedoption, setselectedoption] = React.useState(Default);
 
   React.useEffect(() => {
@@ -24,11 +31,11 @@ export function DropMenu2({ placeholder, label, options, Default, onChange }) {
   const displayText = selectedItem ? selectedItem.placeholder : placeholder;
 
   return (
-    <DropdownMenu className="w-auto">
-      <DropdownMenuTrigger asChild>
+    <DropdownMenu className="w-auto ">
+      <DropdownMenuTrigger className={isPortrait ? "w-4" : ""} asChild>
         <Button
           variant="ghost"
-          className=" px-1 focus-visible:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:shadow-none "
+          className=" px-1 py-0 focus-visible:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:shadow-none "
         >
           {displayText}
         </Button>
