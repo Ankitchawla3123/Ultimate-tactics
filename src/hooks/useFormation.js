@@ -66,8 +66,8 @@ export const useFormation = (setplayers) => {
       preferred = [2, 3, 4, 5];
       fallback = [12, 13, 66, 22, 24];
     } else if (isLast) {
-      preferred = [7, 9, 11, 19];
-      fallback = [17, 30, 20, 18, 26];
+      preferred = [7, 9, 11];
+      fallback = [19, 17, 30, 20, 18, 26];
     } else {
       preferred = [6, 8]; // exclude 10
       fallback = [14, 21, 23, 16, 15, 25];
