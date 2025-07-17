@@ -23,6 +23,9 @@ function Board() {
 
   const { heightVh, aspect, playerNumberFontSize } = useResponsiveSize();
 
+  const [aspectWidth, aspectHeight] = aspect.split(" / ").map(Number);
+  const calculatedWidthVh = heightVh * (aspectWidth / aspectHeight);
+
   const boardStyle = {
     width: "auto",
     height: `${heightVh}vh`,
@@ -41,38 +44,42 @@ function Board() {
   const handleClear = (value) => dispatch(setclearval(value));
 
   return (
-    <div className="w-fit items-center">
-      <div className="relative flex flex-col items-center">
-        <div
-          ref={ref}
-          style={boardStyle}
-          className="flex justify-center items-center"
-        >
-          <div className="relative w-85per z-10 border-2 border-green-950 border-opacity-90">
-            <FootballField horizontal={aspect == "10 / 16" ? false : true} />
-          </div>
-          <div className="z-20 w-full h-full absolute">
-            <BoardStruct
-              boardref={boardref}
-              players={players}
-              setplayers={setplayers}
-              UpdatePlayer={UpdatePlayer}
-              DeletePlayer={DeletePlayer}
-              playerNumberFontSize={playerNumberFontSize}
-              aspect={aspect}
-            />
-          </div>
+    <div
+      className="relative flex flex-col items-center"
+      style={{ maxWidth: `${calculatedWidthVh}vh` }}
+    >
+      <div
+        ref={ref}
+        style={boardStyle}
+        className="flex justify-center items-center"
+      >
+        <div className="relative w-85per z-10 border-2 border-green-950 border-opacity-90">
+          <FootballField horizontal={aspect === "10 / 16" ? false : true} />
         </div>
+        <div className="z-20 w-full h-full absolute">
+          <BoardStruct
+            boardref={boardref}
+            players={players}
+            setplayers={setplayers}
+            UpdatePlayer={UpdatePlayer}
+            DeletePlayer={DeletePlayer}
+            playerNumberFontSize={playerNumberFontSize}
+            aspect={aspect}
+          />
+        </div>
+      </div>
 
-        <div
-          onMouseDown={() => dispatch(setmenutoggle())}
-          onTouchStart={() => dispatch(setmenutoggle())}
-          className="w-full z-20 self-center"
-        >
-          <FullMenu addplayer={addplayer} />
-          <FormationDialogue setformation={setformation} />
-          <ClearMenu options={options} onChange={handleClear} />
-        </div>
+      <div
+        onMouseDown={() => dispatch(setmenutoggle())}
+        onTouchStart={() => dispatch(setmenutoggle())}
+        className="w-full z-20 self-center"
+      >
+        <FullMenu
+          addplayer={addplayer}
+          playerNumberFontSize={playerNumberFontSize}
+        />
+        {/* <FormationDialogue setformation={setformation} /> */}
+        {/* <ClearMenu options={options} onChange={handleClear} /> */}
       </div>
     </div>
   );

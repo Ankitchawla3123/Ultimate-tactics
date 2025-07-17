@@ -7,9 +7,12 @@ import {
   resetselectedplayer,
 } from "../../../store/playerslice";
 
-function PlayerOptions({ addplayer }) {
+function PlayerOptions({ addplayer, playerNumberFontSize }) {
   const PlayerOptions = useSelector((state) => state.player.PlayerOptions);
   const selectedplayer = useSelector((state) => state.player.selectedplayer);
+  const aspect = useSelector((state) => state.board.aspect); // 👈 added aspect
+  const isPortrait = aspect === "10 / 16";
+
   const selectedPlayerRef = useRef(selectedplayer);
   const indexRef = useRef(null);
   const dispatch = useDispatch();
@@ -18,7 +21,6 @@ function PlayerOptions({ addplayer }) {
   const count = PlayerOptions.length;
   const diameterPercent = 100 / count;
   const radiusPercent = diameterPercent / 2;
-  const fontSizeVW = radiusPercent * 0.18;
 
   useEffect(() => {
     selectedPlayerRef.current = selectedplayer;
@@ -127,7 +129,9 @@ function PlayerOptions({ addplayer }) {
 
   return (
     <div
-      className="w-5/12 h-full flex p-0 m-0"
+      className={`${
+        isPortrait ? "w-11/12 self-center" : "w-5/12"
+      } h-full flex p-0 m-0`}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchEnd}
@@ -159,7 +163,7 @@ function PlayerOptions({ addplayer }) {
                 textAnchor="middle"
                 dominantBaseline="middle"
                 fill={textColor}
-                fontSize={`${fontSizeVW}vw`}
+                fontSize={playerNumberFontSize + 1}
                 fontWeight="bold"
               >
                 {option.number}

@@ -1,20 +1,17 @@
 import React from "react";
 import { Hexagon, LineSquiggle, Minus, Move } from "lucide-react";
-
-import {
-  DropMenu,
-  PlayerOptions,
-  EditOption,
-  ColorInput,
-  FormationDialogue,
-} from "../../index";
+import { DropMenu, PlayerOptions, EditOption, ColorInput } from "../../index";
 import { useDispatch, useSelector } from "react-redux";
 import { setdrawtype, setlinetype, setmode } from "../../../store/boardslice";
 
-function FullMenu({ addplayer }) {
+function FullMenu({ addplayer, playerNumberFontSize }) {
   const dispatch = useDispatch();
   const mode = useSelector((state) => state.board.mode);
   const drawtype = useSelector((state) => state.board.drawtype);
+  const aspect = useSelector((state) => state.board.aspect);
+
+  const isPortrait = aspect === "10 / 16"; // 👈 portrait = vertical menu layout
+
   const handleModeChange = (value) => {
     dispatch(setmode(value));
   };
@@ -26,10 +23,19 @@ function FullMenu({ addplayer }) {
   const handleLineType = (value) => {
     dispatch(setlinetype(value));
   };
+
   return (
-    <div className="w-full flex h-9">
-      <PlayerOptions addplayer={addplayer} />
-      <div className="flex gap-2">
+    <div
+      className={`w-full ${
+        isPortrait ? "flex flex-col gap-2 h-9" : "flex h-9 sm:h-9"
+      }`}
+    >
+      <PlayerOptions
+        isPortrait={isPortrait}
+        playerNumberFontSize={playerNumberFontSize}
+        addplayer={addplayer}
+      />
+      <div className={`${isPortrait ? "flex gap-2" : "flex gap-2 ml-2"}`}>
         <DropMenu
           placeholder={"Mode"}
           label={"Features"}
@@ -74,7 +80,7 @@ function FullMenu({ addplayer }) {
                 value: "polygon",
                 placeholder: (
                   <span className="flex select-none items-center gap-1">
-                    <Hexagon className="w-1/5 " />
+                    <Hexagon className="w-1/5" />
                     Polygon
                   </span>
                 ),
