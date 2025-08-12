@@ -10,6 +10,7 @@ import "./index.css";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import SIgnup from "./pages/SIgnup.jsx";
+import { Board } from "./components/index.js";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
         path: "signup",
         element: <SIgnup />,
       },
+      {
+        path:"board",
+        element:<Board/>
+      }
     ],
   },
 ]);

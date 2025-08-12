@@ -11,9 +11,8 @@ function App() {
     <div className="flex min-h-screen flex-col">
       <HeroHeader />
       <div className="flex flex-col items-center justify-between flex-1 pt-20">
-        <Board />
+        <Outlet />
       </div>
-      <Outlet/>
     </div>
   );
 }
