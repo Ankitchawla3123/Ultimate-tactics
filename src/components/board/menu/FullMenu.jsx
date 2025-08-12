@@ -11,7 +11,7 @@ function FullMenu({ addplayer, playerNumberFontSize }) {
   const drawtype = useSelector((state) => state.board.drawtype);
   const aspect = useSelector((state) => state.board.aspect);
 
-  const isPortrait = aspect === "10 / 16"; // 👈 portrait = vertical menu layout
+  const isPortrait = aspect === "10 / 16";
 
   const handleModeChange = (value) => {
     dispatch(setmode(value));
