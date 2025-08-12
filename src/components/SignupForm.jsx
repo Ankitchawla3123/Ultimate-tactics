@@ -41,7 +41,7 @@ export function SignupForm({ formData, setFormData, onSubmit }) {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-=          <div className="grid gap-2">
+          <div className="grid gap-2">
             <Label htmlFor="username">Username</Label>
             <Input
               id="username"
