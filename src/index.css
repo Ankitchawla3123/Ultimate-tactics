@@ -2,94 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
-/* -------------------------------
-   CUSTOM THEME CONFIGURATION
---------------------------------*/
 @layer base {
   :root {
-    /* Base Colors */
-    --background: 0 0% 100%;
-    --foreground: 230 35% 15%;
+    /* Background & Text */
+    --background: 0 0% 100%; /* White */
+    --foreground: 220 14% 5%; /* Almost black for high contrast */
 
-    /* Card & Popover */
+    /* Surfaces */
     --card: 0 0% 100%;
-    --card-foreground: 230 35% 15%;
+    --card-foreground: 220 14% 5%;
     --popover: 0 0% 100%;
-    --popover-foreground: 230 35% 15%;
+    --popover-foreground: 220 14% 5%;
 
-    /* Primary - Purple theme */
-    --primary: 271 81% 56%; /* purple-500 */
+    /* Primary */
+    --primary: 220 14% 20%; /* Bold dark gray */
     --primary-foreground: 0 0% 100%;
 
     /* Secondary */
-    --secondary: 271 100% 97%; /* light lavender */
-    --secondary-foreground: 271 81% 40%;
+    --secondary: 220 14% 95%;
+    --secondary-foreground: 220 14% 20%;
 
     /* Muted & Accent */
-    --muted: 271 100% 97%;
-    --muted-foreground: 271 20% 45%;
-    --accent: 300 76% 72%; /* pink accent */
+    --muted: 220 14% 97%;
+    --muted-foreground: 220 9% 40%;
+    --accent: 220 14% 15%;
     --accent-foreground: 0 0% 100%;
 
-    /* Destructive */
+    /* Destructive (for errors, warnings) */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Border & Inputs */
-    --border: 271 30% 85%;
-    --input: 271 30% 85%;
-    --ring: 271 81% 56%;
+    /* Borders & Inputs */
+    --border: 220 14% 88%;
+    --input: 220 14% 88%;
+    --ring: 220 14% 20%;
 
-    /* Charts */
-    --chart-1: 271 81% 56%;  /* purple */
-    --chart-2: 300 76% 72%;  /* pink */
-    --chart-3: 230 50% 60%;  /* indigo */
-    --chart-4: 43 74% 66%;   /* yellow */
-    --chart-5: 197 63% 48%;  /* teal */
+    /* Charts (Gray Theme Palette) */
+    --chart-1: 220 14% 25%;  /* Dark Gray */
+    --chart-2: 220 14% 40%;  /* Medium Gray */
+    --chart-3: 220 14% 55%;  /* Lighter Gray */
+    --chart-4: 220 14% 70%;  /* Very Light Gray */
+    --chart-5: 220 14% 85%;  /* Soft Gray */
 
     /* Radius */
     --radius: 0.5rem;
   }
 
-  /* ---------------------------
-      DARK MODE COLORS
-  --------------------------- */
   .dark {
-    --background: 271 30% 12%; /* deep purple */
-    --foreground: 0 0% 98%;
+    /* Dark Mode Backgrounds */
+    --background: 220 14% 12%; /* Near black */
+    --foreground: 220 14% 98%; /* Near white */
 
-    --card: 271 30% 12%;
-    --card-foreground: 0 0% 98%;
-    --popover: 271 30% 12%;
-    --popover-foreground: 0 0% 98%;
+    /* Surfaces */
+    --card: 220 14% 8%;
+    --card-foreground: 220 14% 98%;
+    --popover: 220 14% 8%;
+    --popover-foreground: 220 14% 98%;
 
-    --primary: 271 81% 56%; /* purple-500 */
-    --primary-foreground: 0 0% 100%;
+    /* Primary */
+    --primary: 220 14% 70%;
+    --primary-foreground: 220 14% 8%;
 
-    --secondary: 271 30% 20%;
-    --secondary-foreground: 0 0% 98%;
+    /* Secondary */
+    --secondary: 220 14% 18%;
+    --secondary-foreground: 220 14% 96%;
 
-    --muted: 271 30% 20%;
-    --muted-foreground: 271 50% 70%;
-    --accent: 300 76% 72%;
-    --accent-foreground: 0 0% 98%;
+    /* Muted & Accent */
+    --muted: 220 14% 18%;
+    --muted-foreground: 220 14% 65%;
+    --accent: 220 14% 28%;
+    --accent-foreground: 220 14% 98%;
 
+    /* Destructive */
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 210 20% 98%;
 
-    --border: 271 30% 20%;
-    --input: 271 30% 20%;
-    --ring: 271 81% 56%;
+    /* Borders & Inputs */
+    --border: 220 14% 18%;
+    --input: 220 14% 40%;
+    --ring: 220 14% 70%;
 
-    --chart-1: 271 81% 56%;
-    --chart-2: 300 76% 72%;
-    --chart-3: 230 50% 60%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 197 63% 48%;
+    /* Charts (Gray Scale for Dark Mode) */
+    --chart-1: 220 14% 70%;
+    --chart-2: 220 14% 55%;
+    --chart-3: 220 14% 45%;
+    --chart-4: 220 14% 35%;
+    --chart-5: 220 14% 25%;
   }
 }
 
-/* Apply Tailwind utilities to base */
 @layer base {
   * {
     @apply border-border;
