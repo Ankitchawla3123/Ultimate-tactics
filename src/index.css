@@ -2,82 +2,94 @@
 @tailwind components;
 @tailwind utilities;
 
+/* -------------------------------
+   CUSTOM THEME CONFIGURATION
+--------------------------------*/
 @layer base {
   :root {
+    /* Base Colors */
     --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
+    --foreground: 230 35% 15%;
 
+    /* Card & Popover */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
-
+    --card-foreground: 230 35% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 230 35% 15%;
 
-    --primary: 173 80% 36%; /* teal-600 */
-    --primary-foreground: 210 20% 98%;
+    /* Primary - Purple theme */
+    --primary: 271 81% 56%; /* purple-500 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 173 100% 96%; /* teal-50 */
-    --secondary-foreground: 173 80% 30%;
+    /* Secondary */
+    --secondary: 271 100% 97%; /* light lavender */
+    --secondary-foreground: 271 81% 40%;
 
-    --muted: 173 100% 96%;
-    --muted-foreground: 173 27% 45%;
+    /* Muted & Accent */
+    --muted: 271 100% 97%;
+    --muted-foreground: 271 20% 45%;
+    --accent: 300 76% 72%; /* pink accent */
+    --accent-foreground: 0 0% 100%;
 
-    --accent: 173 100% 96%;
-    --accent-foreground: 173 80% 30%;
-
+    /* Destructive */
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 173 40% 85%;
-    --input: 173 40% 85%;
-    --ring: 173 80% 36%;
+    /* Border & Inputs */
+    --border: 271 30% 85%;
+    --input: 271 30% 85%;
+    --ring: 271 81% 56%;
 
-    --chart-1: 173 58% 39%;
-    --chart-2: 197 37% 24%;
-    --chart-3: 43 74% 66%;
-    --chart-4: 27 87% 67%;
-    --chart-5: 12 76% 61%;
+    /* Charts */
+    --chart-1: 271 81% 56%;  /* purple */
+    --chart-2: 300 76% 72%;  /* pink */
+    --chart-3: 230 50% 60%;  /* indigo */
+    --chart-4: 43 74% 66%;   /* yellow */
+    --chart-5: 197 63% 48%;  /* teal */
 
+    /* Radius */
     --radius: 0.5rem;
   }
 
+  /* ---------------------------
+      DARK MODE COLORS
+  --------------------------- */
   .dark {
-    --background: 173 80% 10%; /* teal-900 */
-    --foreground: 173 100% 96%;
+    --background: 271 30% 12%; /* deep purple */
+    --foreground: 0 0% 98%;
 
-    --card: 173 80% 10%;
-    --card-foreground: 173 100% 96%;
+    --card: 271 30% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 271 30% 12%;
+    --popover-foreground: 0 0% 98%;
 
-    --popover: 173 80% 10%;
-    --popover-foreground: 173 100% 96%;
+    --primary: 271 81% 56%; /* purple-500 */
+    --primary-foreground: 0 0% 100%;
 
-    --primary: 173 60% 50%; /* teal-500 */
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 271 30% 20%;
+    --secondary-foreground: 0 0% 98%;
 
-    --secondary: 173 60% 24%;
-    --secondary-foreground: 173 100% 96%;
-
-    --muted: 173 60% 24%;
-    --muted-foreground: 173 60% 70%;
-
-    --accent: 173 60% 24%;
-    --accent-foreground: 173 100% 96%;
+    --muted: 271 30% 20%;
+    --muted-foreground: 271 50% 70%;
+    --accent: 300 76% 72%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 173 60% 24%;
-    --input: 173 60% 24%;
-    --ring: 173 60% 50%;
+    --border: 271 30% 20%;
+    --input: 271 30% 20%;
+    --ring: 271 81% 56%;
 
-    --chart-1: 173 60% 50%;
-    --chart-2: 197 37% 24%;
-    --chart-3: 43 74% 66%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --chart-1: 271 81% 56%;
+    --chart-2: 300 76% 72%;
+    --chart-3: 230 50% 60%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 197 63% 48%;
   }
 }
 
+/* Apply Tailwind utilities to base */
 @layer base {
   * {
     @apply border-border;

@@ -6,10 +6,9 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const menuItems = [
-  { name: 'Features', href: '#link' },
-  { name: 'Solution', href: '#link' },
-  { name: 'Pricing', href: '#link' },
-  { name: 'About', href: '#link' },
+  { name: 'Board', href: 'board' },
+  { name: 'About', href: '/#about' },
+  { name: 'Relive', href: '/Relive' },
 ];
 
 export const HeroHeader = () => {
@@ -107,7 +106,7 @@ export const HeroHeader = () => {
                   size="sm"
                   className={cn(isScrolled && 'lg:hidden')}
                 >
-                  <Link to="#">
+                  <Link to="/login">
                     <span>Login</span>
                   </Link>
                 </Button>
@@ -116,7 +115,7 @@ export const HeroHeader = () => {
                   size="sm"
                   className={cn(isScrolled && 'lg:hidden')}
                 >
-                  <Link to="#">
+                  <Link to="signup">
                     <span>Sign Up</span>
                   </Link>
                 </Button>
