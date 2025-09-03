@@ -4,6 +4,7 @@ import { ArrowRight, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextEffect } from "@/components/ui/text-effect";
 import { AnimatedGroup } from "@/components/ui/animated-group";
+import { CarouselPlugin } from "./hero-components/Carousel";
 
 const transitionVariants = {
   item: {
@@ -145,7 +146,7 @@ export default function HeroSection() {
                     className="rounded-lg px-4 text-sm sm:px-5 sm:text-base"
                   >
                     <Link to="#link">
-                      <span className="text-nowrap">Start Building</span>
+                      <span className="text-nowrap">Get Started</span>
                     </Link>
                   </Button>
 
@@ -156,7 +157,7 @@ export default function HeroSection() {
                     className="rounded-lg px-4 text-sm sm:px-5 sm:text-base"
                   >
                     <Link to="#link">
-                      <span className="text-nowrap">Request a demo</span>
+                      <span className="text-nowrap">Relive The Match</span>
                     </Link>
                   </Button>
                 </AnimatedGroup>
@@ -177,22 +178,10 @@ export default function HeroSection() {
                 ...transitionVariants,
               }}
             >
-              <div className="relative mt-6 px-2 sm:mt-10 md:mt-20">
-                <div
-                  aria-hidden
-                  className="bg-linear-to-b to-background absolute inset-0 z-10 from-transparent from-35%"
-                />
-                <div className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto w-full max-w-4xl overflow-hidden rounded-xl border p-2 sm:rounded-2xl sm:p-4 shadow-lg shadow-zinc-950/15 ring-1">
-                  <img
-                    className="aspect-[15/8] w-full rounded-xl dark:block"
-                    src="/mail2.png"
-                    alt="app screen"
-                  />
-                  <img
-                    className="aspect-[15/8] w-full rounded-xl dark:hidden"
-                    src="/mail2-light.png"
-                    alt="app screen"
-                  />
+              <div className="relative flex justify-center mt-6 px-4 sm:mt-10 md:mt-20">
+                {/* Responsive width container */}
+                <div className="w-11/12 max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl ">
+                  <CarouselPlugin />
                 </div>
               </div>
             </AnimatedGroup>
