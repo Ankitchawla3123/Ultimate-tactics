@@ -105,9 +105,10 @@ export default function HeroSection() {
                   preset="fade-in-blur"
                   speedSegment={0.3}
                   as="h1"
-                  className="mt-6 text-balance text-4xl sm:text-5xl md:text-6xl lg:mt-16 xl:text-[5.25rem]"
+                  className="mt-6 text-balance text-4xl sm:text-5xl md:text-6xl lg:mt-16 xl:text-[5.25rem] font-serif"
                 >
-                  Modern Solutions for Customer Engagement
+                  The <span className=" text-green-400 ">U</span>
+                  ltimate Tactics
                 </TextEffect>
 
                 {/* Hero Description */}
@@ -119,8 +120,8 @@ export default function HeroSection() {
                   as="p"
                   className="mx-auto mt-4 max-w-md text-balance text-base sm:mt-6 sm:max-w-xl sm:text-lg md:mt-8 md:max-w-2xl"
                 >
-                  Highly customizable components for building modern websites
-                  and applications that look and feel the way you mean it.
+                  Design Plays, Draw Runs, and Shape Formations with Ease on
+                  Your Football Tactical Board.
                 </TextEffect>
 
                 {/* Buttons */}
