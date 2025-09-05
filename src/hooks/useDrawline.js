@@ -22,12 +22,26 @@ export const useDrawline = (selected, boardref) => {
   const aspect = useSelector((state) => state.board.aspect);
 
   const [previewline, setline] = useState(null);
-  const [lines, setlines] = useState([]);
+  const [lines, setlines] = useState(() => {
+    try {
+      const stored = localStorage.getItem("lines");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
   const lineRef = useRef(previewline);
   const aspectref = useRef(aspect);
 
   const [polygon, setpolypoints] = useState([]);
-  const [polygons, setpolygons] = useState([]);
+  const [polygons, setpolygons] = useState(() => {
+    try {
+      const stored = localStorage.getItem("polygons");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
   const [nextpointforpoly, setnextpointforpoly] = useState([]);
 
   const typeRef = useRef(drawtype);

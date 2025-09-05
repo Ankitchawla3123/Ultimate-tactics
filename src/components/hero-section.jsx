@@ -166,6 +166,7 @@ export default function HeroSection() {
 
             {/* Hero Image */}
             <AnimatedGroup
+              className=" w-auto"
               variants={{
                 container: {
                   visible: {

@@ -4,7 +4,14 @@ import { getPointerPosition } from "../utils/getPointerPosition";
 
 export const usePlayer = (boardref) => {
   const ref = boardref.current;
-  const [players, setplayers] = useState([]);
+  const [players, setplayers] = useState(() => {
+    try {
+      const stored = localStorage.getItem("players");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
   const dragging = useSelector((state) => state.moveable.dragging);
   const aspect = useSelector((state) => state.board.aspect);
 

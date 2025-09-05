@@ -1,7 +1,9 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { getNumberColor, getOuterRingColor } from "../../../utils/getColor";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
+
   addselectedplayer,
   plusone,
   resetselectedplayer,
@@ -14,17 +16,38 @@ function PlayerOptions({ addplayer, playerNumberFontSize }) {
   const isPortrait = aspect === "10 / 16";
 
   const selectedPlayerRef = useRef(selectedplayer);
+  const containerRef = useRef(null);
   const indexRef = useRef(null);
   const dispatch = useDispatch();
   const ghostRef = useRef(null);
   const touchInProgress = useRef(false);
   const count = PlayerOptions.length;
+
+  const [radiusPercent, setRadiusPercent] = useState(0);
   const diameterPercent = 100 / count;
-  const radiusPercent = diameterPercent / 2;
+  // const radiusPercent = diameterPercent / 2;
 
   useEffect(() => {
     selectedPlayerRef.current = selectedplayer;
   }, [selectedplayer]);
+
+  useEffect(() => {
+    const updateHeight = () => {
+      if (containerRef.current) {
+        const containerHeight = containerRef.current.clientHeight;
+        const screenHeight = window.innerHeight;
+        const percentage = (containerHeight / screenHeight) * 100;
+        setRadiusPercent((percentage)); // height in %
+      }
+    };
+
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+
+    return () => {
+      window.removeEventListener("resize", updateHeight);
+    };
+  }, []);
 
   useEffect(() => {
     window.addEventListener("mousemove", handleTouchMove);
@@ -135,6 +158,7 @@ function PlayerOptions({ addplayer, playerNumberFontSize }) {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchEnd}
+      ref={containerRef}
     >
       <svg className="w-full h-full">
         {PlayerOptions.map((option, index) => {
