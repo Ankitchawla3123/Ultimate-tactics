@@ -63,6 +63,10 @@ export default {
           5: "hsl(var(--chart-5))",
         },
       },
+      screens: {
+        "3xl": "2000px", // 2K
+        "4xl": "3840px", // 4K
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

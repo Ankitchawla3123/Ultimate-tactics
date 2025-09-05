@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  aspect: "16 / 10",
+  aspect: null,
   mode: "drag",
   drawtype: "line",
   LeftEnd: "left-end",
