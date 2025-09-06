@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from '@/components/logo';
 import { Menu, X } from 'lucide-react';
@@ -12,10 +12,12 @@ const menuItems = [
 ];
 
 export const HeroHeader = () => {
-  const [menuState, setMenuState] = React.useState(false);
-  const [isScrolled, setIsScrolled] = React.useState(false);
+  const [menuState, setMenuState] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const menuRef = useRef(null);
 
-  React.useEffect(() => {
+  // Track scroll for navbar styles
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
@@ -23,8 +25,28 @@ export const HeroHeader = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        // means menu exists and and not(click is not on menu )
+        setMenuState(false);
+      }
+    };
+
+    if (menuState) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuState]);
+
   return (
-    <header >
+    <header>
       <nav className="fixed z-30 w-full px-2">
         <div
           className={cn(
@@ -32,7 +54,10 @@ export const HeroHeader = () => {
             isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5'
           )}
         >
-          <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
+          <div
+            ref={menuRef}
+            className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4"
+          >
             {/* Logo + mobile menu button */}
             <div className="flex w-full justify-between lg:w-auto">
               <Link to="/" aria-label="home" className="flex items-center space-x-2">
