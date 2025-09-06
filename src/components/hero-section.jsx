@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextEffect } from "@/components/ui/text-effect";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { CarouselPlugin } from "./hero-components/Carousel";
+import { HashLink } from "react-router-hash-link"; // ✅ use HashLink
 
 const transitionVariants = {
   item: {
@@ -79,8 +79,9 @@ export default function HeroSection() {
               <div className="text-center sm:mx-auto lg:mr-auto lg:mt-0">
                 {/* Tagline */}
                 <AnimatedGroup variants={transitionVariants}>
-                  <Link
-                    to="#link"
+                  <HashLink
+                    smooth
+                    to="#about"
                     className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors duration-300 dark:border-t-white/5 dark:shadow-zinc-950"
                   >
                     <span className="text-foreground text-xs sm:text-sm">
@@ -98,7 +99,7 @@ export default function HeroSection() {
                         </span>
                       </div>
                     </div>
-                  </Link>
+                  </HashLink>
                 </AnimatedGroup>
 
                 {/* Hero Heading */}
@@ -145,9 +146,9 @@ export default function HeroSection() {
                     size="lg"
                     className="rounded-lg px-4 text-sm sm:px-5 sm:text-base"
                   >
-                    <Link to="#link">
+                    <HashLink smooth to="#link">
                       <span className="text-nowrap">Get Started</span>
-                    </Link>
+                    </HashLink>
                   </Button>
 
                   <Button
@@ -156,9 +157,9 @@ export default function HeroSection() {
                     variant="ghost"
                     className="rounded-lg px-4 text-sm sm:px-5 sm:text-base"
                   >
-                    <Link to="#link">
+                    <HashLink smooth to="#link">
                       <span className="text-nowrap">Relive The Match</span>
-                    </Link>
+                    </HashLink>
                   </Button>
                 </AnimatedGroup>
               </div>
@@ -188,39 +189,52 @@ export default function HeroSection() {
           </div>
         </section>
 
-        {/* Customers Section */}
-        <section className="bg-background pb-12 pt-12 sm:pb-16 sm:pt-16 md:pb-32">
-          <div className="group relative m-auto max-w-5xl px-4 sm:px-6">
-            <div className="absolute inset-0 z-10 flex scale-95 items-center justify-center opacity-0 duration-500 group-hover:scale-100 group-hover:opacity-100">
-              <Link
-                to="/"
-                className="block text-xs sm:text-sm duration-150 hover:opacity-75"
+        {/* About Section */}
+        <section
+          id="about"
+          className="bg-background pb-12 pt-3 sm:pb-16 sm:pt-10 md:pb-20"
+        >
+          <AnimatedGroup variants={transitionVariants}>
+            <div className="mx-auto w-10/12 max-w-4xl px-4 sm:px-6 text-left space-y-5">
+              <TextEffect
+                preset="fade-in-blur"
+                speedSegment={0.3}
+                as="h2"
+                className="text-3xl sm:text-4xl font-semibold  dark:text-zinc-200"
               >
-                <span>Meet Our Customers</span>
-                <ChevronRight className="ml-1 inline-block size-3" />
-              </Link>
+                What is this??
+              </TextEffect>
+              <TextEffect
+                per="line"
+                preset="fade-in-blur"
+                speedSegment={0.3}
+                delay={0.2}
+                as="p"
+                className="text-sm sm:text-base md:text-md text-zinc-500 dark:text-zinc-400"
+              >
+                This project is a <span className="font-semibold">Football Tactical Board</span> —
+                designed to bring your tactical ideas to life. Whether you want to
+                draw attacking runs, set up defensive shapes, or experiment with
+                player rotations, the board gives you a simple yet powerful way to
+                plan and visualize strategies.
+              </TextEffect>
+              <TextEffect
+                per="line"
+                preset="fade-in-blur"
+                speedSegment={0.3}
+                delay={0.4}
+                as="p"
+                className="text-sm sm:text-base md:text-md text-zinc-500 dark:text-zinc-400"
+              >
+                You can <span className="font-medium">create custom formations</span>,
+                save them for later, and reuse them whenever you need. It’s not
+                just about placing players — it’s about shaping the game the way
+                you imagine it. From grassroots training sessions to analyzing
+                professional-level matches, this board is built to adapt to your
+                style of thinking.
+              </TextEffect>
             </div>
-            <div className="group-hover:blur-xs mx-auto mt-8 grid grid-cols-2 gap-x-8 gap-y-6 transition-all duration-500 sm:mt-12 sm:grid-cols-3 sm:gap-x-12 sm:gap-y-8 md:max-w-2xl md:grid-cols-4">
-              {[
-                "nvidia",
-                "column",
-                "github",
-                "nike",
-                "lemonsqueezy",
-                "laravel",
-                "lilly",
-                "openai",
-              ].map((name, i) => (
-                <div className="flex" key={i}>
-                  <img
-                    className="mx-auto h-5 w-fit dark:invert"
-                    src={`https://html.tailus.io/blocks/customers/${name}.svg`}
-                    alt={`${name} Logo`}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          </AnimatedGroup>
         </section>
       </main>
     </>

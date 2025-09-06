@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Logo } from '@/components/logo';
-import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { Logo } from "@/components/logo";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { HashLink } from "react-router-hash-link";
 
 const menuItems = [
-  { name: 'Board', href: 'board' },
-  { name: 'About', href: '/#about' },
-  { name: 'Relive', href: '/Relive' },
+  { name: "Board", href: "board" },
+  { name: "About", href: "/#about" },
+  { name: "Relive", href: "/Relive" },
 ];
 
 export const HeroHeader = () => {
@@ -21,8 +22,8 @@ export const HeroHeader = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Close menu when clicking outside
@@ -35,13 +36,13 @@ export const HeroHeader = () => {
     };
 
     if (menuState) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuState]);
 
@@ -50,8 +51,9 @@ export const HeroHeader = () => {
       <nav className="fixed z-30 w-full px-2">
         <div
           className={cn(
-            'mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12',
-            isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5'
+            "mx-auto mt-2  px-6 transition-all duration-300 lg:px-12",
+            isScrolled &&
+              "bg-background/50 rounded-2xl border backdrop-blur-lg lg:px-5"
           )}
         >
           <div
@@ -60,13 +62,17 @@ export const HeroHeader = () => {
           >
             {/* Logo + mobile menu button */}
             <div className="flex w-full justify-between lg:w-auto">
-              <Link to="/" aria-label="home" className="flex items-center space-x-2">
+              <Link
+                to="/"
+                aria-label="home"
+                className="flex items-center space-x-2"
+              >
                 <Logo />
               </Link>
 
               <button
                 onClick={() => setMenuState(!menuState)}
-                aria-label={menuState ? 'Close Menu' : 'Open Menu'}
+                aria-label={menuState ? "Close Menu" : "Open Menu"}
                 className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden"
               >
                 <Menu
@@ -89,12 +95,13 @@ export const HeroHeader = () => {
               <ul className="flex gap-8 text-sm">
                 {menuItems.map((item, index) => (
                   <li key={index}>
-                    <Link
+                    <HashLink
+                      smooth
                       to={item.href}
                       className="text-muted-foreground hover:text-accent-foreground block duration-150"
                     >
                       <span>{item.name}</span>
-                    </Link>
+                    </HashLink>
                   </li>
                 ))}
               </ul>
@@ -112,12 +119,13 @@ export const HeroHeader = () => {
                 <ul className="space-y-6 text-base">
                   {menuItems.map((item, index) => (
                     <li key={index}>
-                      <Link
+                      <HashLink
+                        smooth
                         to={item.href}
                         className="text-muted-foreground hover:text-accent-foreground block duration-150"
                       >
                         <span>{item.name}</span>
-                      </Link>
+                      </HashLink>
                     </li>
                   ))}
                 </ul>
@@ -129,7 +137,7 @@ export const HeroHeader = () => {
                   asChild
                   variant="outline"
                   size="sm"
-                  className={cn(isScrolled && 'lg:hidden')}
+                  className={cn(isScrolled && "lg:hidden")}
                 >
                   <Link to="/login">
                     <span>Login</span>
@@ -138,7 +146,7 @@ export const HeroHeader = () => {
                 <Button
                   asChild
                   size="sm"
-                  className={cn(isScrolled && 'lg:hidden')}
+                  className={cn(isScrolled && "lg:hidden")}
                 >
                   <Link to="signup">
                     <span>Sign Up</span>
@@ -147,9 +155,9 @@ export const HeroHeader = () => {
                 <Button
                   asChild
                   size="sm"
-                  className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}
+                  className={cn(isScrolled ? "lg:inline-flex" : "hidden")}
                 >
-                  <Link to="#">
+                  <Link to="/">
                     <span>Get Started</span>
                   </Link>
                 </Button>
