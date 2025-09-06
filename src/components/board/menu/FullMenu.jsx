@@ -11,7 +11,6 @@ function FullMenu({ addplayer, playerNumberFontSize }) {
   const drawtype = useSelector((state) => state.board.drawtype);
 
   const aspect = useSelector((state) => state.board.aspect);
-  console.log(aspect)
   const [isPortrait, setIsPortrait] = useState(null);
 
   useEffect(() => {

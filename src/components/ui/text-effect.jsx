@@ -120,7 +120,6 @@ const AnimationComponent = React.memo(
 AnimationComponent.displayName = "AnimationComponent";
 
 const splitText = (text, per) => {
-  console.log(text)
   if (typeof text !== "string") return [text]; // handle JSX
 
   if (per === "line") return text.split("\n");
