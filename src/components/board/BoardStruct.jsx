@@ -84,6 +84,7 @@ function BoardStruct({
     Resize(e);
   };
 
+
   return (
     <div className="w-full h-full">
       <svg

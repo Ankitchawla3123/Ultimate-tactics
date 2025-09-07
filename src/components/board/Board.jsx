@@ -85,7 +85,7 @@ function Board() {
         />
         {/* <FormationDialogue setformation={setformation} /> */}
         {/* <ClearMenu options={options} onChange={handleClear} /> */}
-      </div>
+      </div>  
     </div>
   );
 }
