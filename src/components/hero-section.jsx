@@ -192,7 +192,7 @@ export default function HeroSection() {
         {/* About Section */}
         <section
           id="about"
-          className="bg-background pb-12 pt-3 sm:pb-16 sm:pt-10 md:pb-20"
+          className="bg-background pb-5 pt-8 sm:pb-5 sm:pt-10 md:pb-5"
         >
           <AnimatedGroup variants={transitionVariants}>
             <div className="mx-auto w-10/12 max-w-4xl px-4 sm:px-6 text-left space-y-5">
@@ -212,11 +212,12 @@ export default function HeroSection() {
                 as="p"
                 className="text-sm sm:text-base md:text-md text-zinc-500 dark:text-zinc-400"
               >
-                This project is a <span className="font-semibold">Football Tactical Board</span> —
-                designed to bring your tactical ideas to life. Whether you want to
-                draw attacking runs, set up defensive shapes, or experiment with
-                player rotations, the board gives you a simple yet powerful way to
-                plan and visualize strategies.
+                This project is a{" "}
+                <span className="font-semibold">Football Tactical Board</span> —
+                designed to bring your tactical ideas to life. Whether you want
+                to draw attacking runs, set up defensive shapes, or experiment
+                with player rotations, the board gives you a simple yet powerful
+                way to plan and visualize strategies.
               </TextEffect>
               <TextEffect
                 per="line"
@@ -226,12 +227,62 @@ export default function HeroSection() {
                 as="p"
                 className="text-sm sm:text-base md:text-md text-zinc-500 dark:text-zinc-400"
               >
-                You can <span className="font-medium">create custom formations</span>,
+                You can{" "}
+                <span className="font-medium">create custom formations</span>,
                 save them for later, and reuse them whenever you need. It’s not
                 just about placing players — it’s about shaping the game the way
                 you imagine it. From grassroots training sessions to analyzing
                 professional-level matches, this board is built to adapt to your
                 style of thinking.
+              </TextEffect>
+            </div>
+          </AnimatedGroup>
+        </section>
+        <section
+          id="whatnext"
+          className="bg-background pb-12 pt-5 sm:pb-16 sm:pt-10 md:pb-20"
+        >
+          <AnimatedGroup variants={transitionVariants}>
+            <div className="mx-auto w-10/12 max-w-4xl px-4 sm:px-6 text-left space-y-5">
+              <TextEffect
+                preset="fade-in-blur"
+                speedSegment={0.3}
+                as="h2"
+                className="text-3xl sm:text-4xl font-semibold  dark:text-zinc-200"
+              >
+                What comes ahead??
+              </TextEffect>
+              <TextEffect
+                per="line"
+                preset="fade-in-blur"
+                speedSegment={0.3}
+                delay={0.2}
+                as="p"
+                className="text-sm sm:text-base md:text-md text-zinc-500 dark:text-zinc-400"
+              >
+                I’m just getting started. One of the next big additions will be{" "}
+                <span className="font-semibold">Relive the Match</span> — a
+                feature where you can instantly jump back to iconic classic
+                games and explore their real formations with a single click. No
+                need to search, no hassle — just pure tactical nostalgia at your
+                fingertips.
+              </TextEffect>
+              <TextEffect
+                per="line"
+                preset="fade-in-blur"
+                speedSegment={0.3}
+                delay={0.4}
+                as="p"
+                className="text-sm sm:text-base md:text-md text-zinc-500 dark:text-zinc-400"
+              >
+                Looking further ahead, I plan to experiment with{" "}
+                <span className="font-medium">AI-powered insights</span> and{" "}
+                <span className="font-medium">live connect features</span> —
+                tools that could analyze matches in real-time, suggest tactical
+                adjustments, or even let you share and collaborate on strategies
+                instantly with others. This board isn’t just about the present;
+                it’s about shaping the future of how we experience football
+                tactics.
               </TextEffect>
             </div>
           </AnimatedGroup>
