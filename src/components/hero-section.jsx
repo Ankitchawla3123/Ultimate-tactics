@@ -146,7 +146,7 @@ export default function HeroSection() {
                     size="lg"
                     className="rounded-lg px-4 text-sm sm:px-5 sm:text-base"
                   >
-                    <HashLink smooth to="#link">
+                    <HashLink smooth to="/board">
                       <span className="text-nowrap">Get Started</span>
                     </HashLink>
                   </Button>
@@ -157,7 +157,7 @@ export default function HeroSection() {
                     variant="ghost"
                     className="rounded-lg px-4 text-sm sm:px-5 sm:text-base"
                   >
-                    <HashLink smooth to="#link">
+                    <HashLink smooth to="/relive">
                       <span className="text-nowrap">Relive The Match</span>
                     </HashLink>
                   </Button>
