@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { getPointerPosition } from "../utils/getPointerPosition";
 
-export const usePlayer = (boardref) => {
+export const useExtras = (boardref) => {
   const ref = boardref.current;
-  const [players, setplayers] = useState(() => {
+  const [extra, setextra] = useState(() => {
     try {
-      const stored = localStorage.getItem("players");
+      const stored = localStorage.getItem("extra");
       return stored ? JSON.parse(stored) : [];
     } catch {
       return [];
@@ -16,16 +16,17 @@ export const usePlayer = (boardref) => {
   const aspect = useSelector((state) => state.board.aspect);
   const aspectref = useRef(aspect);
 
-  useEffect(() => {
-    aspectref.current = aspect;
-  }, [aspect]);
+  useEffect(()=>{
+    aspectref.current=aspect
+  },[aspect])
 
-  
+
+
   useEffect(() => {
-    
-    setplayers((prev) =>
+    setextra((prev) =>
       prev.map((item) => {
         if (!item.aspect || item.aspect === aspect) return item;
+
         return {
           ...item,
           x: aspect === "10 / 16" ? 100 - item.y : item.y,
@@ -37,7 +38,7 @@ export const usePlayer = (boardref) => {
     );
   }, [aspect]);
 
-  const addplayer = (e, data) => {
+  const addextra = (e, data) => {
     const { x, y } = getPointerPosition(e, boardref);
     const player = {
       ...data,
@@ -45,31 +46,26 @@ export const usePlayer = (boardref) => {
       y: y,
       aspect: aspectref.current,
     };
-    setplayers((prev) => [...prev, player]);
+    setextra((prev) => [...prev, player]);
   };
 
-  const UpdatePlayer = (data, i) => {
-    setplayers((prev) =>
-      prev.map((player, index) =>
-        index === i ? { ...player, ...data } : player
-      )
-    );
-  };
-  const DeletePlayer = (i) => {
-    setplayers((prev) => prev.filter((_, index) => index !== i));
+ 
+
+  const DeleteExtra = (i) => {
+    setextra((prev) => prev.filter((_, index) => index !== i));
   };
 
-  const emptplayerref = useRef(false);
+  const empItemsref = useRef(false);
   useEffect(() => {
     const handleWindowLoad = () => {
-      const storedPlayers = localStorage.getItem("players");
-      if (storedPlayers === "[]") {
-        emptplayerref.current = true;
+      const storedItems = localStorage.getItem("extra");
+      if (storedItems === "[]") {
+        empItemsref.current = true;
       }
 
-      if (storedPlayers) {
+      if (storedItems) {
         try {
-          setplayers(JSON.parse(storedPlayers));
+          setextra(JSON.parse(storedPlayers));
         } catch (e) {
           console.error("Failed to parse polygons from localStorage", e);
         }
@@ -85,13 +81,13 @@ export const usePlayer = (boardref) => {
   }, []);
 
   useEffect(() => {
-    if (emptplayerref.current) {
-      localStorage.setItem("players", JSON.stringify(players));
+    if (empItemsref.current) {
+      localStorage.setItem("extra", JSON.stringify(extra));
     }
-    if (!emptplayerref.current) {
-      emptplayerref.current = true;
+    if (!empItemsref.current) {
+      empItemsref.current = true;
     }
-  }, [players]);
+  }, [extra]);
 
-  return { players, setplayers, addplayer, UpdatePlayer, DeletePlayer };
+  return { extra, setextra, addextra, DeleteExtra };
 };

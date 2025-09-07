@@ -128,6 +128,22 @@ export const useDrag = (
           return player;
         })
       );
+    } else if (SelectedElement.element === "Football") {
+      setextra((prev) =>
+        prev.map((item, index) => {
+          if (index === SelectedElement.index) {
+            const isWithinBounds = x >= 0 && x <= 100 && y >= 0 && y <= 100;
+            return isWithinBounds
+              ? {
+                  ...item,
+                  x: x,
+                  y: y,
+                }
+              : item;
+          }
+          return item;
+        })
+      );
     }
 
     setstart({ x, y });

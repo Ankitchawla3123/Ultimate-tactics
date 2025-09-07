@@ -6,6 +6,8 @@ import { useResize } from "../../hooks/useResize";
 import { useDispatch, useSelector } from "react-redux";
 import { useShape } from "../../hooks/useShape";
 import { setclearval } from "../../store/boardslice";
+import { useExtras } from "../../hooks/useExtras";
+import Football from "./Football";
 
 function BoardStruct({
   boardref,
@@ -15,6 +17,10 @@ function BoardStruct({
   DeletePlayer,
   playerNumberFontSize,
   aspect,
+  extra,
+  setextra,
+  addextra,
+  DeleteExtra,
 }) {
   const [selected, setselected] = useState(false);
   const {
@@ -38,7 +44,8 @@ function BoardStruct({
     setplayers,
     setselected,
     previewpolygon,
-    boardref
+    boardref,
+    setextra
   );
 
   const { Resize, ResizeType } = useResize(setpolygons, setlines, boardref);
@@ -78,12 +85,13 @@ function BoardStruct({
     dispatch(setclearval(""));
   }, [clearval, clearlines, clearpolygons, setplayers, dispatch]);
 
+  console.log(players)
+
   const mouseMoveHandler = (e) => {
     drawline(e);
     Dragline(e);
     Resize(e);
   };
-
 
   return (
     <div className="w-full h-full">
@@ -180,6 +188,13 @@ function BoardStruct({
             aspect={aspect}
           />
         ))}
+        {extra.map((Item, index) => {
+          if (Item.type === "football") {
+            return (
+              <Football key={index} setselected={setselected} item={Item} />
+            );
+          }
+        })}
       </svg>
     </div>
   );

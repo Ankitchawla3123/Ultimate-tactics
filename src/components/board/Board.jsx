@@ -11,6 +11,7 @@ import { usePlayer } from "../../hooks/usePlayer";
 import { useFormation } from "../../hooks/useFormation";
 import { setclearval, setmenutoggle } from "../../store/boardslice";
 import { useResponsiveSize } from "../../hooks/useResponsiveSize"; // new hook
+import { useExtras } from "../../hooks/useExtras";
 
 function Board() {
   const dispatch = useDispatch();
@@ -19,6 +20,8 @@ function Board() {
 
   const { players, setplayers, addplayer, UpdatePlayer, DeletePlayer } =
     usePlayer(boardref);
+  const { extra, setextra, addextra, DeleteExtra } = useExtras(boardref);
+
   const { setformation } = useFormation(setplayers);
 
   const { heightVh, aspect, playerNumberFontSize } = useResponsiveSize();
@@ -70,6 +73,10 @@ function Board() {
             DeletePlayer={DeletePlayer}
             playerNumberFontSize={playerNumberFontSize}
             aspect={aspect}
+            extra={extra}
+            setextra={setextra}
+            addextra={addextra}
+            DeleteExtra={DeleteExtra}
           />
         </div>
       </div>
@@ -82,10 +89,11 @@ function Board() {
         <FullMenu
           addplayer={addplayer}
           playerNumberFontSize={playerNumberFontSize}
+          addextra={addextra}
         />
         {/* <FormationDialogue setformation={setformation} /> */}
         {/* <ClearMenu options={options} onChange={handleClear} /> */}
-      </div>  
+      </div>
     </div>
   );
 }

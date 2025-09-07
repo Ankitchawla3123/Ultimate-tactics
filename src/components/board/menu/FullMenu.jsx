@@ -5,27 +5,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { setdrawtype, setlinetype, setmode } from "../../../store/boardslice";
 import { div } from "motion/react-client";
 
-function FullMenu({ addplayer, playerNumberFontSize }) {
+function FullMenu({ addplayer, addextra, playerNumberFontSize }) {
   const dispatch = useDispatch();
   const mode = useSelector((state) => state.board.mode);
   const drawtype = useSelector((state) => state.board.drawtype);
 
   const aspect = useSelector((state) => state.board.aspect);
-  const [isPortrait, setIsPortrait] = useState(null);
+  const [isPortrait, setIsPortrait] = useState(
+    window.innerHeight > window.innerWidth
+  );
 
   useEffect(() => {
-    if (aspect) {
-      setIsPortrait(aspect === "10 / 16");
-    }
-  }, [aspect]);
-  if (!aspect) {
-    return (
-      <div className="flex items-center justify-center w-full h-full">
-        <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-blue-500"></div>
-      </div>
-    );
-  }
-  
+    const handleResize = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleModeChange = (value) => {
     dispatch(setmode(value));
@@ -43,14 +40,15 @@ function FullMenu({ addplayer, playerNumberFontSize }) {
     <div
       className={`w-full ${
         isPortrait
-          ? "flex flex-col gap-1 h-10 md:h-10 lg:h-12 xl:h-14 2xl:h-16"
-          : "flex h-10 md:h-11 lg:h-13 xl:h-15 2xl:h-18 3xl:h-20 "
+          ? "flex flex-col gap-1 h-11 md:h-11 lg:h-12 xl:h-14 2xl:h-16"
+          : "flex h-7 md:h-11 lg:h-13 xl:h-15 2xl:h-18 3xl:h-20 "
       }`}
     >
       <PlayerOptions
         isPortrait={isPortrait}
         playerNumberFontSize={playerNumberFontSize}
         addplayer={addplayer}
+        addextra={addextra}
       />
       <div
         className={`${
