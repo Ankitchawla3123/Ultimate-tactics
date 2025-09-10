@@ -71,11 +71,15 @@ function BoardStruct({
       case "players":
         setplayers([]);
         break;
+      case "football":
+        setextra([]);
+        break;
 
       case "all":
         clearlines();
         clearpolygons();
         setplayers([]);
+        setextra([]);
         break;
 
       default:
@@ -84,7 +88,6 @@ function BoardStruct({
 
     dispatch(setclearval(""));
   }, [clearval, clearlines, clearpolygons, setplayers, dispatch]);
-
 
   const mouseMoveHandler = (e) => {
     drawline(e);
@@ -190,7 +193,14 @@ function BoardStruct({
         {extra.map((Item, index) => {
           if (Item.type === "football") {
             return (
-              <Football key={index} index={index} setselected={setselected} item={Item} DragType={DragType} DeleteExtra={DeleteExtra}/>
+              <Football
+                key={index}
+                index={index}
+                setselected={setselected}
+                item={Item}
+                DragType={DragType}
+                DeleteExtra={DeleteExtra}
+              />
             );
           }
         })}

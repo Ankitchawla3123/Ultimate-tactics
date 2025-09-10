@@ -41,6 +41,7 @@ function Board() {
     { value: "lines", placeholder: "Lines", variant: "ghost" },
     { value: "polygons", placeholder: "Polygons", variant: "ghost" },
     { value: "players", placeholder: "Players", variant: "ghost" },
+    { value: "football", placeholder: "Footballs", variant: "ghost" },
     { value: "all", placeholder: "Clear All", variant: "destructive" },
   ];
 
