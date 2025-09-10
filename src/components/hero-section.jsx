@@ -5,6 +5,7 @@ import { TextEffect } from "@/components/ui/text-effect";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { CarouselPlugin } from "./hero-components/Carousel";
 import { HashLink } from "react-router-hash-link"; // ✅ use HashLink
+import Footer from "./footer/Footer";
 
 const transitionVariants = {
   item: {
@@ -287,6 +288,7 @@ export default function HeroSection() {
             </div>
           </AnimatedGroup>
         </section>
+        <Footer/>
       </main>
     </>
   );
