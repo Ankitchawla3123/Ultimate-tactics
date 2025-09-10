@@ -85,7 +85,6 @@ function BoardStruct({
     dispatch(setclearval(""));
   }, [clearval, clearlines, clearpolygons, setplayers, dispatch]);
 
-  console.log(players)
 
   const mouseMoveHandler = (e) => {
     drawline(e);
@@ -191,7 +190,7 @@ function BoardStruct({
         {extra.map((Item, index) => {
           if (Item.type === "football") {
             return (
-              <Football key={index} setselected={setselected} item={Item} />
+              <Football key={index} index={index} setselected={setselected} item={Item} DragType={DragType} />
             );
           }
         })}

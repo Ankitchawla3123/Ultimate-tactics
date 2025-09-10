@@ -10,7 +10,8 @@ export const useDrag = (
   setplayers,
   setselected,
   previewpolygon,
-  boardref
+  boardref,
+  setextra
 ) => {
   const [start, setstart] = useState(null);
   const [SelectedElement, setSelectedElement] = useState(null);

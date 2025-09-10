@@ -1,6 +1,6 @@
 import React from "react";
 
-function Football({ item, radius = 1.2 }) {
+function Football({ index,item, radius = 1.2 , setselected,DragType}) {
   const patchRadius = radius * 0.4; //
   const { x, y } = item;
   return (

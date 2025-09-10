@@ -65,7 +65,7 @@ export const useExtras = (boardref) => {
 
       if (storedItems) {
         try {
-          setextra(JSON.parse(storedPlayers));
+          setextra(JSON.parse(storedItems));
         } catch (e) {
           console.error("Failed to parse polygons from localStorage", e);
         }
