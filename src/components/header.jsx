@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 import { HashLink } from "react-router-hash-link";
 
 const menuItems = [
-  { name: "Board", href: "board" },
+  { name: "Home", href: "/" },
+  { name: "Board", href: "/board" },
   { name: "About", href: "/#about" },
   { name: "Relive", href: "/Relive" },
 ];
