@@ -156,6 +156,20 @@ export default function ItemsContextMenu({ children, Update, Delete, Item }) {
             </ContextMenuItem>
           </>
         )}
+        {ContextMenutype === "football" && (
+          <>
+
+            <ContextMenuItem>
+              <Button
+                onClick={handleDelete}
+                variant="destructive"
+                className="text-xs sm:text-sm md:text-base px-2"
+              >
+                Remove Football
+              </Button>
+            </ContextMenuItem>
+          </>
+        )}
       </ContextMenuContent>
     </ContextMenu>
   );

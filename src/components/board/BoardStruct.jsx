@@ -190,7 +190,7 @@ function BoardStruct({
         {extra.map((Item, index) => {
           if (Item.type === "football") {
             return (
-              <Football key={index} index={index} setselected={setselected} item={Item} DragType={DragType} />
+              <Football key={index} index={index} setselected={setselected} item={Item} DragType={DragType} DeleteExtra={DeleteExtra}/>
             );
           }
         })}
