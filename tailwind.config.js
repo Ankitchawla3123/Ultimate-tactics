@@ -15,6 +15,7 @@ export default {
       },
       height: {
         "85per": "85%",
+        "104":"28rem"
       },
       borderRadius: {
         lg: "var(--radius)",

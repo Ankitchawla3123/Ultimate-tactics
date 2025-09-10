@@ -12,10 +12,18 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
+// Import PNG images from the same folder
+import image1 from "./image1.png";
+import image2 from "./image2.png";
+import image3 from "./image3.png";
+import image4 from "./image4.png";
+
 export function CarouselPlugin() {
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: true })
   );
+
+  const images = [image1, image2, image3, image4];
 
   return (
     <Carousel
@@ -25,14 +33,16 @@ export function CarouselPlugin() {
       onMouseLeave={plugin.current.reset}
     >
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
+        {images.map((img, index) => (
           <CarouselItem key={index} className="basis-full">
-            <div className="p-2 sm:p-4">
-              <Card className="h-48 sm:h-64 md:h-72 lg:h-80 w-full">
-                <CardContent className="flex h-full w-full items-center justify-center p-4">
-                  <span className="text-2xl sm:text-3xl md:text-4xl font-semibold">
-                    Slide {index + 1}
-                  </span>
+            <div className="p-2 sm:p-4 h-full w-full">
+              <Card className="h-48 sm:h-80 md:h-84 lg:h-104 w-full overflow-hidden bg-transparent">
+                <CardContent className="h-full w-full p-0">
+                  <img
+                    src={img}
+                    alt={`Slide ${index + 1}`}
+                    className="w-full h-full object-contain"
+                  />
                 </CardContent>
               </Card>
             </div>

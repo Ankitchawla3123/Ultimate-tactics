@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 import { HashLink } from "react-router-hash-link";
 
 const menuItems = [
-  { name: "Board", href: "board" },
+  { name: "Home", href: "/" },
+  { name: "Board", href: "/board" },
   { name: "About", href: "/#about" },
   { name: "Relive", href: "/Relive" },
 ];
@@ -157,7 +158,7 @@ export const HeroHeader = () => {
                   size="sm"
                   className={cn(isScrolled ? "lg:inline-flex" : "hidden")}
                 >
-                  <Link to="/login">
+                  <Link to="/board">
                     <span>Get Started</span>
                   </Link>
                 </Button>

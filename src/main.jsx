@@ -1,7 +1,11 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { BrowserRouter, createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
 import store from "./store/store.js";
 import App from "./App.jsx";
@@ -11,6 +15,7 @@ import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import { Board } from "./components/index.js";
 import Signup from "./pages/Signup.jsx";
+import Relive from "./pages/Relive.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,9 +35,13 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path:"board",
-        element:<Board/>
-      }
+        path: "board",
+        element: <Board />,
+      },
+      {
+        path: "relive",
+        element: <Relive />,
+      },
     ],
   },
 ]);
